@@ -2,8 +2,11 @@
 import { Building2, Home, Key, TrendingUp } from "lucide-react"
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Meetus from "./_components/Meetus";
 const  ServiceSection=()=> {
   return (
+
+    <>
     <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-green-50">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -115,6 +118,15 @@ const  ServiceSection=()=> {
         </motion.div>
       </div>
     </section>
+
+  {/* // Meet Us Section */}
+  <div className="bg-gradient-to-b from-white to-green-100">
+  <Meetus/>
+  </div>
+    
+    </>
+
+
   )
 }
 
