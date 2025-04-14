@@ -1,6 +1,8 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"  // ✅ Explicit output path
 }
+
 
 datasource db {
   provider = "mongodb"
@@ -18,19 +20,84 @@ model Property {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   title           String
   description     String
-  price           Float
-  location        String
-  images          String[]     
-  Area            String
+  type            Type
+  price           String?
+  location        Json
+  address         String
+  bedrooms        Int?
+  bathrooms       Int?
+  area            String
+  status          PropertyStatus
+  priorityLevel  Int     @default(0)
+  thumbnail       String
+  images          String[]
+  amenities       String[]
+  tags            String[]
+  views           Int    @default(0)     
   propertyType    PropertyType
-  propertySubType PropertySubType
+  virtualTourUrl  String?
   createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now())
+  ratingAndReview RatingAndReview[]
+}
+
+model RatingAndReview {
+  id        String     @id   @default(auto()) @map("_id") @db.ObjectId
+  propertyId String    @db.ObjectId
+  name       String?
+  email      String
+  rating     Int
+  review     String
+  approved   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  Property   Property   @relation(fields: [propertyId],references: [id])
+}
+
+model Enquiry {
+  id     String    @id @default(auto()) @map("_id") @db.ObjectId
+  propertyId String  @db.ObjectId
+  name    String
+  email   String   
+  message  String
+  status    EnquiryStatus
+  createdAt  DateTime  @default(now())
+}
+
+model Contacts {
+  id    String   @id  @default(auto())  @map("_id") @db.ObjectId
+  name  String
+  email String?  @unique
+  number String[] 
+  address String?
+  createdAt  DateTime  @default(now())
 }
 
 enum PropertyType {
   PLOT
   APARTMENT
+  HOUSE
+  VILLAY
+  FACTORY
 }
+
+enum EnquiryStatus {
+  PENDING
+  RESPONDED
+  CLOSED
+}
+
+enum Type {
+  SALE
+  RENT
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  SOLD
+  RENTED
+  PENDING
+}
+
 
 enum PropertySubType {
   RENT
