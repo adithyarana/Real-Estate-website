@@ -87,6 +87,77 @@ export const AddProperty = async(req,res) => {
     }
 }
 
+export const UpdateProperty = async(req,res) => {
+    try {
+        
+        const {...data} = req.body;
+
+        const thumbnailFile = req.files?.thumbnail[0] || null;
+        const galleryImages = req.files?.images || [];
+        const { propertyId } = req.params;
+
+        console.log(thumbnailFile)
+
+        if(!data || !propertyId){
+            return res.stauts(401).json({
+                success: false,
+                message: "All fields required!"
+            });
+        }
+        
+        const propertyDetails = await prisma.property.findFirst({
+            where:{
+                id: propertyId
+            }
+        });
+        
+        //Needed for automatic delete unwanted pics from cloudinary too
+        if(data.images){
+            propertyDetails.images.map((img) => {
+                if(!data.images.includes(img)){
+                    deleteImageFromCloudinary(img)
+                }
+            })
+        }
+        
+        if(thumbnailFile){
+            // await deleteImageFromCloudinary(propertyDetails?.thumbnail);
+            const thumbnailUploadPromise = cloudinary.uploader.upload(thumbnailFile.path);
+            const thumbnailUploadRes = await Promise.resolve(thumbnailUploadPromise);
+            data.thumbnail = thumbnailUploadRes?.secure_url;
+        }
+
+        if(galleryImages.length > 0){
+            const imageUploadPromises = galleryImages.map((file) =>
+                cloudinary.uploader.upload(file.path)
+            );
+          const imageResults = await Promise.all(imageUploadPromises);
+          data.images = [...data.images,...imageResults];
+        }
+
+        console.log("Update property data",data);
+
+        const updatedProperty = await prisma.property.update({
+            where:{
+                id: propertyId
+            },
+            data: data
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Product updated!",
+            data: updatedProperty
+        })
+
+    } catch (error) {
+        console.log("Update properites error - ",error)
+        return res.status(499).json({
+            success: false,
+            message: "Something went wrong!"
+        });
+    }
+}
 
 export const GetAllProperties = async(req,res) => {
     try {
@@ -143,3 +214,4 @@ export const DeleteProperty = async(req,res) => {
         });
     }
 }
+
