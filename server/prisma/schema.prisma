@@ -39,6 +39,7 @@ model Property {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @default(now())
   ratingAndReview RatingAndReview[]
+  enquiries       Enquiry[]
 }
 
 model RatingAndReview {
@@ -61,6 +62,7 @@ model Enquiry {
   message  String
   status    EnquiryStatus
   createdAt  DateTime  @default(now())
+  Property Property    @relation(fields: [propertyId],references: [id])
 }
 
 model Contacts {

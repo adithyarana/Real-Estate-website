@@ -1,11 +1,14 @@
 import express from "express";
-import adminroute from "./routes/admin.route.js";
-import AddPropertyRouter from './routes/Property.js'
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import cloudinary from "./utils/cloudinary.js";
+
+import adminroute from "./routes/Auth.js";
+import AddPropertyRouter from './routes/Property.js'
+import EnquiryRouter from './routes/Enquiry.js'
+import RatingAndReviewRouter from './routes/RatingAndReview.js'
+import ContactRouter from './routes/Contact.js'
 
 const app = express();
 dotenv.config();
@@ -25,6 +28,9 @@ app.use(cookieParser());
 // Middleware to handle requests
 app.use("/api/admin", adminroute);
 app.use("/api/property", AddPropertyRouter);
+app.use("/api/enquiry", EnquiryRouter);
+app.use("/api/review", RatingAndReviewRouter);
+app.use("/api/contact", ContactRouter);
 
 // Start the server
 app.listen(port, () => {
