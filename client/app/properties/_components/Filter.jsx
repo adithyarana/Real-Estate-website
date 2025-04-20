@@ -2,6 +2,7 @@
 import { Search, RefreshCw } from 'lucide-react';
 import React, { useState } from 'react';
 import {motion} from 'framer-motion';
+import PropertyCard from './Crad';
 
 const PropertyFilter = () => {
   const [filters, setFilters] = useState({
@@ -49,7 +50,7 @@ const PropertyFilter = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-green-100 to-green-300 rounded-xl shadow-lg p-8 border border-green-200"
+    <div className="bg-gradient-to-r from-green-100 to-green-300  shadow-lg p-8 border border-green-200"
     >
       <motion.h2 className="text-3xl font-bold text-green-800 mb-8 text-center font-heading"
        initial={{ opacity: 0, y: 20 }}
@@ -141,8 +142,8 @@ const PropertyFilter = () => {
           </button>
         </div>
       </motion.div>
-      
-   
+
+  
     </div>
   );
 };

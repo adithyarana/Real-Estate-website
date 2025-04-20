@@ -20,9 +20,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-b from-white to-green-50 shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
+    <nav className="bg-gradient-to-b from-white to-green-50 shadow-lg sticky top-0 z-50 ">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 xl:max-w-full 2xl:px-12">
+        <div className="flex justify-between h-20 items-center ">
           {/* Logo */}
           <Link href="/" className="flex items-center ">
             <Image
@@ -34,7 +34,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden text-[15px] 2xl:text-xl font-medium md:flex  items-center space-x-8 ">
             <Link
               href="/properties"
               className={`${
