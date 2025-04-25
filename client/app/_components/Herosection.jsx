@@ -6,6 +6,7 @@ import Tredingproperty from "../_components/TrendingProperty.jsx";
 import Btn1 from "@/Component/Btn1.jsx";
 import Btn2 from "@/Component/Btn2.jsx";
 import { useRouter } from "next/navigation";
+import PropertyFilter from "./PropertyFilter.jsx";
 
 
  export const Herosection = () => {
@@ -53,9 +54,9 @@ import { useRouter } from "next/navigation";
           </div>
 
           {/* Property Filter */}
-          {/* <PropertyFilter/> */}
+          <PropertyFilter/>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 ">
+      {/* <div className="flex flex-col sm:flex-row gap-4 mb-6 ">
       <Btn2 
             content={"Buy A Property"}
             clickHandler={(()=>{
@@ -72,7 +73,7 @@ import { useRouter } from "next/navigation";
             })}
             />
 
-      </div>
+      </div> */}
 
 
          

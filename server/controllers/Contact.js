@@ -1,5 +1,6 @@
-import prisma from "../libs/prisma.js";
+import {PrismaClient} from '@prisma/client'
 
+const prisma = new PrismaClient();
 export const CreateContact = async(req,res) => {
    try {
     
