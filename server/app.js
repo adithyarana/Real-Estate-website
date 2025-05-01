@@ -9,20 +9,24 @@ import AddPropertyRouter from './routes/Property.js'
 import EnquiryRouter from './routes/Enquiry.js'
 import RatingAndReviewRouter from './routes/RatingAndReview.js'
 import ContactRouter from './routes/Contact.js'
+import { PrismaClient } from "@prisma/client";
 
 const app = express();
 dotenv.config();
 const port = 4000;
 
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true, 
-}));
+app.use(
+	cors({
+		origin:"http://localhost:3000",
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+		credentials:true,
+	})
+)
 app.use(cookieParser());
-
 
 
 // Middleware to handle requests
@@ -31,6 +35,7 @@ app.use("/api/property", AddPropertyRouter);
 app.use("/api/enquiry", EnquiryRouter);
 app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
+
 
 // Start the server
 app.listen(port, () => {

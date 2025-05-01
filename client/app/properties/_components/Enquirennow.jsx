@@ -1,10 +1,14 @@
+"use client"
+
+import Button from '@/Component/Button';
+import { Send } from 'lucide-react';
 import React, { useState } from 'react';
 
-const Enquirennow = () => {
+const Enquirennow = ({propertyId,setModal}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    number: '',
     message: ''
   });
 
@@ -22,7 +26,7 @@ const Enquirennow = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-md  p-4 shadow-lg bg-white">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-md  p-4 bg-white">
       <div>
         <label className="block mb-0.5 text-xs font-medium text-gray-600">Name</label>
         <input
@@ -31,7 +35,7 @@ const Enquirennow = () => {
           required
           value={formData.name}
           onChange={handleChange}
-          className="w-full rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded border px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
 
@@ -43,7 +47,7 @@ const Enquirennow = () => {
           required
           value={formData.email}
           onChange={handleChange}
-          className="w-full rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded border px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
 
@@ -51,11 +55,11 @@ const Enquirennow = () => {
         <label className="block mb-0.5 text-xs font-medium text-gray-600">Phone Number</label>
         <input
           type="tel"
-          name="phone"
+          name="number"
           required
-          value={formData.phone}
+          value={formData.number}
           onChange={handleChange}
-          className="w-full rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded border px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
 
@@ -67,16 +71,17 @@ const Enquirennow = () => {
           required
           value={formData.message}
           onChange={handleChange}
-          className="w-full rounded border px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded border px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         ></textarea>
       </div>
 
-      <button
+      <Button
         type="submit"
-        className="w-full rounded bg-green-600 py-1.5 text-sm text-white font-medium hover:bg-green-700 transition cursor-pointer"
+        additionalClass={"mt-4 flex item-center justify-center gap-2"}
       >
         Submit
-      </button>
+        <Send size={24}/>
+      </Button>
     </form>
   );
 };

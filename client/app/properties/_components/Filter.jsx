@@ -1,26 +1,39 @@
 "use client";
 import { Search, RefreshCw } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {motion} from 'framer-motion';
-import PropertyCard from './Crad';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-const PropertyFilter = () => {
-  const [filters, setFilters] = useState({
-    location: '',
-    propertyType: '',
-    propertySubtype: '',
-  });
 
   // dummy data for locations and property types
   const locations = ['Delhi', 'Noida', 'Greater Noida', 'Gurgaon'];
   
   const propertyTypes = ['Residential', 'Commercial', 'Industrial'];
+
+  const types = ['All','Buy','Lease','Pre-Lease'];
   
   const propertySubtypes = {
     Residential: ['Apartment', 'House', 'Condo', 'Villa', 'Townhouse'],
     Commercial: ['Office', 'Retail', 'Restaurant', 'Hotel', 'Shopping Center'],
     Industrial: ['Factory', 'Warehouse', 'Distribution Center', 'Manufacturing'],
   };
+
+const PropertyFilter = () => {
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+    const [filters, setFilters] = useState({
+    location: '',
+    propertyType: '',
+    propertySubtype: '',
+  });
+  
+
+  useEffect(() => {
+    router.push(pathname + "?type=All");
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,18 +59,56 @@ const PropertyFilter = () => {
       location: '',
       propertyType: '',
       propertySubtype: '',
+      type: '',
     });
+    router.push(pathname + '?type=All');
   };
+
+  const setFiltersHandler = () => {
+    const params = new URLSearchParams(searchParams.toString())
+      for (const filter in filters) {
+        const value = filters[filter];
+          if (value !== '') {
+           params.set(filter, value)
+          }
+          else if(searchParams.has(filter)){
+            params.delete(filter);
+          }
+        }
+        router.push(pathname + '?' + params.toString())
+  }
+
+  const setTypeHandler = (type = "All") => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("type",type);
+    router.push(pathname + '?' + params.toString())
+  }
 
   return (
     <div className="bg-gradient-to-r from-green-100 to-green-300  shadow-lg p-8 border border-green-200"
     >
-      <motion.h2 className="text-3xl font-bold text-green-800 mb-8 text-center font-heading"
+      <motion.h2 className="text-3xl font-bold text-green-800 w-fit mx-auto py-2 mb-6 px-4 text-center font-heading border-b-2 border-green-800"
        initial={{ opacity: 0, y: 20 }}
        whileInView={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.6, ease: "easeOut" }}
        viewport={{ once: true }}
       >Find Your Perfect Property</motion.h2>
+
+      <motion.div
+      className='flex w-full flex-col md:flex-row items-center justify-center gap-4  text-green-950 uppercase mb-6'
+      >
+        {
+          types.map((type,index) => (
+            <div
+             key={index} 
+             className={`flex items-center gap-4 px-6 py-1 hover:text-green-800 cursor-pointer ${searchParams.get("type") === type ? "border-b-2 border-green-800" : ""}`}
+             onClick= { () => setTypeHandler(type)}
+             >
+              <div>{type}</div>
+            </div>
+          ))
+        }
+      </motion.div>
       
       <motion.div className="flex flex-col md:flex-row gap-4 mb-6 "
       initial={{ opacity: 0, y: 40 }}
@@ -85,7 +136,7 @@ const PropertyFilter = () => {
         </div>
 
         {/* Property Type Filter */}
-        <div className="flex-1 relative group">
+        <div className="flex-1 flex relative group">
           <label htmlFor="propertyType" className="absolute -top-2 left-4 px-1 bg-white text-sm font-medium text-green-700 rounded">
             Property Type
           </label>
@@ -129,6 +180,7 @@ const PropertyFilter = () => {
         <div className="flex gap-2">
           <button 
             className="px-6 py-4 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
+            onClick={setFiltersHandler}
           >
             <Search className="h-5 w-5 mr-2" />
             Search

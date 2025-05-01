@@ -5,20 +5,25 @@ import { deleteImageFromCloudinary } from "../utils/deleteImage.js";
 
 dotenv.config();
 
+function generateSixDigitCode() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+  
+
 export const AddProperty = async(req,res) => {
     try {
 
         // console.log("Add property data ",req.body);
         // console.log("Add property data ",req.files);
 
-        const {title,description,type,price,location,address,bedrooms,bathrooms,propertyType,area,status,priorityLevel,amenities,tags} = req.body;
+        const {title,description,type,price,location,address,bedrooms,bathrooms,propertyType,area,status,priorityLevel,additionalData,amenities,tags,region} = req.body;
         const {thumbnail ,images} = req.files;
         
         const parsedLocation = JSON.parse(location);
         const parsedAmenities = JSON.parse(amenities);
         const parsedTags = JSON.parse(tags);
 
-        if(!title || !description || !location || !address || !area || !thumbnail){
+        if(!title || !description || !location || !address || !area || !thumbnail || !region){
             return res.stauts(401).json({
                 success: false,
                 message: "All fields required!"
@@ -47,6 +52,7 @@ export const AddProperty = async(req,res) => {
 
         const propertyData = {
             title,
+            pCode: generateSixDigitCode(),
             description,
             type,
             price,
@@ -55,12 +61,14 @@ export const AddProperty = async(req,res) => {
             bedrooms: parseInt(bedrooms),
             bathrooms: parseInt(bathrooms),
             area,
+            region,
             status,
             priorityLevel,
             thumbnail: thumbnailResult?.secure_url,
             images: imageUrls,
             amenities: parsedAmenities,
             tags: parsedTags,
+            additionalData,
             propertyType,
         };
 
@@ -162,7 +170,39 @@ export const UpdateProperty = async(req,res) => {
 export const GetAllProperties = async(req,res) => {
     try {
         
-        const properties = await prisma.property.findMany({    
+        const properties = await prisma.property.findMany({ 
+            where: {
+                isActive: true
+            },
+            orderBy:{
+                priorityLevel: "desc"
+            }   
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "All properties retrived",
+            data: properties
+        })
+
+    } catch (error) {
+        console.log("Get properties error - ",error)
+        return res.status(499).json({
+            success: false,
+            message: "Something went wrong!"
+        });
+    }
+}
+
+export const GetPropertyById = async(req , res) => {
+    try {
+        const { id } = req.params;
+        
+        const properties = await prisma.property.findUnique({ 
+            where: {
+                pCode: id,
+                isActive: true
+            }   
         });
 
         return res.status(200).json({

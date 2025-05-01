@@ -17,28 +17,33 @@ model Admin {
 
 model Property { 
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  pCode           String          @unique    //6 digit code for property
   title           String
   description     String
   type            Type
   price           String?
-  location        Json
+  location        Json           // contain lattitude and longitude of location
   address         String
   bedrooms        Int?
   bathrooms       Int?
   area            String
+  region          Region
   status          PropertyStatus
   priorityLevel  Int     @default(0)
   thumbnail       String
   images          String[]
   amenities       String[]
   tags            String[]
+  additionalData  Json?
   views           Int    @default(0)     
   propertyType    PropertyType
+  propertySubType PropertySubType
   virtualTourUrl  String?
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @default(now())
   ratingAndReview RatingAndReview[]
   enquiries       Enquiry[]
+  isActive        Boolean        @default(false)
 }
 
 model RatingAndReview {
@@ -57,11 +62,23 @@ model Enquiry {
   id     String    @id @default(auto()) @map("_id") @db.ObjectId
   propertyId String  @db.ObjectId
   name    String
-  email   String   
+  email   String 
+  number  String     
   message  String
   status    EnquiryStatus
   createdAt  DateTime  @default(now())
   Property Property    @relation(fields: [propertyId],references: [id])
+}
+
+model GeneralEnquiry {
+  id    String   @id @default(auto()) @map("_id")  @db.ObjectId
+  name  String
+  email String?  @unique
+  number String[] 
+  message String
+  city    String
+  status    EnquiryStatus
+  createdAt  DateTime  @default(now())
 }
 
 model Contacts {
@@ -70,15 +87,15 @@ model Contacts {
   email String?  @unique
   number String[] 
   address String?
+  city    String
   createdAt  DateTime  @default(now())
 }
 
 enum PropertyType {
-  PLOT
-  APARTMENT
-  HOUSE
-  VILLAY
-  FACTORY
+  COMMERCIAL
+  INDUSTRIAL
+  INSTITUTIONAL
+  RESIDENTIAL
 }
 
 enum EnquiryStatus {
@@ -89,7 +106,8 @@ enum EnquiryStatus {
 
 enum Type {
   SALE
-  RENT
+  LEASE
+  PRE_LEASED
 }
 
 enum PropertyStatus {
@@ -101,6 +119,36 @@ enum PropertyStatus {
 
 
 enum PropertySubType {
-  RENT
-  BUY
+  PLOT          //Common
+  SHED         //Industrial
+  FACTORY
+  WAREHOUSE 
+  OFFICE      //Commercial
+  SHOP
+  SHOWROOM
+  BUSSINESS_CENTER
+  LAND
+  HOTEL
+  CORPORATE_PLOT   //Institutional
+  CORPORATE_BUILDING 
+  COLLEGE_PLOT
+  SCHOOL_PLOT
+  HOSPITAL_BUILDING
+  HOSPITAL_PLOT
+  OFFICE_IT
+  BUILDING
+  IT_PLOT
+  IT_BUILDING
+  BANQUET_HALL
+  APARTMENT       //Residential
+  VILLA
+  KOTHI
+  HOUSE
+  BUILDER_FLOOR_APARTMENT
+  FARM_HOUSE
+}
+enum Region {
+   NOIDA
+   DELHI
+   GREATER_NOIDA
 }
