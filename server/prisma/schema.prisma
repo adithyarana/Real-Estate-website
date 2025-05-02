@@ -43,7 +43,7 @@ model Property {
   updatedAt       DateTime        @default(now())
   ratingAndReview RatingAndReview[]
   enquiries       Enquiry[]
-  isActive        Boolean        @default(false)
+  isActive        Boolean        @default(true)
 }
 
 model RatingAndReview {
