@@ -127,7 +127,7 @@ function page() {
   // const [ enquiryModal, setEnquiryModal ] = useState(null);
 
   return (
-    <div className="w-full h-full bg-gray-200 relative">
+    <div className="w-full h-full  bg-gradient-to-b from-white to-green-100 relative">
       <div className=" py-8 w-11/12 2xl:w-10/12 mx-auto pb-18 ">
         {/* Title & location */}
         <div className="">
@@ -174,7 +174,7 @@ function page() {
 
           <div className="w-full flex flex-col flex-1 lg:flex-1/4 gap-8">
           {/* Information */}
-            <div className="bg-white w-full h-full rounded-xl px-6 xl:px-8 py-10">
+            <div className="bg-white shadow-lg border border-green-300 w-full h-full rounded-xl px-6 xl:px-8 py-10">
               <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
                 <h4 className="text-lg font-medium text-gray-700">Price</h4>
                 <div className="text-2xl font-semibold font-mono">
@@ -247,7 +247,7 @@ function page() {
             </div>
             </div> */}
 
-            <div className="bg-white rounded-xl px-2 py-4">
+            <div className="bg-white shadow-lg border border-green-300 rounded-xl px-2 py-4">
 
               <div className="text-2xl font-medium pl-4">Enquire Now!</div>
               <Enquirennow propertyId={property.id}/>

@@ -59,10 +59,10 @@ const settings = {
         <h2 className=" font-heading text-4xl md:text-3xl  mb-10 font-bold text-green-800  md:mb-6 "> 
           Trending Properties
         </h2>
-        <p className= " font-body text-gray-700 text-lg mb-3 md:mb-4 font-medium">
+        <p className= " font-body text-gray-700 text-lg mb-3 md:mb-4 font-bold">
           Build your dream with The Tenancy Real Estate!
         </p>
-        <p className=" font-body text-gray-600 leading-relaxed text-lg  ">
+        <p className=" font-body text-gray-600 leading-relaxed text-lg text-justify  ">
           Now, invest in our upcoming projects of The Tenency at an affordable
           range. Our wide range of property types, from commercial and
           residential to industrial, will mesmerize you. You can avail of our

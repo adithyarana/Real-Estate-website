@@ -39,8 +39,8 @@ const  Contactus=()=> {
         viewport={{ once: true }}
         >
           {/* Left Side - Contact Details */}
-          <div className="flex flex-col gap-6">
-            <div className="bg-gray-100 rounded-2xl p-6 ">
+          <div className="flex flex-col gap-6 ml-7">
+            <div className=" shadow-lg border border-green-400 rounded-2xl p-6 ">
               <div className="space-y-4">
                 <div className="flex items-center ">
                   <MapPin className="mr-3 text-green-600 w-8 h-8" />
@@ -61,7 +61,7 @@ const  Contactus=()=> {
               </div>
             </div>
 
-            <div className="bg-gray-100 rounded-2xl p-6">
+            <div className=" shadow-lg border border-green-400 rounded-2xl p-6">
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Hourglass className="mr-3 text-green-600 w-6 h-6" />

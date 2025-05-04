@@ -39,7 +39,7 @@ const PropertyFilter = () => {
         initial="hidden"
         animate="visible"
       >
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-4 gap-4 ">
           {/* Location Filter */}
           <motion.div className="relative" variants={itemVariants}>
             <label className="block text-green-800 mb-2 mr-20">

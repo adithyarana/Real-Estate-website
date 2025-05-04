@@ -7,6 +7,8 @@ import Btn1 from "@/Component/Btn1.jsx";
 import Btn2 from "@/Component/Btn2.jsx";
 import { useRouter } from "next/navigation";
 import PropertyFilter from "./PropertyFilter.jsx";
+import RealEstateFAQ from "./Faqsection.jsx";
+import ReviewCardCarousel from "./Reviewsection.jsx";
 
 
  export const Herosection = () => {
@@ -31,7 +33,7 @@ import PropertyFilter from "./PropertyFilter.jsx";
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 pt-52">
           <div className="pb-5">
           <motion.h1
-           className="font-heading text-5xl 2xl:text-7xl font-extrabold text-white mb-4"
+           className="font-heading text-3xl  xl:text-5xl 2xl:text-7xl font-extrabold text-white mb-4"
            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeIn" }}
@@ -41,7 +43,7 @@ import PropertyFilter from "./PropertyFilter.jsx";
             </motion.h1>
 
             <motion.p 
-           className=" font-body text-base sm:text-lg text-white max-w-xs sm:max-w-2xl mx-auto mb-6 sm:mb-8 text-center leading-tight"
+           className=" font-body text-base sm:text-lg text-white max-w-xs sm:max-w-2xl mx-auto mb-6 sm:mb-8 text-center  leading-tight "
 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -95,7 +97,7 @@ import PropertyFilter from "./PropertyFilter.jsx";
           </motion.h2>
 
           {/* Grid Container */}
-          <div className="grid md:grid-cols-4 gap-8 ">
+          <div className="grid md:grid-cols-4 gap-8     ">
             {[
               {
                 Icon: Shield,
@@ -152,6 +154,9 @@ import PropertyFilter from "./PropertyFilter.jsx";
 
       {/* trending properties section */}
          <Tredingproperty/>
+
+
+        
 
       {/* Ready to Find Your Dream Home */}
       <section className="py-16  bg-gradient-to-b from-white to-green-50 ">
@@ -210,6 +215,10 @@ import PropertyFilter from "./PropertyFilter.jsx";
           </motion.div>
         </motion.div>
       </section>
+
+      <ReviewCardCarousel/>
+
+      <RealEstateFAQ/>
     </div>
   );
 };

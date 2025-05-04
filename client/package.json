@@ -23,6 +23,7 @@
     "react-stars": "^2.2.5",
     "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.6",
     "yet-another-react-lightbox": "^3.23.0"
   },
   "devDependencies": {
