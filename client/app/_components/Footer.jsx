@@ -6,7 +6,7 @@ const  Footer=()=> {
   return (
     <footer className="bg-gray-700 text-white py-16 ">
     <div className="max-w-6xl mx-auto px-4">
-      <div className="grid md:grid-cols-4 gap-9">
+      <div className="grid md:grid-cols-4  gap-9">
         {/* Company Info */}
         <div>
           <h3 className=" font-heading text-2xl font-bold mb-6">The Tenency</h3>

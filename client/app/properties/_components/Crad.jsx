@@ -153,19 +153,6 @@ const PropertyCard = () => {
 
   },[searchParams]);
 
-  // fetching the data from backend
-
-  // useEffect(() => {
-  //   const fetchdata = async () => {
-  //     try {
-  //       const response = await axios.get("/api/property/get-properties");
-  //       setproperty(response.data);
-  //     } catch (error) {
-  //       console.log("Error fetching the data", error);
-  //     }
-  //   };
-  //   fetchdata();
-  // }, []);
 
   const openModal = (open) => {
     setSelectedProperty(open);

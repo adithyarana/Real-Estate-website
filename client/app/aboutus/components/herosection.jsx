@@ -8,9 +8,9 @@ const  Herosection=()=> {
 
          {/* Hero Section */}
     <div className="relative ">
-      <div className="w-full h-78 bg-gradient-to-r from-green-700 to-green-500">
+      <div className="w-full h-78 2xl:h-96 bg-gradient-to-r from-green-700 to-green-500">
         <div className="container mx-auto px-6 h-full flex items-center">
-          <motion.h1 className=" font-heading text-4xl mb-12 md:text-5xl font-bold text-white"
+          <motion.h1 className=" font-heading text-4xl mb-12  md:text-5xl font-bold text-white"
            initial={{ opacity: 0, y: 20 }}
            whileInView={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.6, ease: "easeOut" }}
