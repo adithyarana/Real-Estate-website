@@ -6,7 +6,7 @@ import {
   X,
   Axis3D,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Enquirennow from "./Enquirennow";
 import Link from "next/link";
 import axios from "axios";
@@ -170,9 +170,11 @@ const PropertyCard = () => {
 
       {/* // card */}
         <div className="mx-auto grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-11/12">
+        
           {property.map((property) => (
             <Card property={property} key={property.id} setSelectedProperty={setSelectedProperty}/>
           ))}
+         
         </div>
 
       {/* Enquiry Modal */}

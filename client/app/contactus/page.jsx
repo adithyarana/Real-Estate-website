@@ -1,16 +1,46 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Phone, Mail, MapPin, Send, Hourglass, Clock, DoorClosed } from "lucide-react";
 import Map from "./components/Map";
 import { FaWhatsapp } from "react-icons/fa";
 import {motion} from "framer-motion";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const  Contactus=()=> {
 
-  const formsubmit = () => {
-    e.preventDefault()
-    alert("form submission successfully");
-  };
+
+  const [fromdata , setfromdata] = useState({
+    name:"",
+    email:"",
+    number:"",
+    city:"",
+    address:"",
+  })
+
+
+   const handleform = async(e)=>{
+    e.preventDefault(); 
+    try {
+      const response = await axios.post("http://localhost:4000/api/contact/add", fromdata)
+          console.log("date sent", response.data);
+          toast.success("Data Sent We Will Contact Soon!")
+
+          // reset form
+          setfromdata({
+            name:"",
+            email:"",
+            number:"",
+            city:"",
+            address:"",
+
+          })
+       
+    } catch (error) {
+      console.error("Error sending message:", error.response?.data || error.message);
+      toast.error("Errro sending the Data!")
+    }
+   }
 
   return (
     <div className=" mx-auto  ">
@@ -85,11 +115,13 @@ const  Contactus=()=> {
               Fill up and reach out to us
             </h2>
 
-            <form onSubmit={formsubmit} className="space-y-4">
+            <form onSubmit={handleform} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   name="name"
+                  value={fromdata.name}
+                  onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
                   placeholder="Your Name"
                   className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
@@ -97,6 +129,8 @@ const  Contactus=()=> {
                 <input
                   type="email"
                   name="email"
+                  value={fromdata.email}
+                  onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
                   placeholder="Your Email"
                   className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
@@ -105,23 +139,32 @@ const  Contactus=()=> {
 
               <input
                 type="tel"
-                name="phone"
+                name="number"
+                value={fromdata.number}
+                onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
                 placeholder="Your Phone Number"
                 className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
               />
 
-              <select className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 ">
+              <select 
+              name="city"
+              value={fromdata.city}
+              onChange={(e)=>setfromdata({...fromdata, city: e.target.value})}
+              className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 ">
+                
                 <option className="" value="">
                   Select City
                 </option>
-                <option value="buy">Greater Noida</option>
-                <option value="delhi">Delhi</option>
-                <option value="noida">Noida</option>
+                <option value="GREATER_NOIDA">GREATER_NOIDA</option>
+                <option value="DELHI">DELHI</option>
+                <option value="NOIDA">NOIDA</option>
               </select>
 
               <textarea
-                name="message"
-                placeholder="Your Message"
+                name="address"
+                value={fromdata.address}
+                onChange={(e)=>setfromdata({...fromdata, address: e.target.value})}
+                placeholder="Enter your Address"
                 rows="5"
                 className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 required

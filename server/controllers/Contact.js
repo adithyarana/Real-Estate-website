@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 export const CreateContact = async(req,res) => {
    try {
     
-    const { name , email , number , address } = req.body;
+    const { name , email  , number , city, address } = req.body;
 
-    if(!name || !email || !number ){
+    if(!name || !email || !number || !city){
         return res.status(401).json({
             success: false,
             message: "All fields required!",
@@ -17,8 +17,9 @@ export const CreateContact = async(req,res) => {
         data: {
             name,
             email,
-            number: JSON.parse(number),
-            address
+            number,
+            address,
+            city
         }
     });
 

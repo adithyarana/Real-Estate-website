@@ -3,7 +3,7 @@ import { CreateContact, DeleteBulkContact, DeleteContact, GetAllContacts, Update
 
 const router = Router();
 
-router.post('/',CreateContact);
+router.post('/add',CreateContact);
 router.put('/:contactId',UpdateContact);
 router.get('/all',GetAllContacts);
 router.delete('/bulk',DeleteBulkContact);

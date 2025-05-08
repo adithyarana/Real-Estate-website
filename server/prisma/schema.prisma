@@ -85,9 +85,9 @@ model Contacts {
   id    String   @id  @default(auto())  @map("_id") @db.ObjectId
   name  String
   email String?  @unique
-  number String[] 
+  number String
   address String?
-  city    String
+  city    Region
   createdAt  DateTime  @default(now())
 }
 
