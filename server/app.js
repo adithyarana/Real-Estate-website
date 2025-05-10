@@ -9,6 +9,7 @@ import AddPropertyRouter from './routes/Property.js'
 import EnquiryRouter from './routes/Enquiry.js'
 import RatingAndReviewRouter from './routes/RatingAndReview.js'
 import ContactRouter from './routes/Contact.js'
+import consultationRouter from './routes/consultation.js'
 import { PrismaClient } from "@prisma/client";
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/property", AddPropertyRouter);
 app.use("/api/enquiry", EnquiryRouter);
 app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
+app.use("/api/consultation", consultationRouter );
 
 
 // Start the server

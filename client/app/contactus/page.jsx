@@ -18,6 +18,29 @@ const  Contactus=()=> {
     address:"",
   })
 
+  const [consultation , setconsultation] = useState({
+    phone:""
+  })
+
+  const handleconsultation = async(e)=>{
+    e.preventDefault(); 
+
+    try {
+
+      const  data = await axios.post("http://localhost:4000/api/consultation/add", consultation)
+       console.log("data sent", data.data);
+       toast.success("We will Contact Soon!")
+       
+       setconsultation({
+        phone:""
+       })
+      
+    } catch (error) {
+      // console.error("Error sending Phone Number:", error.response?.data || error.message);
+      toast.error("Errro sending the Phone Number!")
+    }
+  }
+
 
    const handleform = async(e)=>{
     e.preventDefault(); 
@@ -204,13 +227,16 @@ const  Contactus=()=> {
             {/* Phone Number Input */}
             <input
               type="tel"
+              value={consultation.phone}
+              onChange={(e)=>setconsultation({...consultation , phone: e.target.value})}
               name="phone"
               placeholder="000 000 0000"
               className="w-full p-3 text-gray-700 focus:outline-none"
+              required
             />
 
             {/* Request Button */}
-            <button className="bg-green-600 cursor-pointer text-white px-6  py-3 font-medium hover:bg-green-700 transition duration-300 whitespace-nowrap ">
+            <button onClick={handleconsultation} className="bg-green-600 cursor-pointer text-white px-6  py-3 font-medium hover:bg-green-700 transition duration-300 whitespace-nowrap ">
               REQUEST CONSULTATION
             </button>
           </div>

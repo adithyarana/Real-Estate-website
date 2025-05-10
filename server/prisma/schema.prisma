@@ -46,6 +46,13 @@ model Property {
   isActive        Boolean        @default(true)
 }
 
+model Consultation {
+    id         String     @id   @default(auto()) @map("_id") @db.ObjectId
+    phone      String @unique
+    createdAt  DateTime  @default(now())
+
+}
+
 model RatingAndReview {
   id        String     @id   @default(auto()) @map("_id") @db.ObjectId
   propertyId String    @db.ObjectId

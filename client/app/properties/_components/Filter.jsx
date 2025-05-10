@@ -179,7 +179,7 @@ const PropertyFilter = () => {
         {/* Action Buttons */}
         <div className="flex gap-2">
           <button 
-            className="px-6 py-4 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
+            className="px-6 py-4 cursor-pointer bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
             onClick={setFiltersHandler}
           >
             <Search className="h-5 w-5 mr-2" />
@@ -187,7 +187,7 @@ const PropertyFilter = () => {
           </button>
           <button 
             onClick={resetFilters}
-            className="px-6 py-4 bg-white hover:bg-gray-50 text-green-700 rounded-lg font-medium border-2 border-green-300 transition-colors duration-300 flex items-center justify-center shadow-sm hover:shadow-md"
+            className="px-6 py-4 bg-white cursor-pointer hover:bg-gray-50 text-green-700 rounded-lg font-medium border-2 border-green-300 transition-colors duration-300 flex items-center justify-center shadow-sm hover:shadow-md"
           >
             <RefreshCw className="h-5 w-5 mr-2" />
             Reset

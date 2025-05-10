@@ -20,6 +20,8 @@ import SimillarProperty from "../_components/SimillarProperty";
 import EnquiryButton from "./_components/EnquiryButton";
 import Enquirennow from "../_components/Enquirennow";
 
+// details page 
+
 const property = {
   id: 1,
   pCode: "123456",
