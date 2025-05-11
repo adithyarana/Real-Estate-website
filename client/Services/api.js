@@ -6,5 +6,5 @@ export const propertyEndpoints = {
     ADD_PROPERTY_API: BASE_URL + '/property',
     GET_PROPERTY_BY_ID_API : BASE_URL + '/property/:id',   //add :id => pCode
     DELETE_PROPERTY_API: BASE_URL + '/property/:propertyId',   //add :propertyId => id 
-    UPDATE_PROPERTY_API: BASE_URL + '/property/:propertyId',   //add :propertyId => id 
+    UPDATE_PROPERTY_API: BASE_URL + '/property/:Id',   //add :propertyId => id 
 }
