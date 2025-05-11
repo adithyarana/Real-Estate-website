@@ -11,6 +11,7 @@ import RealEstateFAQ from "./Faqsection.jsx";
 import ReviewCardCarousel from "./Reviewsection.jsx";
 
 
+
  export const Herosection = () => {
 
   const router = useRouter(); // Use Next.js router for navigation
@@ -202,14 +203,14 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
             content ={"Search Properties"}
             additionalCSS ={"bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-300 text-lg font-medium"}
             clickHandler = {() => {
-              console.log("Search Properties Clicked")
+             router.push("/properties")
             }}
             />
             <Btn1
             content ={"Contact Us"}
             additionalCSS ={"bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-300 text-lg font-medium"}
             clickHandler = {() => {
-              console.log("contact Us Clicked")
+             router.push("/contactus")
             }}
             />
           </motion.div>

@@ -96,6 +96,12 @@ export const Card = ({property,setSelectedProperty}) => {
                 </h3>
                 <p className="text-xs font-semibold leading-2 opacity-80 mb-3 z-10">{property?.propertyType}{"  "}{property?.propertySubtype}</p>
                 <div className="space-y-2">
+                    
+                    <div className="flex items-center gap-3 text-gray-600">
+                    <h4 className="font-medium text-sm">Property ID : </h4>
+                    <span className="text-sm">{property.pCode}</span>
+                  </div>
+                  
                   <div className="flex items-center text-gray-600">
                     <MapPin className="mr-2 h-4 w-4" />
                     <span className="text-sm">{property.location}</span>

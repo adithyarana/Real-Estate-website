@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, User } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -66,12 +66,12 @@ const ReviewCard = () => {
       >What Our Clients Say</motion.h2>
 
       <Swiper
-        modules={[Autoplay, Navigation, Pagination]}
+        modules={[Autoplay, Pagination]}
         slidesPerView={1}
         loop
         autoplay={{ delay: 4000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
-        navigation
+      
       >
         {reviews.map((review) => (
           <SwiperSlide key={review.id}>

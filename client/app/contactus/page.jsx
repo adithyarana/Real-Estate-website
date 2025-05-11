@@ -1,69 +1,78 @@
 "use client";
 import React, { useState } from "react";
-import { Phone, Mail, MapPin, Send, Hourglass, Clock, DoorClosed } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Send,
+  Hourglass,
+  Clock,
+  DoorClosed,
+} from "lucide-react";
 import Map from "./components/Map";
 import { FaWhatsapp } from "react-icons/fa";
-import {motion} from "framer-motion";
+import { color, motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const  Contactus=()=> {
+const Contactus = () => {
+  const [fromdata, setfromdata] = useState({
+    name: "",
+    email: "",
+    number: "",
+    city: "",
+    address: "",
+  });
 
+  const baseurl= "http://localhost:4000/api/"
 
-  const [fromdata , setfromdata] = useState({
-    name:"",
-    email:"",
-    number:"",
-    city:"",
-    address:"",
-  })
+  const [consultation, setconsultation] = useState({
+    phone: "",
+  });
 
-  const [consultation , setconsultation] = useState({
-    phone:""
-  })
-
-  const handleconsultation = async(e)=>{
-    e.preventDefault(); 
+  const handleconsultation = async (e) => {
+    e.preventDefault();
 
     try {
+      const data = await axios.post(
+        `${baseurl}consultation/add`,
+        consultation
+      );
+      console.log("data sent", data.data);
+      toast.success("We will Contact Soon!");
 
-      const  data = await axios.post("http://localhost:4000/api/consultation/add", consultation)
-       console.log("data sent", data.data);
-       toast.success("We will Contact Soon!")
-       
-       setconsultation({
-        phone:""
-       })
-      
+      setconsultation({
+        phone: "",
+      });
     } catch (error) {
       // console.error("Error sending Phone Number:", error.response?.data || error.message);
-      toast.error("Errro sending the Phone Number!")
+      toast.error("Errro sending the Phone Number!");
     }
-  }
+  };
 
-
-   const handleform = async(e)=>{
-    e.preventDefault(); 
+  const handleform = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/contact/add", fromdata)
-          console.log("date sent", response.data);
-          toast.success("Data Sent We Will Contact Soon!")
+      const response = await axios.post(
+            `${baseurl}contact/add`,
+        fromdata
+      );
+      console.log("date sent", response.data);
+      toast.success("Data Sent We Will Contact Soon!");
 
-          // reset form
-          setfromdata({
-            name:"",
-            email:"",
-            number:"",
-            city:"",
-            address:"",
-
-          })
-       
+      // reset form
+      setfromdata({
+        name: "",
+        email: "",
+        number: "",
+        city: "",
+        address: "",
+      });
     } catch (error) {
-      console.error("Error sending message:", error.response?.data || error.message);
-      toast.error("Errro sending the Data!")
+      // console.error("Error sending message:", error.response?.data || error.message);
+      toast.error("Errro sending the Data!");
     }
-   }
+  };
 
   return (
     <div className=" mx-auto  ">
@@ -72,11 +81,12 @@ const  Contactus=()=> {
 
       {/* Contact form section */}
       <div className="container mx-auto  py-5  ">
-        <motion.h2 className="text-2xl font-semibold text-green-800 mb-4 ml-4  "
-         initial={{ opacity: 0, y: 20 }}
-         whileInView={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.6, ease: "easeOut" }}
-         viewport={{ once: true }}
+        <motion.h2
+          className="text-2xl font-semibold text-green-800 mb-4 ml-4  "
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true }}
         >
           Contact us
         </motion.h2>
@@ -85,14 +95,15 @@ const  Contactus=()=> {
         {/* 
         // card sectoin */}
 
-        <motion.div className="grid md:grid-cols-2 gap-8"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-        viewport={{ once: true }}
+        <motion.div
+          className="grid md:grid-cols-2 gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          viewport={{ once: true }}
         >
           {/* Left Side - Contact Details */}
-          <div className="flex flex-col gap-6 ml-7">
+          <div className="flex flex-col gap-6 xl:ml-7 ml-4 mr-4">
             <div className=" shadow-lg border border-green-400 rounded-2xl p-6 ">
               <div className="space-y-4">
                 <div className="flex items-center ">
@@ -144,7 +155,12 @@ const  Contactus=()=> {
                   type="text"
                   name="name"
                   value={fromdata.name}
-                  onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
+                  onChange={(e) =>
+                    setfromdata({
+                      ...fromdata,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   placeholder="Your Name"
                   className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
@@ -153,7 +169,12 @@ const  Contactus=()=> {
                   type="email"
                   name="email"
                   value={fromdata.email}
-                  onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
+                  onChange={(e) =>
+                    setfromdata({
+                      ...fromdata,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   placeholder="Your Email"
                   className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
@@ -164,17 +185,21 @@ const  Contactus=()=> {
                 type="tel"
                 name="number"
                 value={fromdata.number}
-                onChange={(e)=>setfromdata({...fromdata, [e.target.name]: e.target.value})}
+                onChange={(e) =>
+                  setfromdata({ ...fromdata, [e.target.name]: e.target.value })
+                }
                 placeholder="Your Phone Number"
                 className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
               />
 
-              <select 
-              name="city"
-              value={fromdata.city}
-              onChange={(e)=>setfromdata({...fromdata, city: e.target.value})}
-              className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 ">
-                
+              <select
+                name="city"
+                value={fromdata.city}
+                onChange={(e) =>
+                  setfromdata({ ...fromdata, city: e.target.value })
+                }
+                className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 "
+              >
                 <option className="" value="">
                   Select City
                 </option>
@@ -186,7 +211,9 @@ const  Contactus=()=> {
               <textarea
                 name="address"
                 value={fromdata.address}
-                onChange={(e)=>setfromdata({...fromdata, address: e.target.value})}
+                onChange={(e) =>
+                  setfromdata({ ...fromdata, address: e.target.value })
+                }
                 placeholder="Enter your Address"
                 rows="5"
                 className="w-full p-3 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -206,12 +233,12 @@ const  Contactus=()=> {
         {/* private contact section */}
 
         <motion.div
-         className="mt-14 flex flex-col gap-4 items-center text-center px-4"
+          className="mt-14 flex flex-col gap-4 items-center text-center px-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
           viewport={{ once: true }}
-         >
+        >
           <h2 className="text-2xl font-semibold text-green-800 ">
             Couldn’t find what you are looking for?
           </h2>
@@ -228,7 +255,9 @@ const  Contactus=()=> {
             <input
               type="tel"
               value={consultation.phone}
-              onChange={(e)=>setconsultation({...consultation , phone: e.target.value})}
+              onChange={(e) =>
+                setconsultation({ ...consultation, phone: e.target.value })
+              }
               name="phone"
               placeholder="000 000 0000"
               className="w-full p-3 text-gray-700 focus:outline-none"
@@ -236,7 +265,10 @@ const  Contactus=()=> {
             />
 
             {/* Request Button */}
-            <button onClick={handleconsultation} className="bg-green-600 cursor-pointer text-white px-6  py-3 font-medium hover:bg-green-700 transition duration-300 whitespace-nowrap ">
+            <button
+              onClick={handleconsultation}
+              className="bg-green-600 cursor-pointer text-white px-6  py-3 font-medium hover:bg-green-700 transition duration-300 xl:whitespace-nowrap 2xl:whitespace-nowrap "
+            >
               REQUEST CONSULTATION
             </button>
           </div>
@@ -250,6 +282,6 @@ const  Contactus=()=> {
       </div>
     </div>
   );
-}
+};
 
 export default Contactus;

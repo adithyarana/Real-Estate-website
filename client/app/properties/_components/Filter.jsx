@@ -101,7 +101,7 @@ const PropertyFilter = () => {
           types.map((type,index) => (
             <div
              key={index} 
-             className={`flex items-center gap-4 px-6 py-1 hover:text-green-800 cursor-pointer ${searchParams.get("type") === type ? "border-b-2 border-green-800" : ""}`}
+             className={`flex  items-center gap-4 px-6 py-1 hover:text-green-800 cursor-pointer ${searchParams.get("type") === type ? "border-b-2 border-green-800" : ""}`}
              onClick= { () => setTypeHandler(type)}
              >
               <div>{type}</div>
@@ -110,7 +110,7 @@ const PropertyFilter = () => {
         }
       </motion.div>
       
-      <motion.div className="flex flex-col md:flex-row gap-4 mb-6 "
+      <motion.div className="flex flex-col xl:w-6.5xl  md:flex-row gap-4 mb-6 "
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -174,12 +174,25 @@ const PropertyFilter = () => {
               ))
             }
           </select>
+
+       
         </div>
+
+        {/* search  */}
+
+           <div className='flex-1 relative group'>
+            <label htmlFor="search" className="absolute -top-2 left-4 px-1 bg-white text-sm font-medium text-green-700 rounded">Search</label>
+             
+             <input type="text"
+              className="w-[300px] p-4 border-2 border-green-200 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 group-hover:border-green-400 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+               placeholder='search by locality or by propertyId'
+              />
+          </div>
         
         {/* Action Buttons */}
         <div className="flex gap-2">
           <button 
-            className="px-6 py-4 cursor-pointer bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
+            className="px-6 py-4 cursor-pointer bg-green-500 hover:bg-green-600 text-white rounded-full font-medium transition-colors duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
             onClick={setFiltersHandler}
           >
             <Search className="h-5 w-5 mr-2" />
@@ -187,7 +200,7 @@ const PropertyFilter = () => {
           </button>
           <button 
             onClick={resetFilters}
-            className="px-6 py-4 bg-white cursor-pointer hover:bg-gray-50 text-green-700 rounded-lg font-medium border-2 border-green-300 transition-colors duration-300 flex items-center justify-center shadow-sm hover:shadow-md"
+            className="px-6 py-4 bg-white cursor-pointer hover:bg-gray-50 text-green-700 rounded-full font-medium border-2 border-green-300 transition-colors duration-300 flex items-center justify-center shadow-sm hover:shadow-md"
           >
             <RefreshCw className="h-5 w-5 mr-2" />
             Reset

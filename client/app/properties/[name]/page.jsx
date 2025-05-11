@@ -1,3 +1,4 @@
+"use client";
 import Btn2 from "@/Component/Btn2";
 import {
   Cctv,
@@ -13,14 +14,16 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import React from "react";
 import { Card } from "../_components/Crad";
 import Button from "@/Component/Button";
 import SimillarProperty from "../_components/SimillarProperty";
 import EnquiryButton from "./_components/EnquiryButton";
 import Enquirennow from "../_components/Enquirennow";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
-// details page 
+// details page
 
 const property = {
   id: 1,
@@ -107,6 +110,8 @@ const simillarProperty = [
   // Add more as needed
 ];
 
+// const baseurl = "http://localhost:4000/api/";
+
 const amenitiesMap = {
   garage: <ParkingSquare className="w-6 h-6" />,
   water: <Droplet className="w-6 h-6" />,
@@ -116,9 +121,31 @@ const amenitiesMap = {
   pool: <Umbrella className="w-6 h-6" />,
   default: <Feather className="w-6 h-6" />,
 };
+const informationKey = ["area", "address", "region", "bedrooms", "bathrooms"];
 
 function page() {
-  const informationKey = ["area", "address", "region", "bedrooms", "bathrooms"];
+  
+  // const [property, setproperty] = useState(null);
+  // const { id } = useParams();
+
+  // const propertydata = async () => {
+  //   try {
+  //     const respose = await axios.get(`${baseurl}property/${id}`);
+  //     setproperty(respose.data.property);
+  //     console.log("data", respose);
+      
+  //   } catch (error) {
+  //     console.log("Error fetcing the data", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (id) {
+  //     propertydata();
+  //   }
+  // }, [id]);
+
+
 
   const ownerDetails = {
     name: process.env.NEXT_PUBLIC_OWNER_NAME || "Surendra Singh Rana",
@@ -140,10 +167,9 @@ function page() {
           </div>
         </div>
 
-       
         <div className="flex flex-col lg:flex-row gap-16 mt-10">
           <div className="w-full flex flex-col flex-1 lg:flex-3/4">
-          {/* Thumnbnail */}
+            {/* Thumnbnail */}
             <div className=" flex w-full h-fit rounded-xl items-stretch  ">
               <img
                 src={property?.thumbnail}
@@ -159,8 +185,7 @@ function page() {
               </p>
             </div>
 
-
-              {/* Amenities */}
+            {/* Amenities */}
             <div className="flex mt-16 flex-col">
               <h3 className="text-3xl mb-6">Amenities</h3>
               <div className="flex-1 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -173,14 +198,13 @@ function page() {
             </div>
           </div>
 
-
           <div className="w-full flex flex-col flex-1 lg:flex-1/4 gap-8">
-          {/* Information */}
+            {/* Information */}
             <div className="bg-white shadow-lg border border-green-300 w-full h-full rounded-xl px-6 xl:px-8 py-10">
               <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
                 <h4 className="text-lg font-medium text-gray-700">Price</h4>
                 <div className="text-2xl font-semibold font-mono">
-                  {property.price ? `$${property.price}` : "Enquiry for price"}
+                  {property.price ? `${property.price}` : "Enquiry for price"}
                 </div>
               </div>
 
@@ -197,7 +221,11 @@ function page() {
                       <h4 className=" capitalize font-semibold text-gray-800">
                         {key}
                       </h4>
-                      <p>{property[key].toString().length > 15 ? `${property[key].toString().substring(0,15)}...` : property[key].toString()}</p>
+                      <p>
+                        {property[key].toString().length > 15
+                          ? `${property[key].toString().substring(0, 15)}...`
+                          : property[key].toString()}
+                      </p>
                     </div>
                   )
               )}
@@ -209,11 +237,11 @@ function page() {
                   <h4 className=" capitalize font-semibold text-gray-800">
                     {data.key}
                   </h4>
-                  <p>{data.value.substring(0,15)}</p>
+                  <p>{data.value.substring(0, 15)}</p>
                 </div>
               ))}
             </div>
-              {/* Agent details */}
+            {/* Agent details */}
             {/* <div className="w-full h-48 py-4 px-8 rounded-lg  bg-white flex-1 lg:flex-1/4 flex flex-col justify-between items-start">
             <h4 className="text-lg font-semibold mb-4">
               Get in touch with agent directly.
@@ -250,20 +278,14 @@ function page() {
             </div> */}
 
             <div className="bg-white shadow-lg border border-green-300 rounded-xl px-2 py-4">
-
               <div className="text-2xl font-medium pl-4">Enquire Now!</div>
-              <Enquirennow propertyId={property.id}/>
+              <Enquirennow propertyId={property.id} />
             </div>
-
           </div>
         </div>
 
         {/* Overview and agent details */}
-        <div className="flex flex-col lg:flex-row gap-16 mt-16">
-          
-        </div>
-
-      
+        <div className="flex flex-col lg:flex-row gap-16 mt-16"></div>
 
         {/* Property gallary */}
         <div className="w-full mt-16">
