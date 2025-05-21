@@ -1,5 +1,4 @@
 import prisma from "../libs/prisma.js";
-
 export const Createconsultation = async (req, res) => {
   try {
     const { phone } = req.body;
@@ -16,6 +15,21 @@ export const Createconsultation = async (req, res) => {
         phone,
       },
     });
+
+
+    const existingphonumber = await prisma.consultation.findFirst({
+      where: {
+        phone,
+      },
+    })
+
+    if(existingphonumber){
+      return res.status(200).json({
+        message: true,
+        message: "Phone number already exists",
+        data: consultation,
+      });
+    }
 
     return res.status(200).json({
       message: true,

@@ -22,50 +22,51 @@ import Enquirennow from "../_components/Enquirennow";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { getPropertyByCode } from "@/Services/operations/Property";
 
 // details page
 
-const property = {
-  id: 1,
-  pCode: "123456",
-  title: "Modern Luxury Villa",
-  description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet exercitationem aperiam cumque molestiae voluptas sapiente. Accusamus, delectus maiores minus rerum at fugiat culpa doloribus excepturi eveniet eius necessitatibus beatae iste alias numquam aspernatur recusandae doloremque incidunt laborum sed accusantium fuga. Delectus illum adipisci esse magni molestiae, odio reiciendis labore provident?",
-  price: 2500000,
-  location: {
-    lat: 323,
-    long: 123,
-  },
-  address: "Beta-1, Greater Noida, U.P.",
-  bedrooms: 4,
-  bathrooms: 3,
-  area: "5,200 sq ft",
-  region: "Noida",
-  status: "Available",
-  thumbnail:
-    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-  images: [
-    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-  ],
-  amenities: [
-    "Outdoor Kitchen",
-    "Electricity",
-    "Garage",
-    "Camera",
-    "Swimming pool",
-  ],
-  tags: ["noida-property", "trending"],
-  additionalData: [
-    {
-      key: "built",
-      value: "Built in 2020",
-    },
-  ],
-  propertyType: "Industrial",
-  propertySubtype: "Factory",
-};
+// const property = {
+//   id: 1,
+//   pCode: "123456",
+//   title: "Modern Luxury Villa",
+//   description:
+//     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet exercitationem aperiam cumque molestiae voluptas sapiente. Accusamus, delectus maiores minus rerum at fugiat culpa doloribus excepturi eveniet eius necessitatibus beatae iste alias numquam aspernatur recusandae doloremque incidunt laborum sed accusantium fuga. Delectus illum adipisci esse magni molestiae, odio reiciendis labore provident?",
+//   price: 2500000,
+//   location: {
+//     lat: 323,
+//     long: 123,
+//   },
+//   address: "Beta-1, Greater Noida, U.P.",
+//   bedrooms: 4,
+//   bathrooms: 3,
+//   area: "5,200 sq ft",
+//   region: "Noida",
+//   status: "Available",
+//   thumbnail:
+//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
+//   images: [
+//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
+//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
+//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
+//   ],
+//   amenities: [
+//     "Outdoor Kitchen",
+//     "Electricity",
+//     "Garage",
+//     "Camera",
+//     "Swimming pool",
+//   ],
+//   tags: ["noida-property", "trending"],
+//   additionalData: [
+//     {
+//       key: "built",
+//       value: "Built in 2020",
+//     },
+//   ],
+//   propertyType: "Industrial",
+//   propertySubtype: "Factory",
+// };
 
 const simillarProperty = [
   {
@@ -121,31 +122,40 @@ const amenitiesMap = {
   pool: <Umbrella className="w-6 h-6" />,
   default: <Feather className="w-6 h-6" />,
 };
-const informationKey = ["area", "address", "region", "bedrooms", "bathrooms"];
+const informationKey = ["area", "address" ,"type", "region", "bathrooms", "bedrooms"];
+const baseurl = "http://localhost:4000/api/property/";
 
 function page() {
-  
-  // const [property, setproperty] = useState(null);
-  // const { id } = useParams();
+  const [property, setProperty] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { name } = useParams();
+  console.log("name", name);
+  const properyId = name.split("-").pop();
 
-  // const propertydata = async () => {
-  //   try {
-  //     const respose = await axios.get(`${baseurl}property/${id}`);
-  //     setproperty(respose.data.property);
-  //     console.log("data", respose);
-      
-  //   } catch (error) {
-  //     console.log("Error fetcing the data", error);
-  //   }
-  // };
+  useEffect(() => {
+    if (!name) {
+      return;
+    }
+    const fetchdata = async () => {
+      try {
+        const response = await axios.get(
+          `${baseurl}${properyId}`
+        );
+        setProperty(response.data.data);
+        console.log("property", response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error fetching property data", error);
+        setError(error);
+      }
+    };
+    fetchdata();
+  }, [properyId]);
 
-  // useEffect(() => {
-  //   if (id) {
-  //     propertydata();
-  //   }
-  // }, [id]);
-
-
+  if (loading) return <p className="text-center text-2xl text-black font-semibold">Loading...</p>;
+  if (error) return <p className="text-center text-2xl text-black font-semibold">{error}</p>;
+  if (!property) return <p className="text-center text-2xl text-black font-semibold">No property found.</p>;
 
   const ownerDetails = {
     name: process.env.NEXT_PUBLIC_OWNER_NAME || "Surendra Singh Rana",
@@ -201,10 +211,18 @@ function page() {
           <div className="w-full flex flex-col flex-1 lg:flex-1/4 gap-8">
             {/* Information */}
             <div className="bg-white shadow-lg border border-green-300 w-full h-full rounded-xl px-6 xl:px-8 py-10">
+
+              <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
+                <h4 className="text-lg font-medium text-gray-700">Property ID</h4>
+                <div className="text-lg font-semibold font-mono">
+                  {property?.pCode ? `${property.pCode}` : ""}
+                </div>
+              </div>
+
               <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
                 <h4 className="text-lg font-medium text-gray-700">Price</h4>
-                <div className="text-2xl font-semibold font-mono">
-                  {property.price ? `${property.price}` : "Enquiry for price"}
+                <div className="text-lg font-semibold font-mono">
+                  {property?.price ? `${property.price}` : "Enquiry for price"}
                 </div>
               </div>
 
@@ -213,7 +231,7 @@ function page() {
               </h3>
               {informationKey?.map(
                 (key, index) =>
-                  property[key] && (
+                  property?.[key] && (
                     <div
                       className="flex items-center justify-between py-4 border-b border-gray-400"
                       key={index}
@@ -229,17 +247,18 @@ function page() {
                     </div>
                   )
               )}
-              {property.additionalData?.map((data, index) => (
-                <div
-                  className="flex items-center justify-between py-4 border-b border-gray-400"
-                  key={index}
-                >
-                  <h4 className=" capitalize font-semibold text-gray-800">
-                    {data.key}
-                  </h4>
-                  <p>{data.value.substring(0, 15)}</p>
-                </div>
-              ))}
+              {Array.isArray(property?.additionalData) &&
+                property.additionalData.map((data, index) => (
+                  <div
+                    className="flex items-center justify-between py-4 border-b border-gray-400"
+                    key={index}
+                  >
+                    <h4 className="capitalize font-semibold text-gray-800">
+                      {data.key}
+                    </h4>
+                    <p>{data.value?.substring(0, 15)}</p>
+                  </div>
+                ))}
             </div>
             {/* Agent details */}
             {/* <div className="w-full h-48 py-4 px-8 rounded-lg  bg-white flex-1 lg:flex-1/4 flex flex-col justify-between items-start">
@@ -279,7 +298,7 @@ function page() {
 
             <div className="bg-white shadow-lg border border-green-300 rounded-xl px-2 py-4">
               <div className="text-2xl font-medium pl-4">Enquire Now!</div>
-              <Enquirennow propertyId={property.id} />
+              <Enquirennow propertyId={property?.id} />
             </div>
           </div>
         </div>
@@ -292,7 +311,7 @@ function page() {
           <h5 className="mb-2 uppercase font-medium">Media</h5>
           <h3 className="text-4xl mb-6">Property Gallary</h3>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-16">
-            {property.images.map((image, index) => (
+            {property?.images?.map((image, index) => (
               <img
                 key={index}
                 src={image}

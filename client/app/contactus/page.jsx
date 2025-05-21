@@ -44,11 +44,17 @@ const Contactus = () => {
       setconsultation({
         phone: "",
       });
+
+      
+
+
     } catch (error) {
       // console.error("Error sending Phone Number:", error.response?.data || error.message);
       toast.error("Errro sending the Phone Number!");
     }
   };
+
+
 
   const handleform = async (e) => {
     e.preventDefault();

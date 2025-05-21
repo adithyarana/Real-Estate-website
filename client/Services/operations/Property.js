@@ -28,20 +28,18 @@ export const getAllProperties = async() => {
     return result;
 }
 
-export const getPropertyByCode = async(pCode) => {
+export const getPropertyByCode = async(name) => {
     const toastId = toast.loading('Loading...');
     let result = null;
     try {
-        
-        const response = await apiConnector('GET',GET_PROPERTY_BY_ID_API + pCode);
-        if(!response?.data?.success){
+        const response = await apiConnector('GET', GET_PROPERTY_BY_ID_API + name);
+        if (!response?.data?.success) {
             throw new Error("Unable to fetch property details");
         }
         result = response?.data?.data;
-
     } catch (error) {
-        console.log("GET_PROPERTY_API API ERROR............", error)
-        toast.error(error.message)
+        console.error("GET_PROPERTY_API API ERROR............", error);
+        toast.error(error.message);
     }
     toast.dismiss(toastId);
     return result;

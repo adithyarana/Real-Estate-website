@@ -23,10 +23,11 @@ const Enquirennow = ({propertyId,setModal}) => {
   const handleSubmit = (e) => {
     alert('Form submitted!');
     e.preventDefault();
+    
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-md  p-4 bg-white">
+    <form onSubmit={handleSubmit}  className="space-y-3 rounded-md  p-4 bg-white">
       <div>
         <label className="block mb-0.5 text-xs font-medium text-gray-600">Name</label>
         <input
