@@ -10,12 +10,14 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "700"], // Regular & Bold
   display: "swap",
+  variable: "--font-playfair",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "600"],
   display: "swap",
+  variable: "--font-inter",
 }); 
 
 export const metadata = {

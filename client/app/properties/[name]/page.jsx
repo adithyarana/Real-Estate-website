@@ -126,7 +126,7 @@ const informationKey = ["area", "address" ,"type", "region", "bathrooms", "bedro
 const baseurl = "http://localhost:4000/api/property/";
 
 function page() {
-  const [property, setProperty] = useState({});
+  const [property, setProperty] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { name } = useParams();

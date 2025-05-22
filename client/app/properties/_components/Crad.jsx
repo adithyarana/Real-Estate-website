@@ -13,7 +13,6 @@ import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getAllProperties } from "@/Services/operations/Property";
 
-// const propertyData = [
 //   {
 //     id: 1,
 //     title: "Modern Luxury Villa",
@@ -76,7 +75,7 @@ export const Card = ({ property, setSelectedProperty }) => {
   return (
     <div
       key={property.id}
-      className="group relative overflow-hidden rounded-xl cursor-pointer bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+      className="group relative overflow-hidden rounded-xl cursor-pointer bg-white  shadow-lg transition-all duration-300 hover:shadow-xl"
       // onClick={() => router.push(process.env.NEXT_PUBLIC_BASE_URL + "/properties/" + property.title.toLowerCase().split(' ').join('-') + '-' + property.id.toString())}
     >
       <div
@@ -138,7 +137,7 @@ export const Card = ({ property, setSelectedProperty }) => {
       </div>
 
       <button
-        onClick={() => setSelectedProperty(true)}
+        onClick={() => setSelectedProperty(property)}
         className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
       >
         <span>Enquire Now</span>
@@ -148,7 +147,16 @@ export const Card = ({ property, setSelectedProperty }) => {
   );
 };
 
+// property code structute
+
 const PropertyCard = () => {
+
+  const searchParams = useSearchParams();
+
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [property, setProperty] = useState([]); // to update the data
+  const [allProperties, setAllProperties] = useState([]);
+
   useEffect(() => {
     try {
       const fun = async () => {
@@ -162,11 +170,6 @@ const PropertyCard = () => {
     }
   }, []);
 
-  const searchParams = useSearchParams();
-
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [property, setProperty] = useState([]); // to update the data
-  const [allProperties, setAllProperties] = useState([]);
 
   // useEffect(() => {
   //     setProperty(data);
@@ -231,8 +234,10 @@ const PropertyCard = () => {
                 Enquiry Now
               </h2>
               <h3>Fill up the form and get an expert call</h3>
+              <p>Property ID : {selectedProperty?.pCode}</p>
+              <p className="text-sm opacity-50 text-justify">Please mention the property id in the message so we can get back to you.</p>
             </div>
-            <Enquirennow propertyId={selectedProperty} />
+            <Enquirennow propertyId={selectedProperty?.pCode} />
           </div>
         </div>
       )}
