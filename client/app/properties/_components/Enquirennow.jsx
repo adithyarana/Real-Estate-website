@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
-import Button from '@/Component/Button';
-import { Send } from 'lucide-react';
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import Button from "@/Component/Button";
+import axios from "axios";
+import { Send } from "lucide-react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const Enquirennow = ({propertyId,setModal}) => {
-  const baseurl="http://localhost:4000/api/"
+const Enquirennow = ({propertyId}) => {
+  console.log("propertyId useprams",propertyId);
+  const baseurl = "http://localhost:4000/api/";
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    number: '',
-    message: ''
+    name: "",
+    email: "",
+    number: "",
+    message: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
-   e.preventDefault();
+  const handleSubmit = async(e) => {
+    e.preventDefault();
 
-   const resposne= async()=>{
+      const payload = {
+        ...formData,
+        propertyId, // props
+      };
 
-    try {
-        const response = await axios.post(
-          `${baseurl}enquiry`,
-          formData
-        );
+      try {
+        const response = await axios.post(`${baseurl}enquiry`, payload);
         console.log("date sent", response.data);
         toast.success("Form Submitted We Will Contact Soon!");
 
@@ -42,19 +44,22 @@ const Enquirennow = ({propertyId,setModal}) => {
           number: "",
           message: "",
         });
-    } catch (error) {
+      } catch (error) {
         toast.error("Error sending the Data!");
-    }
-   }
-    
-    
-   resposne();
-  };
+      }
+    };
+
+
 
   return (
-    <form onSubmit={handleSubmit}  className="space-y-3 rounded-md xl:h-[350px] xl:w-[350px]   p-4 bg-white">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-3 rounded-md xl:h-[360px] xl:w-[350px]   p-4 bg-white"
+    >
       <div>
-        <label className="block mb-0.5 text-xs font-medium text-gray-600">Name</label>
+        <label className="block mb-0.5 text-xs font-medium text-gray-600">
+          Name
+        </label>
         <input
           type="text"
           name="name"
@@ -66,7 +71,9 @@ const Enquirennow = ({propertyId,setModal}) => {
       </div>
 
       <div>
-        <label className="block mb-0.5 text-xs font-medium text-gray-600">Email</label>
+        <label className="block mb-0.5 text-xs font-medium text-gray-600">
+          Email
+        </label>
         <input
           type="email"
           name="email"
@@ -78,7 +85,9 @@ const Enquirennow = ({propertyId,setModal}) => {
       </div>
 
       <div>
-        <label className="block mb-0.5 text-xs font-medium text-gray-600">Phone Number</label>
+        <label className="block mb-0.5 text-xs font-medium text-gray-600">
+          Phone Number
+        </label>
         <input
           type="tel"
           name="number"
@@ -90,7 +99,9 @@ const Enquirennow = ({propertyId,setModal}) => {
       </div>
 
       <div>
-        <label className="block mb-0.5 text-xs font-medium text-gray-600">Message</label>
+        <label className="block mb-0.5 text-xs font-medium text-gray-600">
+          Message
+        </label>
         <textarea
           name="message"
           rows="2"
@@ -106,10 +117,11 @@ const Enquirennow = ({propertyId,setModal}) => {
         additionalClass={"mt-4 flex item-center justify-center gap-2"}
       >
         Submit
-        <Send size={24}/>
+        <Send size={24} />
       </Button>
     </form>
   );
 };
+
 
 export default Enquirennow;

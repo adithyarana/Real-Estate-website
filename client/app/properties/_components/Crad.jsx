@@ -79,14 +79,16 @@ export const Card = ({ property, setSelectedProperty }) => {
         </div>
       </div>
 
-      <button
+<button
         onClick={() => setSelectedProperty(property)}
         className="mt-4 flex w-full items-center cursor-pointer justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
       >
         <span>Enquire Now</span>
         <ArrowUpRightFromSquare className="h-4 w-4" />
       </button>
-    </div>
+</div>
+     
+ 
   );
 };
 
@@ -199,7 +201,7 @@ const PropertyCard = () => {
               <p>Property ID : {selectedProperty?.pCode}</p>
               <p className="text-sm opacity-50 text-justify">Please mention the property id in the message so we can get back to you.</p>
             </div>
-            <Enquirennow propertyId={selectedProperty?.pCode} />
+            <Enquirennow propertyId={selectedProperty?.id} />
           </div>
         </div>
       )}

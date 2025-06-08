@@ -57,9 +57,9 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
           </div>
 
           {/* Property Filter */}
-          <PropertyFilter/>
+          {/* <PropertyFilter/> */}
 
-      {/* <div className="flex flex-col sm:flex-row gap-4 mb-6 ">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 ">
       <Btn2 
             content={"Buy A Property"}
             clickHandler={(()=>{
@@ -69,14 +69,14 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
             />
 
       <Btn2
-            content={"Rent A Property"}
+            content={"Lease A Property"}
             clickHandler={(()=>{
                     
-              router.push("/properties")
+              router.push("/properties?type=LEASE")
             })}
             />
 
-      </div> */}
+      </div>
 
 
          

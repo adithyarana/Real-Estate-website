@@ -7,15 +7,13 @@ dotenv.config();
 export const CreateEnquiry = async(req,res) => {
     try {
         
-        const { name,email,message,number,propertyId } = req.body; 
-      
+        const { name, email, message, number, propertyId } = req.body; 
 
-
-        if(!name || !email || !number || !message){
-            return res.status(401).json({
+        if (!name || !email || !number || !message) {
+            return res.status(400).json({
                 success: false,
                 message: "All fields are required!"
-            })
+            });
         }
 
         const enquiry = await prisma.enquiry.create({
@@ -24,8 +22,8 @@ export const CreateEnquiry = async(req,res) => {
                 email,
                 number,
                 message,
-                propertyId,
-                status: "PENDING"
+                status: "PENDING",
+                propertyId: propertyId || null
             }
         });
 

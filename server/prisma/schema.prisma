@@ -67,14 +67,14 @@ model RatingAndReview {
 
 model Enquiry {
   id     String    @id @default(auto()) @map("_id") @db.ObjectId
-  propertyId String  @db.ObjectId
+  propertyId String?  @db.ObjectId
   name    String
   email   String 
   number  String     
   message  String
   status    EnquiryStatus
   createdAt  DateTime  @default(now())
-  Property Property    @relation(fields: [propertyId],references: [id])
+  Property Property?    @relation(fields: [propertyId],references: [id])
 }
 
 model GeneralEnquiry {
