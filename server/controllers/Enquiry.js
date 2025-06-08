@@ -7,9 +7,11 @@ dotenv.config();
 export const CreateEnquiry = async(req,res) => {
     try {
         
-        const { name,email,message,propertyId } = req.body; 
+        const { name,email,message,number,propertyId } = req.body; 
+      
 
-        if(!name || !email || !message || !propertyId){
+
+        if(!name || !email || !number || !message){
             return res.status(401).json({
                 success: false,
                 message: "All fields are required!"
@@ -20,8 +22,9 @@ export const CreateEnquiry = async(req,res) => {
             data: {
                 name,
                 email,
-                propertyId,
+                number,
                 message,
+                propertyId,
                 status: "PENDING"
             }
         });
@@ -38,7 +41,7 @@ export const CreateEnquiry = async(req,res) => {
            ` <div>
                 <p>Name :${name}</p>
                 <p>Email : ${email}</p>
-                <p>PropertyId : ${propertyId}</p>
+                <p>Number : ${number}</p>
             </div>`
         );
 

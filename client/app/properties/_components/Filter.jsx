@@ -4,12 +4,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-// dummy data for locations and property types
-const locations = ["NOIDA",
-  "DELHI",
-  "GREATER_NOIDA" ];
+const locations = ["NOIDA", "DELHI", "GREATER_NOIDA"];
 
-const propertyTypes = ["RESIDENTIAL", "COMMERCIAL", "INDUSTRIAL","INSTITUTIONAL"];
+const propertyTypes = [
+  "RESIDENTIAL",
+  "COMMERCIAL",
+  "INDUSTRIAL",
+  "INSTITUTIONAL",
+];
 
 const types = ["All", "LEASE", "PRE-LEASE"];
 
@@ -22,30 +24,34 @@ const propertySubtypes = {
     "BUILDER_FLOOR_APARTMENT",
     "FARM_HOUSE",
   ],
-  COMMERCIAL: [ "OFFICE"  ,    //Commercial
+  COMMERCIAL: [
+    "OFFICE", //Commercial
     "SHOP",
     "SHOWROOM",
     "BUSSINESS_CENTER",
     "LAND",
-    "HOTEL"],
-  INDUSTRIAL: [ "SHED"  ,       //Industrial
+    "HOTEL",
+  ],
+  INDUSTRIAL: [
+    "SHED", //Industrial
     "FACTORY",
-    "WAREHOUSE"],
+    "WAREHOUSE",
+  ],
 
-    INSTITUTIONAL: [ "CORPORATE_PLOT"  ,       //Institutional
-      "CORPORATE_BUILDING",
-      "COLLEGE_PLOT",
-      "SCHOOL_PLOT",
-      "HOSPITAL_BUILDING",
-      "HOSPITAL_PLOT",
-      "OFFICE_IT",
-      "BUILDING",
-      "IT_PLOT",
-      "IT_BUILDING",
-      "BANQUET_HALL"],
+  INSTITUTIONAL: [
+    "CORPORATE_PLOT", //Institutional
+    "CORPORATE_BUILDING",
+    "COLLEGE_PLOT",
+    "SCHOOL_PLOT",
+    "HOSPITAL_BUILDING",
+    "HOSPITAL_PLOT",
+    "OFFICE_IT",
+    "BUILDING",
+    "IT_PLOT",
+    "IT_BUILDING",
+    "BANQUET_HALL",
+  ],
 };
-
-
 
 const PropertyFilter = () => {
   const searchParams = useSearchParams();
@@ -53,14 +59,31 @@ const PropertyFilter = () => {
   const pathname = usePathname();
 
   const [filters, setFilters] = useState({
-    location: "",
+    region: "",
     propertyType: "",
     propertySubtype: "",
   });
 
-  useEffect(() => {
-    router.push(pathname + "?type=All");
-  }, []);
+  // saved the filter after the refresh
+
+  useEffect(()=>{
+    const region = searchParams.get("region")|| "";
+    const propertyType = searchParams.get("propertyType")|| "";
+    const propertySubtype = searchParams.get("propertySubtype")|| "";
+
+    setFilters({
+      region,
+      propertyType,
+      propertySubtype,
+    })
+
+    if(!searchParams.get("type")){
+      router.push(pathname + "?type=All");
+    }
+    
+  },[]);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -83,10 +106,9 @@ const PropertyFilter = () => {
   // to reset filters to default values
   const resetFilters = () => {
     setFilters({
-      location: "",
+      region: "",
       propertyType: "",
       propertySubtype: "",
-      type: "",
     });
     router.push(pathname + "?type=All");
   };
@@ -148,15 +170,15 @@ const PropertyFilter = () => {
         {/* Location Filter */}
         <div className="flex-1 relative group">
           <label
-            htmlFor="location"
+            htmlFor="region"
             className="absolute -top-2 left-4 px-1 bg-white text-sm font-medium text-green-700 rounded"
           >
-            Location
+            Region
           </label>
           <select
-            id="location"
-            name="location"
-            value={filters.location}
+            id="region"
+            name="region"
+            value={filters.region}
             onChange={handleChange}
             className="w-full p-4 border-2 border-green-200 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 group-hover:border-green-400"
           >
@@ -164,7 +186,7 @@ const PropertyFilter = () => {
             {locations.map((loc) => (
               <option key={loc} value={loc}>
                 {loc}
-              </option>
+              </option>     
             ))}
           </select>
         </div>

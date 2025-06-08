@@ -3,8 +3,10 @@
 import Button from '@/Component/Button';
 import { Send } from 'lucide-react';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Enquirennow = ({propertyId,setModal}) => {
+  const baseurl="http://localhost:4000/api/"
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,13 +23,36 @@ const Enquirennow = ({propertyId,setModal}) => {
   };
 
   const handleSubmit = (e) => {
-    alert('Form submitted!');
-    e.preventDefault();
+   e.preventDefault();
+
+   const resposne= async()=>{
+
+    try {
+        const response = await axios.post(
+          `${baseurl}enquiry`,
+          formData
+        );
+        console.log("date sent", response.data);
+        toast.success("Form Submitted We Will Contact Soon!");
+
+        // reset form
+        setFormData({
+          name: "",
+          email: "",
+          number: "",
+          message: "",
+        });
+    } catch (error) {
+        toast.error("Error sending the Data!");
+    }
+   }
     
+    
+   resposne();
   };
 
   return (
-    <form onSubmit={handleSubmit}  className="space-y-3 rounded-md  p-4 bg-white">
+    <form onSubmit={handleSubmit}  className="space-y-3 rounded-md xl:h-[350px] xl:w-[350px]   p-4 bg-white">
       <div>
         <label className="block mb-0.5 text-xs font-medium text-gray-600">Name</label>
         <input

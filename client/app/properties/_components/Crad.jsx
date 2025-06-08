@@ -4,73 +4,16 @@ import {
   Square,
   ArrowUpRightFromSquare,
   X,
-  Axis3D,
 } from "lucide-react";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Enquirennow from "./Enquirennow";
-import Link from "next/link";
-import axios from "axios";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 import { getAllProperties } from "@/Services/operations/Property";
+import PropertyCardSkeleton from "../_components/Skelton";
 
-//   {
-//     id: 1,
-//     title: "Modern Luxury Villa",
-//     propertyType: "Industrial",
-//     propertySubtype: "Factory",
-//     pCode: "123456",
-//     price: 2500000,
-//     location: "Noida",
-//     area: "5,200 sq ft",
-//     type: "Buy",
-//     image:
-//       "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   {
-//     id: 2,
-//     title: "Oceanfront Residence",
-//     propertyType: "Residential",
-//     propertySubtype: "House",
-//     pCode: "241123",
-//     price: 3200000,
-//     location: "Delhi",
-//     area: "4,800 sq ft",
-//     type: "Buy",
-//     image:
-//       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   {
-//     id: 3,
-//     title: "Contemporary Downtown Penthouse",
-//     price: 1850000,
-//     location: "Gurgaon",
-//     propertyType: "Industrial",
-//     propertySubtype: "Warehouse",
-//     pCode: "121321",
-//     area: "3,600 sq ft",
-//     type: "Pre-Lease",
-//     image:
-//       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   {
-//     id: 4,
-//     title: "Contemporary Downtown Penthouse",
-//     price: 1850000,
-//     location: "Delhi",
-//     propertyType: "Residential",
-//     propertySubtype: "Condo",
-//     pCode: "123342",
-//     area: "3,600 sq ft",
-//     type: "Lease",
-//     image:
-//       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   // Add more as needed
-// ];
 
 export const Card = ({ property, setSelectedProperty }) => {
   const router = useRouter();
-  const pathname = usePathname();
 
   return (
     <div
@@ -127,7 +70,7 @@ export const Card = ({ property, setSelectedProperty }) => {
 
           <div className="flex items-center text-gray-600">
             <MapPin className="mr-2 h-4 w-4" />
-            <span className="text-sm">{JSON.stringify(property.region)}</span>
+            <span className="text-sm">{property.region}</span>
           </div>
           <div className="flex items-center text-gray-600">
             <Square className="mr-2 h-4 w-4" />
@@ -138,7 +81,7 @@ export const Card = ({ property, setSelectedProperty }) => {
 
       <button
         onClick={() => setSelectedProperty(property)}
-        className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
+        className="mt-4 flex w-full items-center cursor-pointer justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
       >
         <span>Enquire Now</span>
         <ArrowUpRightFromSquare className="h-4 w-4" />
@@ -156,17 +99,27 @@ const PropertyCard = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [property, setProperty] = useState([]); // to update the data
   const [allProperties, setAllProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    const start= Date.now();
     try {
       const fun = async () => {
         const data = await getAllProperties();
-        setAllProperties(data);
-        setProperty(data);
+        const elapsed = Date.now() - start;
+        const delay = Math.max(300 - elapsed, 0); 
+        
+        setTimeout(() => {
+          setAllProperties(data);
+          setProperty(data);
+          setLoading(false);
+        }, delay);
       };
       fun();
     } catch (error) {
       console.log("Error Fetching the cards", error);
+      setLoading(false);
     }
   }, []);
 
@@ -202,27 +155,36 @@ const PropertyCard = () => {
   };
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-gradient-to-br from-green-50 to-green-100">
       <h1 className="mb-8 text-center text-4xl font-bold text-green-800 font-heading">
         Featured Properties
       </h1>
 
       {/* // card */}
       <div className="mx-auto grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-11/12">
-        {property.map((property) => (
-          <Card
+        {loading ?
+        Array.from({length:6}).map((_,i)=>(
+          <PropertyCardSkeleton key={i}/>
+        ))   
+        :
+        property.map((property) => (
+          
+    
+      <Card
             property={property}
             key={property.id}
             setSelectedProperty={setSelectedProperty}
             openModal={openModal}
           />
+      
         ))}
+        
       </div>
 
       {/* Enquiry Modal */}
       {selectedProperty && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+          <div className="relative w-full xl:w-[400px] max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <button
               onClick={closeModal}
               className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
