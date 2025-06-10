@@ -199,7 +199,6 @@ const PropertyCard = () => {
               </h2>
               <h3>Fill up the form and get an expert call</h3>
               <p>Property ID : {selectedProperty?.pCode}</p>
-              <p className="text-sm opacity-50 text-justify">Please mention the property id in the message so we can get back to you.</p>
             </div>
             <Enquirennow propertyId={selectedProperty?.id} />
           </div>

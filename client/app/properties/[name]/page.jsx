@@ -23,6 +23,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getPropertyByCode } from "@/Services/operations/Property";
+import ReviewCard from "@/app/_components/Reviewsection";
+import ReviewForm from "./_components/reviewdetails";
 
 // details page
 
@@ -68,48 +70,48 @@ import { getPropertyByCode } from "@/Services/operations/Property";
 //   propertySubtype: "Factory",
 // };
 
-const simillarProperty = [
-  {
-    id: 1,
-    title: "Modern Luxury Villa",
-    propertyType: "Industrial",
-    propertySubtype: "Factory",
-    pCode: "123456",
-    price: 2500000,
-    location: "Noida",
-    area: "5,200 sq ft",
-    type: "Buy",
-    image:
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-  },
-  {
-    id: 2,
-    title: "Oceanfront Residence",
-    propertyType: "Residential",
-    propertySubtype: "House",
-    pCode: "241123",
-    price: 3200000,
-    location: "Delhi",
-    area: "4,800 sq ft",
-    type: "Buy",
-    image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=500&h=400",
-  },
-  {
-    id: 3,
-    title: "Contemporary Downtown Penthouse",
-    price: 1850000,
-    location: "Gurgaon",
-    propertyType: "Industrial",
-    propertySubtype: "Warehouse",
-    pCode: "121321",
-    area: "3,600 sq ft",
-    type: "Pre-Lease",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=500&h=400",
-  },
-  // Add more as needed
-];
+// const simillarProperty = [
+//   {
+//     id: 1,
+//     title: "Modern Luxury Villa",
+//     propertyType: "Industrial",
+//     propertySubtype: "Factory",
+//     pCode: "123456",
+//     price: 2500000,
+//     location: "Noida",
+//     area: "5,200 sq ft",
+//     type: "Buy",
+//     image:
+//       "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
+//   },
+//   {
+//     id: 2,
+//     title: "Oceanfront Residence",
+//     propertyType: "Residential",
+//     propertySubtype: "House",
+//     pCode: "241123",
+//     price: 3200000,
+//     location: "Delhi",
+//     area: "4,800 sq ft",
+//     type: "Buy",
+//     image:
+//       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=500&h=400",
+//   },
+//   {
+//     id: 3,
+//     title: "Contemporary Downtown Penthouse",
+//     price: 1850000,
+//     location: "Gurgaon",
+//     propertyType: "Industrial",
+//     propertySubtype: "Warehouse",
+//     pCode: "121321",
+//     area: "3,600 sq ft",
+//     type: "Pre-Lease",
+//     image:
+//       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=500&h=400",
+//   },
+//   // Add more as needed
+// ];
 
 // const baseurl = "http://localhost:4000/api/";
 
@@ -190,7 +192,7 @@ function page() {
             {/* Overview */}
             <div className="flex-1 lg:flex-3/4 w-full mt-16">
               <h3 className="text-3xl mb-8">Overview</h3>
-              <p className="text-gray-600 text-lg text-center lg:text-start">
+              <p className="text-gray-600 text-lg text-justify lg:text-start">
                 {property?.description}
               </p>
             </div>
@@ -324,9 +326,12 @@ function page() {
         </div>
 
         {/* Simillar property */}
-        <div className="w-full mt-16">
-          <SimillarProperty data={simillarProperty} />
-        </div>
+        {/* <div className="w-full mt-16">
+          <SimillarProperty data={SimillarProperty} />
+        </div> */}
+      </div>
+      <div className="w-full">
+      <ReviewForm/>
       </div>
     </div>
   );

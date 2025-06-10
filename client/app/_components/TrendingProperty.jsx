@@ -1,10 +1,12 @@
-
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import axios from "axios";
+import {  useRouter } from "next/navigation";
 // Dummy data for properties
 const propertyData = [
   {
@@ -33,6 +35,9 @@ const propertyData = [
   },
 ];
 
+
+
+
 // Slider settings
 const settings = {
   dots: true,
@@ -43,8 +48,32 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 3000,
 };
-
+const baseurl = "http://localhost:4000/api/property/";
  const Tredingproperty = () => {
+
+  const router = useRouter();
+
+  const [properties, setProperties] = useState([]);
+
+  useEffect(()=>{
+    const fetchdata = async () => {
+      try {
+        const response = await axios.get(
+          `${baseurl}/all`
+        );
+        const filterproperty = response.data.data.slice(0,4)
+        setProperties(filterproperty);
+        console.log("property", filterproperty);
+      
+      } catch (error) {
+        console.log("Error fetching property data", error);
+        
+      }
+    };
+    fetchdata();
+  }, [])
+
+
   return (
     <div className="container mx-auto px-4 md:px-8 lg:px-12 py-10   ">
     <div className="flex flex-col md:flex-row items-center gap-8 ">
@@ -67,10 +96,9 @@ const settings = {
           range. Our wide range of property types, from commercial and
           residential to industrial, will mesmerize you. You can avail of our
           promising properties with unique styles and designs that are highly
-          trending in locations such as Delhi, Gurgaon, Noida, Greater Noida,
-          and Bengaluru.
+          trending in locations such as Delhi, Noida and Greater Noida.
         </p>
-       <Link href=''>
+       <Link href={`/properties?type=All`}>
        <button  className="w-full sm:w-auto bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-300 text-lg font-medium cursor-pointer mt-12">
           View All Properties
         </button>
@@ -86,19 +114,27 @@ const settings = {
         viewport={{ once: true }}
       >
         <Slider {...settings}>
-          {propertyData.map((property, index) => (
-            <div key={index} className="p-2">
-              <div className="shadow-lg rounded-lg overflow-hidden">
+          {properties.map((property, index) => (
+            <div key={index} className="p-2"  onClick={() => {
+              const name = property.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-") 
+                .replace(/^-+|-+$/g, ""); 
+    
+              router.push(`/properties/${name}-${property.id}`);
+            }}
+            >
+              <div className="shadow-lg rounded-lg overflow-hidden cursor-pointer">
                 <img
-                  src={property.image}
-                  alt={property.type}
+                  src={property.thumbnail}
+                  alt={property.title}
                   className="w-full h-48 md:h-56 lg:h-72 object-cover"
                 />
                 <div className="p-4 text-center flex flex-col gap-2">
                   <h3 className="text-lg font-semibold text-green-800">
-                    {property.type}
+                    {property.title}
                   </h3>
-                  <p className="text-sm text-gray-600">{property.location}</p>
+                  <p className="text-sm text-gray-600">{property.region}</p>
                   <p className="text-sm font-medium text-green-700">
                     Area: {property.area}
                   </p>

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'; // or 'next/router' in Pages Router
 import { Card } from './Crad'
 
 const SimillarProperty = ({ data }) => {
+  console.log("data", data);
+  
   const [selectedProperty, setSelectedProperty] = useState(null)
 
   return (

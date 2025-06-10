@@ -55,14 +55,14 @@ model Consultation {
 
 model RatingAndReview {
   id        String     @id   @default(auto()) @map("_id") @db.ObjectId
-  propertyId String    @db.ObjectId
+  propertyId String?    @db.ObjectId
   name       String?
   email      String
   rating     Int
   review     String
   approved   Boolean   @default(false)
   createdAt  DateTime  @default(now())
-  Property   Property   @relation(fields: [propertyId],references: [id])
+  Property   Property?   @relation(fields: [propertyId],references: [id])
 }
 
 model Enquiry {

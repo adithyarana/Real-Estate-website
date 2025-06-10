@@ -5,12 +5,13 @@ export const CreateRating = async(req,res) => {
         
         const { propertyId , name, email , rating, review } = req.body;
 
-        if(!propertyId || !email || !rating || !review){
+        if( !email || !rating || !review){
             return res.status(401).json({
                 success: false,
                 messgae: "All fields required!"
             });
         }
+        const validPropertyId = propertyId.split("-").pop();
 
         const result = await prisma.ratingAndReview.create({
             data: {
@@ -18,7 +19,7 @@ export const CreateRating = async(req,res) => {
                 email,
                 rating: parseInt(rating),
                 review,
-                propertyId
+                propertyId: validPropertyId
             }
         });
 

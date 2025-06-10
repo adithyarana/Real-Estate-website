@@ -27,11 +27,21 @@ export const CreateEnquiry = async(req,res) => {
             }
         });
 
-         mailSender(
+        mailSender(
             email,
-            "Thank you for your enquiry!",
-            `<p>We will contact you soon</p>`
-        );
+            "Thank you for contacting Tenancy Real Estate!",
+            `
+              <h2 style="color:#2E86C1;">Tenancy Real Estate</h2>
+              <p>Hi ${name},</p>
+              <p>Thank you for reaching out to us. We’ve received your enquiry and our team will review it shortly.</p>
+              <p>You can expect a response from us within the next 24–48 hours.</p>
+              <p>In the meantime, feel free to visit our website or contact us directly if your matter is urgent.</p>
+              <br/>
+              <p>Best regards,</p>
+              <p><strong>Tenancy Real Estate Team</strong></p>
+            `
+          );
+          
 
         mailSender(
             process.env.ADMIN_EMAIL,
@@ -40,6 +50,7 @@ export const CreateEnquiry = async(req,res) => {
                 <p>Name :${name}</p>
                 <p>Email : ${email}</p>
                 <p>Number : ${number}</p>
+                <p>Property ID : ${propertyId}</p>
             </div>`
         );
 
