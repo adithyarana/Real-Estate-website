@@ -53,3 +53,22 @@ body {
     transform: scale(1);
   }
 }
+
+/* globals.css */
+html, body {
+  height: 100%;
+}
+
+
+/* You can move these to globals.css or add as Tailwind @layer */
+.input-field {
+  @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400;
+}
+
+.upload-box {
+  @apply w-32 h-32 bg-gray-100 border-2 border-dashed border-gray-400 flex items-center justify-center cursor-pointer rounded-lg hover:bg-gray-200;
+}
+
+.upload-label {
+  @apply w-full h-full flex items-center justify-center;
+}

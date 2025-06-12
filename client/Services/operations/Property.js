@@ -9,7 +9,7 @@ const {
 
 
 export const getAllProperties = async() => {
-    const toastId = toast.loading("Loading...");
+    // const toastId = toast.loading("Loading...");
     let result = [];
     try {
         const response = await apiConnector('GET',GET_ALL_PROPERTIES_API);
@@ -24,7 +24,7 @@ export const getAllProperties = async() => {
         console.log("GET_ALL_PROPERTY_API API ERROR............", error)
         toast.error(error.message)
     }
-    toast.dismiss(toastId);
+    // toast.dismiss(toastId);
     return result;
 }
 

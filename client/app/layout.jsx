@@ -30,23 +30,28 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-      className={`${inter.variable} ${playfair.variable} bg-white text-gray-900`}
+        className={`${inter.variable} ${playfair.variable} bg-white text-gray-900 min-h-screen flex flex-col`}
       >
-        <Navbar/>
-        {children}
+        <Navbar />
+        
+        <main className="flex-grow">
+          {children}
+        </main>
+
+        <Footer />
+
         <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              />
-        <Footer/>
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </body>
     </html>
   );

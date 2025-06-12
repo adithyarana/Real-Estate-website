@@ -165,22 +165,24 @@ const PropertyCard = () => {
       {/* // card */}
       <div className="mx-auto grid gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-11/12">
         {loading ?
-        Array.from({length:6}).map((_,i)=>(
-          <PropertyCardSkeleton key={i}/>
-        ))   
-        :
-        property.map((property) => (
-          
-    
-      <Card
-            property={property}
-            key={property.id}
-            setSelectedProperty={setSelectedProperty}
-            openModal={openModal}
-          />
-      
-        ))}
-        
+          Array.from({length:6}).map((_,i)=>(
+            <PropertyCardSkeleton key={i}/>
+          ))   
+          :
+          property.length === 0 ? (
+            <div className="col-span-full mt-20 text-center text-md xl:text-2xl md:text-xl 2xl:text-3xl font-body text-green-700 font-semibold">
+              Property not listed
+            </div>
+          ) : (
+            property.map((property) => (
+              <Card
+                property={property}
+                key={property.id}
+                setSelectedProperty={setSelectedProperty}
+              />
+            ))
+          )
+        }
       </div>
 
       {/* Enquiry Modal */}

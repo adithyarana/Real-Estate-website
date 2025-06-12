@@ -11,9 +11,7 @@ function generateSixDigitCode() {
 
 export const AddProperty = async (req, res) => {
   try {
-    // console.log("Add property data ",req.body);
-    // console.log("Add property data ",req.files);
-
+    // Get form data directly from req.body
     const {
       title,
       description,
@@ -34,9 +32,10 @@ export const AddProperty = async (req, res) => {
     } = req.body;
     const { thumbnail, images } = req.files;
 
-    const parsedLocation = JSON.parse(location);
-    const parsedAmenities = JSON.parse(amenities);
-    const parsedTags = JSON.parse(tags);
+    // Convert stringified arrays to actual arrays
+    const parsedLocation = JSON.parse(location || '[]');
+    const parsedAmenities = JSON.parse(amenities || '[]');
+    const parsedTags = JSON.parse(tags || '[]');
 
     if (
       !title ||
@@ -47,7 +46,7 @@ export const AddProperty = async (req, res) => {
       !thumbnail ||
       !region
     ) {
-      return res.stauts(401).json({
+      return res.status(401).json({
         success: false,
         message: "All fields required!",
       });
@@ -58,9 +57,12 @@ export const AddProperty = async (req, res) => {
       !process.env.TYPE.includes(type) ||
       !process.env.PROPERTY_STATUS.includes(status)
     ) {
-      return res.status(401).josn({
+      return res.status(400).json({
         success: false,
-        message: "All fields required!",
+        message: "Invalid property type, type, or status",
+        allowedTypes: process.env.PROPERTY_TYPE.split(','),
+        allowedPropertyTypes: process.env.TYPE.split(','),
+        allowedStatuses: process.env.PROPERTY_STATUS.split(',')
       });
     }
 

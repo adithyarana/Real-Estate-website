@@ -243,7 +243,7 @@ const PropertyFilter = () => {
 
         {/* search  */}
 
-        <div className="flex-1 relative group">
+        {/* <div className="flex-1 relative group">
           <label
             htmlFor="search"
             className="absolute -top-2 left-4 px-1 bg-white text-sm font-medium text-green-700 rounded"
@@ -256,7 +256,7 @@ const PropertyFilter = () => {
             className="w-[300px] p-4 border-2 border-green-200 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 group-hover:border-green-400 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
             placeholder="search by locality or by propertyId"
           />
-        </div>
+        </div> */}
 
         {/* Action Buttons */}
         <div className="flex gap-2">

@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import AdminProtect from "@/Component/AdminProtect";
+import PropertyForm from "./_components/Propertyaddfrom";
 const  AdminDashboard=()=> {
   const router = useRouter();
 
@@ -23,9 +24,9 @@ const  AdminDashboard=()=> {
 
         {/* Action Buttons */}
         <div className="flex gap-x-4">
-          <button className="bg-green-600 text-white px-5 py-2 rounded-lg text-lg font-medium flex items-center gap-x-2 hover:bg-green-700 transition cursor-pointer">
+          {/* <button className="bg-green-600 text-white px-5 py-2 rounded-lg text-lg font-medium flex items-center gap-x-2 hover:bg-green-700 transition cursor-pointer">
             <span className="text-2xl">+</span> Create Property
-          </button>
+          </button> */}
 
           <button
             onClick={handleLogout}
@@ -35,6 +36,10 @@ const  AdminDashboard=()=> {
           </button>
         </div>
       </div>
+
+     <div className="p-10">
+     <PropertyForm />
+     </div>
     
     </AdminProtect>
   );
