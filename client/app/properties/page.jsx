@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import PropertyFilter from './_components/Filter'
 import PropertyCard from './_components/Crad'
 import { getAllProperties } from '@/Services/operations/Property';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export async function generateMetadata({ searchParams }) {
   const { propertyType, propertySubtype, location, type } = await searchParams || {};
@@ -36,13 +37,15 @@ export async function generateMetadata({ searchParams }) {
 
 
 function page() {
-
-
   return (
- <>
-    <PropertyFilter/>
-    <PropertyCard/>
- </>
+    <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <>
+          <PropertyFilter />
+          <PropertyCard />
+        </>
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 
