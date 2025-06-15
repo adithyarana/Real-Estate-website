@@ -24,12 +24,24 @@ export const AddProperty = async (req, res) => {
       propertyType,
       area,
       status,
-      priorityLevel,
+      priorityLevelString,
       additionalData,
       amenities,
       tags,
       region,
+      propertySubType,
     } = req.body;
+
+    // Convert priorityLevel to number
+    const priorityLevel = parseInt(priorityLevelString) || 0;
+    // Validate that files were uploaded
+    if (!req.files || !req.files.thumbnail || !req.files.thumbnail[0]) {
+      return res.status(400).json({
+        success: false,
+        message: "Thumbnail image is required",
+      });
+    }
+
     const { thumbnail, images } = req.files;
 
     // Convert stringified arrays to actual arrays
@@ -40,7 +52,6 @@ export const AddProperty = async (req, res) => {
     if (
       !title ||
       !description ||
-      !location ||
       !address ||
       !area ||
       !thumbnail ||
@@ -52,17 +63,27 @@ export const AddProperty = async (req, res) => {
       });
     }
 
+    // Define default values if environment variables are not set
+    const propertyTypes = process.env.PROPERTY_TYPE || "COMMERCIAL,INDUSTRIAL,INSTITUTIONAL,RESIDENTIAL";
+    const types = process.env.TYPE || "SALE,LEASE,PRE_LEASED";
+    const statuses = process.env.PROPERTY_STATUS || "AVAILABLE,SOLD,RENTED,PENDING";
+
+    // Convert to arrays
+    const allowedPropertyTypes = propertyTypes.split(',');
+    const allowedTypes = types.split(',');
+    const allowedStatuses = statuses.split(',');
+
     if (
-      !process.env.PROPERTY_TYPE.includes(propertyType) ||
-      !process.env.TYPE.includes(type) ||
-      !process.env.PROPERTY_STATUS.includes(status)
+      !allowedPropertyTypes.includes(propertyType) ||
+      !allowedTypes.includes(type) ||
+      !allowedStatuses.includes(status)
     ) {
       return res.status(400).json({
         success: false,
         message: "Invalid property type, type, or status",
-        allowedTypes: process.env.PROPERTY_TYPE.split(','),
-        allowedPropertyTypes: process.env.TYPE.split(','),
-        allowedStatuses: process.env.PROPERTY_STATUS.split(',')
+        allowedTypes: allowedTypes,
+        allowedPropertyTypes: allowedPropertyTypes,
+        allowedStatuses: allowedStatuses
       });
     }
 
@@ -72,7 +93,7 @@ export const AddProperty = async (req, res) => {
     const thumbnailResult = await Promise.resolve(thumbnailUploadPromise);
 
     // Upload multiple images to Cloudinary
-    const imageUploadPromises = images.map((file) =>
+    const imageUploadPromises = images?.map((file) =>
       cloudinary.uploader.upload(file.path)
     );
     const imageResults = await Promise.all(imageUploadPromises);
@@ -100,6 +121,7 @@ export const AddProperty = async (req, res) => {
       tags: parsedTags,
       additionalData,
       propertyType,
+      propertySubType,
     };
 
     console.log("Add property final data", propertyData);

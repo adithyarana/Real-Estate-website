@@ -200,9 +200,9 @@ function page() {
             {/* Amenities */}
             <div className="flex mt-16 flex-col">
               <h3 className="text-3xl mb-6">Amenities</h3>
-              <div className="flex-1 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <div className="flex-1 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
                 {property?.amenities?.map((item, index) => (
-                  <div className="w-full text-start py-3 text-lg" key={index}>
+                  <div className="w-full font-body text-start py-3 text-lg" key={index}>
                     {item}
                   </div>
                 ))}

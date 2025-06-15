@@ -1,6 +1,6 @@
 "use client";
 import { Search, RefreshCw } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -65,7 +65,6 @@ const PropertyFilter = () => {
   });
 
   // saved the filter after the refresh
-
   useEffect(()=>{
     const region = searchParams.get("region")|| "";
     const propertyType = searchParams.get("propertyType")|| "";

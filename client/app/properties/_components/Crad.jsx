@@ -126,9 +126,6 @@ const PropertyCard = () => {
   }, []);
 
 
-  // useEffect(() => {
-  //     setProperty(data);
-  // },[data]);
 
   useEffect(() => {
     const filteredProperty = allProperties.filter((p) => {
