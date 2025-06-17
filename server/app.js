@@ -39,4 +39,8 @@ app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
 
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
 export default app;
