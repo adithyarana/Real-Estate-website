@@ -8,25 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/app.js"
-    },
-    {
       "src": "/(.*)",
       "dest": "/app.js"
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/app.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "errorPages": {
-    "404": "/404.html",
-    "500": "/500.html"
-  }
+  ]
 }
