@@ -17,15 +17,16 @@ const port = 4000;
 
 
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const corsconfig={
-    origin:true,
-    methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-    credentials:true,
-}
-app.use(cors(corsconfig))
+const corsConfig = {
+    origin: process.env.CORS_ORIGIN || '*',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsConfig));
 
 app.use(cookieParser());
 
@@ -39,9 +40,12 @@ app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
 
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);  // for local host listen is nesscery j
-// });
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(process.env.PORT || 4000, () => {
+        console.log(`Server is running on port ${process.env.PORT || 4000}`);
+    });
+}
 
 
 export default app;
