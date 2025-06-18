@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 const corsconfig={
-    origin:"*",
+    origin:true,
     methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
     credentials:true,
 }
