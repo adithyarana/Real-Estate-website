@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded());
 
 const corsconfig={
     origin:"*",
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
     credentials:true,
 }
 app.options('*', cors(corsconfig))
