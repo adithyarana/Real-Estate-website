@@ -20,13 +20,20 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
-const corsconfig={
-    origin:"*",
-    methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-    credentials:true,
-}
-app.options('*', cors(corsconfig))
-app.use(cors(corsconfig))
+const corsconfig = {
+    origin: true,  // This allows all origins
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+    maxAge: 3600,
+    preflightContinue: false
+};
+
+// Handle preflight requests
+app.options('*', cors(corsconfig));
+// Handle all other requests
+app.use(cors(corsconfig));
 
 app.use(cookieParser());
 
@@ -39,6 +46,15 @@ app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        error: 'Internal server error',
+        message: err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+});
 
 // app.listen(port, () => {
 //     console.log(`Server is running on port ${port}`);  // for local host listen is nesscery
