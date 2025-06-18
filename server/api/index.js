@@ -1,7 +1,10 @@
-// api/index.js
+console.log("Function is starting...");
+
 import app from "../app.js";
 import serverless from "serverless-http";
 
+console.log("Serverless handler loading...");
+
 export const handler = serverless(app);
 
-// made changes yes 
+console.log("Handler exported.");
