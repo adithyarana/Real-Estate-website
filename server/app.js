@@ -40,7 +40,7 @@ app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
 
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);  // for local host listen is nesscery j
-// });
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);  // for local host listen is nesscery j
+});
 export default app;
