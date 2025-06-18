@@ -19,13 +19,15 @@ const port = 4000;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(
-	cors({
-		origin:"http://localhost:3000",
-		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-		credentials:true,
-	})
-)
+
+const corsconfig={
+    origin:"*",
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials:true,
+}
+app.options('*', cors(corsconfig))
+app.use(cors(corsconfig))
+
 app.use(cookieParser());
 
 
