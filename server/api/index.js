@@ -1,22 +1,16 @@
-import express from 'express';
-import serverless from 'serverless-http';
 import { PrismaClient } from '@prisma/client';
 
-const app = express();
 const prisma = new PrismaClient();
 
-app.get('/api/test', async (req, res) => {
-  console.log("✅ /api/test route hit");
-
+export default async function handler(req, res) {
   try {
-    const users = await prisma.user.findMany(); 
-    console.log("✅ Users fetched");
-
+    const users = await prisma.user.findMany();
+    
     res.status(200).json(users);
-  } catch (err) {
-    console.error("❌ Error:", err);
-    res.status(500).json({ error: "Server error" });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
+  } finally {
+    await prisma.$disconnect();
   }
-});
-
-export default serverless(app);
+}

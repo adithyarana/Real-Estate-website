@@ -17,7 +17,6 @@ const port = 4000;
 
 
 app.use(express.json());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsConfig = {
