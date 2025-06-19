@@ -3,59 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// export const register = async (req, res) => {
-//   try {
-//     const { username, email, password } = req.body;
-
-//     // Check if user already exists
-//     // const existingUser = await prisma.user.findFirst({
-//     //   where: {
-//     //     OR: [
-//     //       { email },
-//     //       { username }
-//     //     ]
-//     //   }
-//     // });
-
-//     // if (existingUser) {
-//     //   return res.status(400).json({
-//     //     message: "User with this email or username already exists"
-//     //   });
-//     // }
-
-//     // hash the password
-//     const hashpassword = await bcrypt.hash(password, 10);
-//     console.log(hashpassword);
-
-//     // create the user and save in database
-//     const newUser = await prisma.user.create({
-//       data: {
-//         username,
-//         email,
-//         password: hashpassword,
-
-//       },
-//     });
-
-//     // Send success response
-//     return res.status(201).json({
-//       message: "User created successfully",
-//       user: {
-//         id: newUser.id,
-//         username: newUser.username,
-//         email: newUser.email
-//       }
-//     });
-
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     return res.status(500).json({
-//       message: "Error creating user",
-//       error: error.message
-//     });
-//   }
-// };
-
 export const login = (req, res) => {
   // only login page for the user no register
 
