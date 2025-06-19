@@ -2,18 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/next"
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://kirty-realty.vercel.app/api/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/api/index.js"
     }
   ]
 }
