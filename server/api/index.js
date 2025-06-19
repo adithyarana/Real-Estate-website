@@ -1,11 +1,13 @@
-// console.log("Function is starting...");
+// api/index.js
+import express from 'express';
+import serverless from 'serverless-http';
 
-import app from "../app.js";
-import serverless from "serverless-http";
+const app = express();
 
-// console.log("Serverless handler loading...");
+// Sample route
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Route is working' });
+});
 
- const handler = serverless(app);
-
-export default handler;
-
+// Required by Vercel
+export default serverless(app);
