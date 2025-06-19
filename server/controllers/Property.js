@@ -32,8 +32,12 @@ export const AddProperty = async (req, res) => {
       propertySubType,
     } = req.body;
 
+    // Add some logging to debug
+    console.log("Prisma client:", prisma);
+    console.log("Prisma property model:", prisma.property);
+
     // Convert priorityLevel to number
-    const priorityLevel = parseInt(priorityLevelString) || 0;
+    const priorityLevel = parseInt(priorityLevelString) || "";
     // Validate that files were uploaded
     if (!req.files || !req.files.thumbnail || !req.files.thumbnail[0]) {
       return res.status(400).json({
