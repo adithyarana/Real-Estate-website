@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const AdminProtect = ({ children }) => {
-  const router = useRouter();                  // using hifher order function to pretect the admin dashboard page
+  const router = useRouter();                  // using hifher order function to pretect the admin dashboard page yes
   const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {
