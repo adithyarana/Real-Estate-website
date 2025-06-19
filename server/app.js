@@ -29,6 +29,9 @@ app.use(cors(corsConfig));
 
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+    res.send("Hello from Vercel!");
+  });
 
 // Middleware to handle requests
 app.use("/api/admin", adminroute);
