@@ -1,26 +1,24 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
-import adminroute from "./routes/Auth.js";
-import AddPropertyRouter from './routes/Property.js'
-import EnquiryRouter from './routes/Enquiry.js'
-import RatingAndReviewRouter from './routes/RatingAndReview.js'
-import ContactRouter from './routes/Contact.js'
-import consultationRouter from './routes/consultation.js'
+const adminroute = require("./routes/Auth.js");
+const AddPropertyRouter = require('./routes/Property.js');
+const EnquiryRouter = require('./routes/Enquiry.js');
+const RatingAndReviewRouter = require('./routes/RatingAndReview.js');
+const ContactRouter = require('./routes/Contact.js');
+const consultationRouter = require('./routes/consultation.js');
 
 const app = express();
 dotenv.config();
-const port = 4000;
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsConfig = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'https://kirty-realty.vercel.app',
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -28,7 +26,6 @@ const corsConfig = {
 app.use(cors(corsConfig));
 
 app.use(cookieParser());
-
 
 // Middleware to handle requests
 app.use("/api/admin", adminroute);
@@ -38,8 +35,6 @@ app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
-
-
 // Catch-all route for unexpected requests
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
@@ -47,9 +42,10 @@ app.use((req, res) => {
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
+    const port = 4000;
     app.listen(process.env.PORT || port, () => {
         console.log(`Server is running on port ${process.env.PORT || port}`);
     });
 }
 
-export default app;
+module.exports = app;
