@@ -38,6 +38,10 @@ app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
+// Catch-all route for unexpected requests
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
@@ -45,6 +49,5 @@ if (process.env.NODE_ENV !== 'production') {
         console.log(`Server is running on port ${process.env.PORT || 4000}`);
     });
 }
-
 
 export default app;
