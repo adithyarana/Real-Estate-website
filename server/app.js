@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 import adminroute from "./routes/Auth.js";
@@ -17,7 +16,6 @@ const port = 4000;
 
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const corsConfig = {
     origin: process.env.CLIENT_URL || 'http://localhost:3000',
