@@ -48,6 +48,6 @@ export const logout = (req, res) => {
     res.clearCookie("token");
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    res.status(500).json({ message: "server error logging out" });
+    res.status(500).json({ message: "server error logging out" });  // done
   }
 };
