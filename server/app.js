@@ -38,12 +38,7 @@ app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
 
-app.get("/", (req, res) => {
-    res.send("✅ API root is working");
-  });
-  
-  // Optional: favicon fix
-  app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 
 // Catch-all route for unexpected requests
 app.use((req, res) => {
