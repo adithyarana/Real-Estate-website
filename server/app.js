@@ -47,8 +47,8 @@ app.use((req, res) => {
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
-    app.listen(process.env.PORT || 4000, () => {
-        console.log(`Server is running on port ${process.env.PORT || 4000}`);
+    app.listen(process.env.PORT || port, () => {
+        console.log(`Server is running on port ${process.env.PORT || port}`);
     });
 }
 
