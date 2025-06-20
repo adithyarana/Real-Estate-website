@@ -19,7 +19,7 @@ const AdminLogin=()=> {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/admin/login", 
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login`, 
         { email, password },
         { withCredentials: true } 
       );

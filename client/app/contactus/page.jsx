@@ -24,7 +24,7 @@ const Contactus = () => {
     address: "",
   });
 
-  const baseurl= "http://localhost:4000/api/"
+  const baseurl= `${process.env.NEXT_PUBLIC_API_URL}/api/`
 
   const [consultation, setconsultation] = useState({
     phone: "",

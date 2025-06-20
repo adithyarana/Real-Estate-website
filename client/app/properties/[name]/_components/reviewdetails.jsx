@@ -15,7 +15,7 @@ const ReviewForm = () => {
 
   const { name : propertyId } = useParams();
 
-  const baseurl = "http://localhost:4000/api/";
+  const baseurl = `${process.env.NEXT_PUBLIC_API_URL}/api/`;
 
   const handleChange = (e) => {
     setReviewData({ ...reviewData, [e.target.name]: e.target.value });

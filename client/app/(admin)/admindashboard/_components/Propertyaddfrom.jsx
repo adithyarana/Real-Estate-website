@@ -33,7 +33,7 @@ const PropertyForm = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const baseurl = "http://localhost:4000/api/property";
+  const baseurl = `${process.env.NEXT_PUBLIC_API_URL}/api/property`;
   const router = useRouter();
 
 
