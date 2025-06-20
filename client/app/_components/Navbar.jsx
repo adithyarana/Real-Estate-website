@@ -26,15 +26,15 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center ">
             <Image
-              src="/logo.png"
-              width={200}
-              height={100}
+              src="/logo1.png"
+              width={150}
+              height={80}
               alt="Beautiful house"
             />
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden text-[15px] 2xl:text-xl font-medium md:flex  items-center space-x-8 ">
+          <div className="hidden text-[15px] 2xl:text-xl font-medium md:flex text-nowrap  items-center space-x-8 ">
             <Link
               href="/properties"
               className={`${

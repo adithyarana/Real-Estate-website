@@ -116,8 +116,8 @@ const Contactus = () => {
                   <MapPin className="mr-3 text-green-600 w-8 h-8" />
                   <span>
                     {" "}
-                    <span className="text-2xl">Greater Noida</span> <br />
-                    Sector MU 2, Greater Noida, UP 201310
+                    <span className="text-2xl">KIRTY REALTY</span> <br />
+                    Industrial ,Corporate,Property Lease,Sale, Msx Tower-1, Alpha-I Commercial Belt, Block E, Alpha I, Greater Noida, Uttar Pradesh 201308
                   </span>
                 </div>
                 <div className="flex items-center">

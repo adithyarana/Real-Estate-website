@@ -80,10 +80,10 @@ const Tredingproperty = () => {
             Trending Properties
           </h2>
           <p className=" font-body text-gray-700 text-lg mb-3 md:mb-4 font-bold">
-            Build your dream with The Tenancy Real Estate!
+            Build your dream with Kirty Realty!
           </p>
           <p className=" font-body text-gray-600 leading-relaxed text-lg text-justify  ">
-            Now, invest in our upcoming projects of The Tenency at an affordable
+            Now, invest in our upcoming projects of Kirty Realty at an affordable
             range. Our wide range of property types, from commercial and
             residential to industrial, will mesmerize you. You can avail of our
             promising properties with unique styles and designs that are highly

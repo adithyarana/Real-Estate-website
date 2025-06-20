@@ -9,7 +9,7 @@ const  Footer=()=> {
       <div className="grid md:grid-cols-4  gap-9">
         {/* Company Info */}
         <div>
-          <h3 className=" font-heading text-2xl font-bold mb-6">The Tenency</h3>
+          <h3 className=" font-heading text-2xl font-bold mb-6">KIRTY REALTY</h3>
           <p className=" font-body text-green-200 mb-4">
             Your trusted partner in finding the perfect home. We combine local expertise with personalized service.
           </p>
@@ -19,10 +19,10 @@ const  Footer=()=> {
         <div>
           <h4 className="text-xl font-semibold mb-6">Quick Links</h4>
           <ul className="space-y-3">
-            <li><a href="#" className="hover:text-green-200 transition">Home</a></li>
-            <li><a href="#why-choose-us" className="hover:text-green-200 transition">Why Choose Us</a></li>
-            <li><a href="#" className="hover:text-green-200 transition">Properties</a></li>
-            <li><a href="#" className="hover:text-green-200 transition">Contact</a></li>
+            <li><a href="/" className="hover:text-green-200 transition">Home</a></li>
+            <li><a href="/aboutus" className="hover:text-green-200 transition">Why Choose Us</a></li>
+            <li><a href="/properties?type=All" className="hover:text-green-200 transition">Properties</a></li>
+            <li><a href="/contactus" className="hover:text-green-200 transition">Contact</a></li>
           </ul>
         </div>
 
@@ -32,15 +32,15 @@ const  Footer=()=> {
           <ul className="space-y-3">
             <li className="flex items-center">
               <Phone className="mr-3 text-green-400" size={20} />
-              <span>(555) 123-4567</span>
+              <span>+916301837384</span>
             </li>
             <li className="flex items-center">
               <FaMailBulk className="mr-3 text-green-400" size={20} />
-              <span>info@adithyaproperties.com</span>
+              <span>contact@example.com</span>
             </li>
             <li className="flex items-center">
-              <LocateIcon className="mr-3 text-green-400" size={20} />
-              <span>123 Real Estate St, City, State 12345</span>
+              <LocateIcon className="mr-3 text-green-400 mb-28" size={100} />
+              <span>KIRTY REALTY - Industrial Corporate,Property Lease,Sale, Msx Tower-1, Alpha-I Commercial Belt, Block E, Alpha I, Greater Noida, Uttar Pradesh 201308</span>
             </li>
           </ul>
         </div>
@@ -60,7 +60,7 @@ const  Footer=()=> {
       {/* Copyright */}
       <div className="border-t border-green-700 mt-12 pt-6 text-center">
         <p className="text-green-200">
-          © 2025 The Tenency. All Rights Reserved.
+          © 2025 KIRTY REALTY. All Rights Reserved.
         </p>
       </div>
 

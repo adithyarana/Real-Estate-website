@@ -39,8 +39,8 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeIn" }}
             viewport={{ once: true }}>
-              Welcome to The{" "}
-              <span className="text-green-400"> Tenancy properties</span>
+              Welcome to {" "}
+              <span className="text-green-400">Kirty Realty</span>
             </motion.h1>
 
             <motion.p 
@@ -59,7 +59,7 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
           {/* Property Filter */}
           {/* <PropertyFilter/> */}
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 ">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 mr-10 ">
       <Btn2 
             content={"Buy A Property"}
             clickHandler={(()=>{
@@ -94,7 +94,7 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
             transition={{ duration: 0.9, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            Why Choose The Tenancy
+            Why Choose Kirty Realty
           </motion.h2>
 
           {/* Grid Container */}

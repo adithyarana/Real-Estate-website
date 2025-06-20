@@ -36,7 +36,7 @@ const  Herosection=()=> {
         <h2 className=" font-heading text-3xl font-bold text-green-800 mb-6">Our Story</h2>
         <div className=" font-body p-8 rounded-lg shadow-lg">
           <p className="text-gray-700 leading-relaxed">
-            The Tenancy Real Estate was founded in 2010 with a vision to transform the real estate experience. 
+            Kirty Realty was founded in 2010 with a vision to transform the real estate experience. 
             What began as a small team of passionate professionals has grown into one of the region's most 
             trusted real estate agencies. We combine deep local knowledge with personalized service to help 
             our clients find their perfect property match.

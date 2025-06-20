@@ -1,4 +1,5 @@
 
+
 import Footer from "./_components/Footer";
 import Navbar from "./_components/Navbar";
 import "./globals.css";
@@ -21,10 +22,11 @@ const inter = Inter({
 }); 
 
 export const metadata = {
-  title: "kirty Realty",
-  description: "the realestate website",
+  title: "KIRTY REALTY",
+  description: "Your Property. Our Priority.",
   icons: {
-    icon: "/favicon.ico", 
+    icon: "/favi.png",
+    
   },
 };
 

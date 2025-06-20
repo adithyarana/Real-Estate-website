@@ -7,38 +7,43 @@ export default function RealEstateFAQ() {
   
   const faqs = [
     {
-      question: "What documents do I need to sell my property?",
-      answer: "To sell your property through Tenancy Real Estate, you’ll need proof of ownership (title deed), property tax receipts, identity proof, sale agreement (if applicable), and an occupancy certificate. We’ll guide you through any additional paperwork based on your property type and location."
+      question: "What documents are required to sell my property through Kirty Realty?",
+      answer: "To sell your property with us, you'll need your title deed, ID proof, property tax receipts, and an occupancy certificate. If there's an agreement or loan involved, we’ll guide you through those too — our experts make the paperwork hassle-free."
     },
     {
-      question: "How does Tenancy Real Estate help in selling my property?",
-      answer: "We provide end-to-end support — from listing your property with high-quality photos and descriptions to promoting it to potential buyers, arranging visits, negotiating offers, and assisting with paperwork until the final sale is complete."
+      question: "How does Kirty Realty support the property selling process?",
+      answer: "We handle everything — from creating an attractive listing with professional photos to promoting it across platforms, arranging site visits, negotiating with buyers, and managing legal formalities till the deal is closed. You focus on moving forward; we handle the rest."
     },
     {
-      question: "Do I need to hire a real estate agent to sell my home?",
-      answer: "It's not mandatory, but partnering with a professional from Tenancy Real Estate can speed up the sale and help you get the best deal. Our agents manage inquiries, showings, legal formalities, and negotiations on your behalf."
+      question: "Do I need an agent to sell, rent, or lease my property?",
+      answer: "You don’t *need* one — but with Kirty Realty, having an expert by your side speeds up the process, attracts serious buyers or tenants, and helps you get the best deal. We manage calls, visits, pricing, and paperwork so you don’t have to."
     },
     {
-      question: "How is my property’s value determined?",
-      answer: "We evaluate your property based on location, size, amenities, recent market trends, and comparable sales. Our experts at Tenancy Real Estate offer a free property valuation to help you price it competitively."
+      question: "How is my property’s value calculated?",
+      answer: "Our team considers your property’s location, size, condition, market trends, and recent sales in the area. We offer a free and transparent property valuation so you can price smartly and attract genuine interest."
     },
     {
-      question: "How long does it take to sell a property?",
-      answer: "The time to sell depends on your location, pricing, demand, and market conditions. On average, it may take anywhere from a few weeks to a few months. With the right pricing and marketing strategy, we aim to close deals quickly."
+      question: "How long does it take to sell, rent, or lease a property?",
+      answer: "The timeline depends on pricing, property condition, and market demand. Some deals close in weeks, others take a few months. With Kirty Realty’s marketing strategies and local network, we aim to speed up the process."
     },
     {
-      question: "What are the costs involved in selling a property?",
-      answer: "Costs may include agent commission (usually 1–2% of the sale price), legal/documentation charges, capital gains tax (if applicable), and government transfer fees. Tenancy Real Estate provides a breakdown of all estimated costs before you list."
+      question: "What are the costs involved when selling a property?",
+      answer: "Typical costs include agent commission (1–2%), legal fees, documentation charges, and government transfer fees. We provide a detailed cost breakdown before you list — no surprises, just clarity."
     },
     {
-      question: "Is there any tax I need to pay when selling property?",
-      answer: "Yes, you may be liable to pay capital gains tax on any profit made from the sale. The rate depends on how long you've held the property. Our advisors can help you understand the tax implications and any exemptions you may qualify for."
+      question: "Do I need to pay tax when I sell my property?",
+      answer: "Yes, capital gains tax may apply depending on how long you've owned the property. Our team will help you understand the tax rules, potential exemptions, and plan accordingly."
     },
     {
-      question: "Can I sell my property if it is still under loan?",
-      answer: "Yes, you can sell a property under a mortgage. The loan must be settled at the time of sale, either by the buyer or using the sale proceeds. Tenancy Real Estate can coordinate with your bank and assist with a smooth transaction."
+      question: "Can I sell a property that still has a loan on it?",
+      answer: "Absolutely. Many properties are sold while under a loan. The loan can be cleared during the sale process — either by the buyer or using the proceeds. Kirty Realty coordinates with your bank to ensure a smooth handover."
+    },
+    {
+      question: "Does Kirty Realty help with renting and leasing too?",
+      answer: "Yes! We help property owners find verified tenants and lessees. From listing and tenant screening to rental agreements and handovers — we handle it all, so your property earns without stress."
     }
   ];
+  
   
   const filteredFaqs = faqs.filter(faq => 
     faq.question.toLowerCase().includes(searchTerm.toLowerCase()) || 
