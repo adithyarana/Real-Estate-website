@@ -57,6 +57,51 @@ export default function RootLayout({ children }) {
           pauseOnHover
           theme="light"
         />
+
+        {/* ✅ Chatling AI Script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.chtlConfig = { chatbotId: "1938515834" };`,
+          }}
+        />
+        <script
+          async
+          data-id="1938515834"
+          id="chtl-script"
+          type="text/javascript"
+          src="https://chatling.ai/js/embed.js"
+
+        />
+
+<script
+  dangerouslySetInnerHTML={{
+    __html: `
+      const waitForChatWidget = setInterval(() => {
+        const chatWidget = document.querySelector('div[id^="chtl-"]');
+        if (chatWidget) {
+          chatWidget.style.animation = "floaty 3s ease-in-out infinite";
+          chatWidget.style.borderRadius = "50%";
+          chatWidget.style.boxShadow = "0 8px 20px rgba(0, 128, 0, 0.4)";
+          
+          const style = document.createElement('style');
+          style.innerHTML = \`
+            @keyframes floaty {
+              0% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+              100% { transform: translateY(0px); }
+            }
+          \`;
+          document.head.appendChild(style);
+          
+          clearInterval(waitForChatWidget);
+        }
+      }, 500);
+    `,
+  }}
+/>
+
+
+
       </body>
     </html>
   );
