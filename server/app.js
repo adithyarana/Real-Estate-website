@@ -31,6 +31,9 @@ app.get("/", (req, res) => {
     res.send("Hello from Vercel!");
   });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
+
 // Middleware to handle requests
 app.use("/api/admin", adminroute);
 app.use("/api/property", AddPropertyRouter);
