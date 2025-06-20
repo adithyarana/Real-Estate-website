@@ -18,7 +18,7 @@ const port =process.env.PORT || 4000;
 app.use(express.json());
 
 const corsConfig = {
-    origin:[ process.env.CLIENT_URL || 'http://localhost:3000', 'https://kirty-realty-frontend-realestate.vercel.app'],
+    origin:[ process.env.CLIENT_URL || 'http://localhost:3000', 'https://www.kirtyrealty.in'],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
