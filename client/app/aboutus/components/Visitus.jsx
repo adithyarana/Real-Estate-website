@@ -14,7 +14,7 @@ function Visitus() {
           <div className='bg-white  shadow-lg rounded-2xl p-6 border border-gray-200'>
             <div className='space-y-6'>
               <div className='flex items-center gap-4'>
-                <MapPin className='text-green-600 w-8 h-8' />
+                <MapPin className='text-green-600 ' size={100} />
                 <span className='text-lg text-gray-700'>
                   <strong className='text-xl text-green-800 font-body'>KIRTY REALTY</strong> <br />
                 Industrial ,Corporate,Property Lease,Sale, Msx Tower-1, Alpha-I Commercial Belt, Block E, Alpha I, Greater Noida, Uttar Pradesh 201308

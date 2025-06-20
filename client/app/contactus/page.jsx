@@ -113,7 +113,7 @@ const Contactus = () => {
             <div className=" shadow-lg border border-green-400 rounded-2xl p-6 ">
               <div className="space-y-4">
                 <div className="flex items-center ">
-                  <MapPin className="mr-3 text-green-600 w-8 h-8" />
+                  <MapPin className="mr-3 text-green-600 " size={50} />
                   <span>
                     {" "}
                     <span className="text-2xl">KIRTY REALTY</span> <br />
