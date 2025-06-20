@@ -37,7 +37,7 @@ export const AddProperty = async (req, res) => {
     console.log("Prisma property model:", prisma.property);
 
     // Convert priorityLevel to number
-    const priorityLevel = parseInt(priorityLevelString) || "";
+    const priorityLevel = parseInt(priorityLevelString) || 0;
     // Validate that files were uploaded
     if (!req.files || !req.files.thumbnail || !req.files.thumbnail[0]) {
       return res.status(400).json({
