@@ -12,7 +12,7 @@ const mailSender = async(email, title , body) => {
         })
 
         let info = await transporter.sendMail({
-            from: "The Tenancy | A properties solution",
+            from: "Kirty Realty |Your Property. Our Priority.",
             to: `${email}`,
             subject: `${title}`,
             html: `${body}`
