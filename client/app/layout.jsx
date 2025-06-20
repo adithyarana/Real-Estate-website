@@ -21,8 +21,11 @@ const inter = Inter({
 }); 
 
 export const metadata = {
-  title: "The Tenancy",
+  title: "kirty Realty",
   description: "the realestate website",
+  icons: {
+    icon: "/favicon.ico", 
+  },
 };
 
 
