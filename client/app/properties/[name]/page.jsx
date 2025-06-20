@@ -125,7 +125,7 @@ const amenitiesMap = {
   default: <Feather className="w-6 h-6" />,
 };
 const informationKey = ["area", "address" ,"type", "region", "bathrooms", "bedrooms"];
-const baseurl = "http://localhost:4000/api/property/";
+const baseurl = `${process.env.NEXT_PUBLIC_API_URL}/api/property/`;
 
 function page() {
   const [property, setProperty] = useState(null);
@@ -155,9 +155,9 @@ function page() {
     fetchdata();
   }, [properyId]);
 
-  if (loading) return <p className="text-center text-2xl text-black font-semibold">Loading...</p>;
-  if (error) return <p className="text-center text-2xl text-black font-semibold">{error}</p>;
-  if (!property) return <p className="text-center text-2xl text-black font-semibold">No property found.</p>;
+  if (loading) return <p className="text-center text-2xl text-green-800 font-body">Loading...</p>;
+  if (error) return <p className="text-center text-2xl text-red-800 font-body">{error}</p>;
+  if (!property) return <p className="text-center text-2xl text-red-800 font-body">No property found.</p>;
 
   const ownerDetails = {
     name: process.env.NEXT_PUBLIC_OWNER_NAME || "Surendra Singh Rana",

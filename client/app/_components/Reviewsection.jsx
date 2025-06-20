@@ -45,7 +45,7 @@ import axios from 'axios';
 // ];
 
 
-const baseurl = "http://localhost:4000/api/review";
+const baseurl = `${process.env.NEXT_PUBLIC_API_URL}/api/review`;
 
 
 
