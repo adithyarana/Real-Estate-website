@@ -28,7 +28,7 @@ app.use(cors(corsConfig));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-    res.send("Hello from Vercel!");
+    res.send("Hello from server!");
   });
 
 app.get('/favicon.ico', (req, res) => res.status(204));
@@ -49,11 +49,10 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
 
-// For local development
-if (process.env.NODE_ENV !== 'production') {
+
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
     });
-}
+
 
 export default app;
