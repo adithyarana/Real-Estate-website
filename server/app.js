@@ -12,7 +12,7 @@ import consultationRouter from './routes/consultation.js'
 
 const app = express();
 dotenv.config();
-
+const port =process.env.PORT || 4000;
 
 
 app.use(express.json());
@@ -46,13 +46,13 @@ app.use("/api/consultation", consultationRouter );
 
 // Catch-all route for unexpected requests
 app.use((req, res) => {
-    res.status(404).json({ error: 'Route not found' });
+    res.status(404).json({ message: 'Route not found' });
 });
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
-    app.listen(process.env.PORT || 4000, () => {
-        console.log(`Server is running on port ${process.env.PORT || 4000}`);
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
     });
 }
 
