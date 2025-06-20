@@ -23,11 +23,11 @@ const inter = Inter({
 
 export const metadata = {
   title: "KIRTY REALTY",
-  description: "Your Property. Our Priority.",  // done
-  icons: {
-    icon: "/favi.png",
-    
-  },
+  description: "Your Property. Our Priority.",  
+  icons: [
+    { url: "/favi.png", sizes: "32x32", type: "image/png" },
+  
+  ]
 };
 
 
