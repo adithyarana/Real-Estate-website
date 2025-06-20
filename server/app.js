@@ -44,7 +44,7 @@ app.use("/api/consultation", consultationRouter );
 
 
 
-// Catch-all route for unexpected requests
+// Catch-all route for unexpected requests  done
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
