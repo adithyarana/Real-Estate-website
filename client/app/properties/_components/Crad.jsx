@@ -111,19 +111,14 @@ const PropertyCard = () => {
 
   useEffect(() => {
     setLoading(true);
-    const start= Date.now();
   
     const fun = async () => {
         try {
-        const data = await getAllProperties();
-        const elapsed = Date.now() - start;
-        const delay = Math.max(300 - elapsed, 0); 
+        const data = await getAllProperties();        
         
-        setTimeout(() => {
           setAllProperties(data);
           setProperty(data);
           setLoading(false);
-        }, delay);
     
     } catch (error) {
       console.log("Error Fetching the cards", error);
