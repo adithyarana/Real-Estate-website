@@ -32,9 +32,9 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
         <div className="absolute inset-0 bg-black opacity-45"></div>
 
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 pt-52">
-          <div className="pb-5">
+          <div className="pb-5 ">
           <motion.h1
-           className="font-heading text-3xl  xl:text-5xl 2xl:text-7xl font-extrabold text-white mb-4"
+           className="font-heading text-3xl  xl:text-5xl 2xl:text-7xl  font-extrabold text-white mb-4"
            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeIn" }}
@@ -59,7 +59,7 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
           {/* Property Filter */}
           {/* <PropertyFilter/> */}
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 mr-10 ">
+      <div className="flex flex-row  xl:gap-6 mb-44 xl:mb-24 mr-10 ">
       <Btn2 
             content={"Buy A Property"}
             clickHandler={(()=>{

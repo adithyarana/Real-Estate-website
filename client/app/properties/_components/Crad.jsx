@@ -10,85 +10,80 @@ import Enquirennow from "./Enquirennow";
 import {  useRouter, useSearchParams } from "next/navigation";
 import { getAllProperties } from "@/Services/operations/Property";
 import PropertyCardSkeleton from "../_components/Skelton";
+import Pagination from "../_components/Pagination";
 
 
 export const Card = ({ property, setSelectedProperty }) => {
   const router = useRouter();
 
-  return (
-    <div
-      key={property.id}
-      className="group relative overflow-hidden rounded-xl cursor-pointer bg-white  shadow-lg transition-all duration-300 hover:shadow-xl"
-      // onClick={() => router.push(process.env.NEXT_PUBLIC_BASE_URL + "/properties/" + property.title.toLowerCase().split(' ').join('-') + '-' + property.id.toString())}
-    >
-      <div
-        className="relative h-40 overflow-hidden"
-        onClick={() => {
-          const name = property.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-") 
-            .replace(/^-+|-+$/g, ""); 
+  const handleCardClick = () => {
+    const name = property.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
 
-          router.push(`/properties/${name}-${property.id}`);
-        }}
+    router.push(`/properties/${name}-${property.id}`);
+  };
+
+  return (
+    <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white shadow-md transition hover:shadow-xl">
+      {/* Thumbnail */}
+      <div
+        className="relative h-44 w-full overflow-hidden cursor-pointer"
+        onClick={handleCardClick}
       >
         <img
-          src={property.thumbnail}
+          src={property.thumbnail || "/placeholder.jpg"}
           alt={property.title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50" />
-        <div className="px-4 py-1 rounded-xl bg-gray-300 text-sm font-semibold absolute top-2 left-3">
+        <span className="absolute top-2 left-2 rounded-md bg-white/90 opacity-100 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm">
           {property.type}
-        </div>
+        </span>
       </div>
 
+      {/* Property Info */}
       <div
-        className="p-3"
-        onClick={() => {
-          const name = property.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-") 
-            .replace(/^-+|-+$/g, ""); 
-
-          router.push(`/properties/${name}-${property.id}`);
-        }}
+        className="flex flex-col gap-2 p-4 cursor-pointer flex-grow"
+        onClick={handleCardClick}
       >
-        <h3 className="mb-1 text-xl font-semibold text-gray-800">
+        <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
           {property.title}
         </h3>
-        <p className="text-xs font-semibold leading-2 opacity-80 mb-3 z-10">
-          {property?.propertyType}
-          {"  "}
-          {property?.propertySubtype}
+        <p className="text-xs text-gray-500 font-medium">
+          {property?.propertyType} - {property?.propertySubtype}
         </p>
-        <div className="space-y-2">
-          <div className="flex items-center gap-3 text-gray-600">
-            <h4 className="font-medium text-sm">Property ID : </h4>
-            <span className="text-sm">{property.pCode}</span>
+
+        <div className="space-y-1 text-sm text-gray-600">
+          <div className="flex items-center gap-2">
+            <span className="font-medium">Property ID:</span>
+            <span>{property.pCode}</span>
           </div>
 
-          <div className="flex items-center text-gray-600">
-            <MapPin className="mr-2 h-4 w-4" />
-            <span className="text-sm">{property.region}</span>
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-gray-500" />
+            <span>{property.region}</span>
           </div>
-          <div className="flex items-center text-gray-600">
-            <Square className="mr-2 h-4 w-4" />
-            <span className="text-sm">{property.area}</span>
+
+          <div className="flex items-center gap-2">
+            <Square className="h-4 w-4 text-gray-500" />
+            <span>{property.area}</span>
           </div>
         </div>
       </div>
 
-<button
-        onClick={() => setSelectedProperty(property)}
-        className="mt-4 flex w-full items-center cursor-pointer justify-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-700"
-      >
-        <span>Enquire Now</span>
-        <ArrowUpRightFromSquare className="h-4 w-4" />
-      </button>
-</div>
-     
- 
+      {/* Enquiry Button - Fixed at bottom */}
+      <div className="mt-auto px-4 py-3">
+        <button
+          onClick={() => setSelectedProperty(property)}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
+        >
+          <span>Enquire Now</span>
+          <ArrowUpRightFromSquare className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -103,11 +98,23 @@ const PropertyCard = () => {
   const [allProperties, setAllProperties] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardperpage = 6;
+  const totalcard = property.length;
+  const totalpage = Math.ceil(totalcard / cardperpage);
+
+  const start=(currentPage-1)*cardperpage;
+  const end=start+cardperpage;
+  const currentproperty=property.slice(start,end);
+
+
   useEffect(() => {
     setLoading(true);
     const start= Date.now();
-    try {
-      const fun = async () => {
+  
+    const fun = async () => {
+        try {
         const data = await getAllProperties();
         const elapsed = Date.now() - start;
         const delay = Math.max(300 - elapsed, 0); 
@@ -117,12 +124,13 @@ const PropertyCard = () => {
           setProperty(data);
           setLoading(false);
         }, delay);
-      };
-      fun();
+    
     } catch (error) {
       console.log("Error Fetching the cards", error);
       setLoading(false);
     }
+  };
+    fun();
   }, []);
 
 
@@ -171,7 +179,7 @@ const PropertyCard = () => {
               Property not listed
             </div>
           ) : (
-            property.map((property) => (
+            currentproperty.map((property) => (
               <Card
                 property={property}
                 key={property.id}
@@ -181,6 +189,8 @@ const PropertyCard = () => {
           )
         }
       </div>
+
+     
 
       {/* Enquiry Modal */}
       {selectedProperty && (
@@ -203,7 +213,13 @@ const PropertyCard = () => {
           </div>
         </div>
       )}
+
+<div className="mt-12">
+  <Pagination currentPage={currentPage} totalpage={totalpage} onpageChange={(page)=>setCurrentPage(page)}/>
+</div>
+      
     </div>
+    
   );
 };
 
