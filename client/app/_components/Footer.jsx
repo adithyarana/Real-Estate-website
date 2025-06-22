@@ -49,10 +49,10 @@ const  Footer=()=> {
           {/* Social Media */}
           <h4 className="text-xl font-semibold mb-6">Follow Us</h4>
           <ul className="flex space-x-4">
-            <li><a href="#" className="text-blue-500 hover:opacity-65 transition text-4xl"><FaFacebook/></a></li>
-            <li><a href="#" className="text-pink-500 hover:opacity-65 transition text-4xl"><FaInstagram/></a></li>
+            <li><a href="https://www.facebook.com/share/16X2M3tW1D/" className="text-blue-500 hover:opacity-65 transition text-4xl"><FaFacebook/></a></li>
+            <li><a href="https://www.instagram.com/kirtyrealty?igsh=Mnd1b2c5dWw4M3k0" className="text-pink-500 hover:opacity-65 transition text-4xl"><FaInstagram/></a></li>
             <li><a href="#" className="text-blue-400 hover:opacity-65 transition text-4xl"><FaTwitter/></a></li>
-            <li><a href="#" className="text-blue-500 hover:opacity-65 transition text-4xl"><FaLinkedin/></a></li>
+            <li><a href="https://www.linkedin.com/in/surender-singh-rana-04835b34?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" className="text-blue-500 hover:opacity-65 transition text-4xl"><FaLinkedin/></a></li>
           </ul>
         </div>
       </div>
