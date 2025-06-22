@@ -122,11 +122,11 @@ const Contactus = () => {
                 </div>
                 <div className="flex items-center">
                   <Phone className="mr-3 text-green-600 w-6 h-6" />
-                  <span className="ml-2">+916301837384</span>
+                  <span className="ml-2">+91 8076913424</span>
                 </div>
                 <div className="flex items-center">
                   <Mail className="mr-3 text-green-600 w-6 h-6" />
-                  <span className="ml-2">contact@example.com</span>
+                  <span className="ml-2">kirtyrealty@gmail.com</span>
                 </div>
               </div>
             </div>
