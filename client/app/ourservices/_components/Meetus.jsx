@@ -22,11 +22,11 @@ function Meetus() {
               </div>
               <div className='flex items-center gap-4'>
                 <Phone className='text-green-600 w-6 h-6' />
-                <span className='text-lg text-gray-700'>+91 6301837384</span>
+                <span className='text-lg text-gray-700'>+91 8076913424</span>
               </div>
               <div className='flex items-center gap-4'>
                 <Mail className='text-green-600 w-6 h-6' />
-                <span className='text-lg text-gray-700'>contact@example.com</span>
+                <span className='text-lg text-gray-700'>kirtyrealty@gmail.com</span>
               </div>
             </div>
           </div>

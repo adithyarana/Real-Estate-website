@@ -16,7 +16,7 @@ const Navbar = () => {
 
   // WhatsApp redirect function
   const redirectToWhatsApp = () => {
-    window.open("https://wa.me/919718592809", "_blank");
+    window.open("https://wa.me/918076913424", "_blank");
   };
 
   return (
