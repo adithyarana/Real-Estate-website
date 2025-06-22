@@ -32,15 +32,15 @@ const  Footer=()=> {
           <ul className="space-y-3">
             <li className="flex items-center">
               <Phone className="mr-3 text-green-400" size={20} />
-              <span>+916301837384</span>
+              <span>+91 8076913424</span>
             </li>
             <li className="flex items-center">
               <FaMailBulk className="mr-3 text-green-400" size={20} />
-              <span>contact@example.com</span>
+              <span>kirtyrealty@gmail.com</span>
             </li>
-            <li className="flex items-center">
-              <LocateIcon className="mr-3 text-green-400 mb-28" size={100} />
-              <span>KIRTY REALTY - Industrial Corporate,Property Lease,Sale, Msx Tower-1, Alpha-I Commercial Belt, Block E, Alpha I, Greater Noida, Uttar Pradesh 201308</span>
+            <li className="flex items-center ">
+              <LocateIcon className="mr-3 text-green-400 mb-28 xl:mb-16 " size={100} />
+              <span className='mb-11 '>KIRTY REALTY - Industrial Corporate,Property Lease,Sale, Msx Tower-1, Alpha-I Commercial Belt, Block E, Alpha I, Greater Noida, Uttar Pradesh 201308</span>
             </li>
           </ul>
         </div>

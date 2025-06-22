@@ -289,10 +289,22 @@ export const DeleteProperty = async (req, res) => {
       },
     });
 
-    deleteImageFromCloudinary(property?.thumbnail);
-    property.images.forEach((img) => {
-      deleteImageFromCloudinary(img);
-    });
+    if(!property){
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+
+   if(property?.thumbnail){
+    await deleteImageFromCloudinary(property.thumbnail);
+
+   }
+
+   const imageDeletionPromises = property.images.map((img) =>
+    deleteImageFromCloudinary(img)
+  );
+  await Promise.all(imageDeletionPromises);
 
     await prisma.property.delete({
       where: {
@@ -312,34 +324,3 @@ export const DeleteProperty = async (req, res) => {
     });
   }
 };
-
-// const GetPropertyByid = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const property = prisma.property.findFirst({
-//       where: {
-//         id: id,
-//       },
-//     });
-
-//     if (!property) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Property not found",
-//       });
-//     }
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "Property retrieved successfully",
-//       data: property,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching property:", error);
-//     return res.status(500).json({
-//       success: false,
-//       message: "Something went wrong!",
-//     });
-//   }
-// };
