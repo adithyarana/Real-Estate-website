@@ -139,9 +139,10 @@ const Contactus = () => {
                 </div>
                 <div className="flex items-center ">
                   <Clock className="mr-3 text-green-600 w-6 h-6" />
-                  <span>Monday - sunday : 9 AM - 8 PM</span>
+                  <span>Monday - Saturday : 9 AM - 6 PM</span>
                 </div>
-               
+                
+              </div>
             </div>
           </div>
 
