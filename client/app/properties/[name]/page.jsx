@@ -200,17 +200,18 @@ function page() {
             {/* Amenities */}
             <div className="flex mt-16 flex-col">
               <h3 className="text-3xl mb-6">Amenities</h3>
-              <div className="flex-1 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+              <div className="flex-1 gap-7 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
                 {property?.amenities?.map((item, index) => (
-                  <div className="w-full font-body text-start py-3 text-lg" key={index}>
-                    {item}
+                  <div className="w-full text-start py-3 text-lg" key={index}>
+                     <span className="text-green-600 text-xl">✅</span>
+                     <span className="ml-2">{item}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="w-full flex flex-col flex-1 lg:flex-1/4 gap-8">
+          <div className="w-full h-full flex flex-col flex-1 lg:flex-1/4 gap-8">
             {/* Information */}
             <div className="bg-white shadow-lg border border-green-300 w-full h-full rounded-xl px-6 xl:px-8 py-10">
 
