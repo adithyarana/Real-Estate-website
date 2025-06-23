@@ -8,54 +8,44 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getAllProperties } from "@/Services/operations/Property";
-// Dummy data for properties
-const propertyData = [
-  {
-    image: "/land.jpg",
-    type: "2 BHK Apartment",
-    location: "Mumbai, India",
-    area: "1200 sq. ft.",
-  },
-  {
-    image: "https://via.placeholder.com/400x250",
-    type: "3 BHK Villa",
-    location: "Delhi, India",
-    area: "2500 sq. ft.",
-  },
-  {
-    image: "https://via.placeholder.com/400x250",
-    type: "1 BHK Studio",
-    location: "Bangalore, India",
-    area: "800 sq. ft.",
-  },
-  {
-    image: "https://via.placeholder.com/400x250",
-    type: "4 BHK Duplex",
-    location: "Chennai, India",
-    area: "3000 sq. ft.",
-  },
-];
 
-// Slider settings
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-};
+
+
+
+
 const Tredingproperty = () => {
   const router = useRouter();
 
   const [properties, setProperties] = useState([]);
+
+  // Slider settings
+const settings = {
+  dots: properties.length > 1,
+  arrows: properties.length > 1,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: properties.length > 1,
+  autoplaySpeed: 3000,
+};
 
   useEffect(() => {
     const fetchdata = async () => {
       try {
         const response = await getAllProperties();
         const filterproperty = response.slice(0, 4);
+
+        while (filterproperty.length < 4) {
+          filterproperty.push({
+            id: `dummy-${filterproperty.length}`,
+            title: "Coming Soon",
+            thumbnail: "/dummy.png", 
+            region: "New Location",
+            area: "--- sq. ft.",
+            isDummy: true,
+          });
+        }
         setProperties(filterproperty);
         console.log("property", filterproperty);
       } catch (error) {
@@ -110,6 +100,7 @@ const Tredingproperty = () => {
                 key={index}
                 className="p-2"
                 onClick={() => {
+                if (!property.isDummy) {
                   const name = property.title
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, "-")
@@ -117,6 +108,7 @@ const Tredingproperty = () => {
 
                   router.push(`/properties/${name}-${property.id}`);
                 }}
+              }
               >
                 <div className="shadow-lg rounded-lg overflow-hidden cursor-pointer">
                   <img
