@@ -7,7 +7,7 @@ function Btn2({content , clickHandler}) {
 
   return (
       <motion.button
-              className={`w-35 h-15 xl:w-47 xl:h-20  bg-green-500 ml-12 xl:-ml-1  text-white font-bold font-heading text-[1.1rem] text-nowrap  p-5 rounded hover:bg-green-700 transition-colors duration-300 cursor-pointer`}
+              className={`w-35 h-15 xl:w-47 xl:h-20  bg-green-700 ml-12 xl:-ml-1  text-white font-bold font-heading text-[1.1rem] text-nowrap  p-5 rounded hover:bg-green-700 transition-colors duration-300 cursor-pointer`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 20 }}

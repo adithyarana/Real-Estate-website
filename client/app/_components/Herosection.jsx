@@ -34,7 +34,7 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-4 pt-52">
           <div className="pb-5 ">
           <motion.h1
-           className="font-heading text-3xl  xl:text-5xl 2xl:text-7xl  font-extrabold text-white mb-4"
+           className="font-heading text-3xl md:text-5xl  xl:text-5xl 2xl:text-7xl  font-extrabold text-white mb-4"
            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeIn" }}
