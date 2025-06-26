@@ -24,7 +24,7 @@ A modern, client-ready **full-stack real estate website** built for KIRTY REALTY
 |--------------|--------------|------------|--------------------------|
 | React.js     | Node.js      | MongoDB    | Chatbot Integration      |
 | Next.js      | Express.js   | Prisma ORM | Toastify, Axios, and more|
-| Tailwind CSS | REST APIs    | Mongoose   | React Hook Form, JWT     |
+| Tailwind CSS | REST APIs    |            | React Hook Form, JWT     |
 
 ---
 
