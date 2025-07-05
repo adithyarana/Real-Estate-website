@@ -20,7 +20,7 @@ const Home = () => {
         <div className="text-center space-y-6">
           <div className="space-y-2">
             <h1 className=" font-heading font-bold text-4xl text-green-800 tracking-tight">
-              Welcome to The Tenancy Admin Panel
+              Welcome to The Kirty Realty Admin Panel
             </h1>
             <div className="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
           </div>
