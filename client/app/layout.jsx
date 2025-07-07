@@ -26,7 +26,7 @@ export const metadata = {
   title: "KIRTY REALTY",
   description: "Your Property. Our Priority.",  
   icons: {
-    icon:"/favicon.ico"
+    icon:"/favicon.png"
   }
   
 };
