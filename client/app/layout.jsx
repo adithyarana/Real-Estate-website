@@ -1,5 +1,6 @@
 
 
+import { Icon, icons } from "lucide-react";
 import Footer from "./_components/Footer";
 import Navbar from "./_components/Navbar";
 import "./globals.css";
@@ -24,10 +25,10 @@ const inter = Inter({
 export const metadata = {
   title: "KIRTY REALTY",
   description: "Your Property. Our Priority.",  
-  icons: [
-    { url: "/favicon.ico", sizes: "32x32", type: "image/png" },
+  icons: {
+    icon:"/favicon.ico"
+  }
   
-  ]
 };
 
 
