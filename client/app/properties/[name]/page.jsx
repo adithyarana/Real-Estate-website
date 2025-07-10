@@ -171,11 +171,11 @@ function page() {
     <div className="w-full h-full  bg-gradient-to-b from-white to-green-100 relative">
       <div className=" py-8 w-11/12 2xl:w-10/12 mx-auto pb-18 ">
         {/* Title & location */}
-        <div className="">
-          <h1 className="text-4xl font-medium  font-sans">{property?.title}</h1>
+        <div className="flex gap-3 flex-col">
+          <h1 className="text-4xl font-medium font-heading text-green-800 font-sans">{property?.title}</h1>
           <div className="flex items-center gap-1">
             <MapPin size={16} />
-            <p className="text-sm text-gray-600">{property?.address}</p>
+            <p className="text-sm text-gray-600 font-body">{property?.address}</p>
           </div>
         </div>
 
@@ -185,21 +185,21 @@ function page() {
             <div className=" flex w-full h-fit rounded-xl items-stretch  ">
               <img
                 src={property?.thumbnail}
-                className=" object-cover w-full rounded-xl md:h-[570px]"
+                className=" object-cover w-full  rounded-xl md:h-[450px]"
               />
             </div>
 
             {/* Overview */}
             <div className="flex-1 lg:flex-3/4 w-full mt-16">
-              <h3 className="text-3xl mb-8">Overview</h3>
-              <p className="text-gray-600 text-lg text-justify lg:text-start">
+              <h3 className="text-3xl mb-8 font-heading text-green-800">Description</h3>
+              <p className="text-gray-600 text-lg text-justify lg:text-start font-body">
                 {property?.description}
               </p>
             </div>
 
             {/* Amenities */}
             <div className="flex mt-16 flex-col">
-              <h3 className="text-3xl mb-6">Amenities</h3>
+              <h3 className="text-3xl mb-6 font-heading text-green-800">Amenities</h3>
               <div className="flex-1 gap-7 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
                 {property?.amenities?.map((item, index) => (
                   <div className="w-full text-start py-3 text-lg" key={index}>
@@ -216,21 +216,21 @@ function page() {
             <div className="bg-white shadow-lg border border-green-300 w-full h-full rounded-xl px-6 xl:px-8 py-10">
 
               <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
-                <h4 className="text-lg font-medium text-gray-700">Property ID</h4>
-                <div className="text-lg font-semibold font-mono">
+                <h4 className="text-lg font-medium text-green-800">Property ID</h4>
+                <div className="text-lg font-semibold font-heading text-green-800">
                   {property?.pCode ? `${property.pCode}` : ""}
                 </div>
               </div>
 
               <div className="flex items-center justify-between py-4 border-b border-t border-gray-400">
-                <h4 className="text-lg font-medium text-gray-700">Price</h4>
-                <div className="text-lg font-semibold font-mono">
+                <h4 className="text-lg font-medium text-green-800">Price</h4>
+                <div className="text-lg font-semibold font-heading text-green-800">
                   {property?.price ? `${property.price}` : "Enquiry for price"}
                 </div>
               </div>
 
-              <h3 className="mt-8 mb-3 font-semibold text-xl xl:text-2xl font-sans">
-                Information
+              <h3 className="mt-8 mb-3 font-semibold text-xl xl:text-2xl font-heading text-green-800">
+                INFORMATION
               </h3>
               {informationKey?.map(
                 (key, index) =>
@@ -239,12 +239,12 @@ function page() {
                       className="flex items-center justify-between py-4 border-b border-gray-400"
                       key={index}
                     >
-                      <h4 className=" capitalize font-semibold text-gray-800">
+                      <h4 className=" capitalize font-semibold text-green-800">
                         {key}
                       </h4>
                       <p>
                         {property[key].toString().length > 15
-                          ? `${property[key].toString().substring(0, 15)}...`
+                          ? `${property[key].toString().substring(0, 20)}...`
                           : property[key].toString()}
                       </p>
                     </div>
@@ -256,10 +256,10 @@ function page() {
                     className="flex items-center justify-between py-4 border-b border-gray-400"
                     key={index}
                   >
-                    <h4 className="capitalize font-semibold text-gray-800">
+                    <h4 className="capitalize font-semibold text-green-800">
                       {data.key}
                     </h4>
-                    <p>{data.value?.substring(0, 15)}</p>
+                    <p>{data.value?.substring(0, 20)}</p>
                   </div>
                 ))}
             </div>
@@ -300,7 +300,7 @@ function page() {
             </div> */}
 
             <div className="bg-white shadow-lg border border-green-300 rounded-xl px-2 py-4">
-              <div className="text-2xl font-medium pl-4">Enquire Now!</div>
+              <div className="text-2xl font-medium pl-4 text-green-800 font-heading">Enquire Now!</div>
               <Enquirennow propertyId={property?.id} />
             </div>
           </div>
@@ -311,8 +311,8 @@ function page() {
 
         {/* Property gallary */}
         <div className="w-full mt-16">
-          <h5 className="mb-2 uppercase font-medium">Media</h5>
-          <h3 className="text-4xl mb-6">Property Gallary</h3>
+          <h5 className="mb-2 uppercase font-medium text-green-800 font-heading">Media</h5>
+          <h3 className="text-4xl mb-6 text-green-800 font-heading">Property Gallary</h3>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-16">
             {property?.images?.map((image, index) => (
               <img
