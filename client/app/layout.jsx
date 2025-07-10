@@ -32,9 +32,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
 
-     <head>
-        {/* ✅ Favicon with cache-busting (must rename in public folder) */}
-        <link rel="icon" href="/favicon-v2.png?v=2" type="image/png" />
+      <head>
+        <link rel="icon" href="/favicon-kirty.png" type="image/png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
         className={`${inter.variable} ${playfair.variable} bg-white text-gray-900 min-h-screen flex flex-col`}
@@ -60,7 +61,6 @@ export default function RootLayout({ children }) {
           theme="light"
         />
 
-        {/* ✅ Chatling AI Script */}
         <script
           dangerouslySetInnerHTML={{
             __html: `window.chtlConfig = { chatbotId: "1938515834" };`,
