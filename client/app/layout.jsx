@@ -24,17 +24,18 @@ const inter = Inter({
 
 export const metadata = {
   title: "KIRTY REALTY",
-  description: "Your Property. Our Priority.",  
-  icons: {
-    icon:"/favicon.png"
-  }
-  
+  description: "Your Property. Our Priority.",    
 };
 
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+
+     <head>
+        {/* ✅ Favicon with cache-busting (must rename in public folder) */}
+        <link rel="icon" href="/favicon-v2.png?v=2" type="image/png" />
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} bg-white text-gray-900 min-h-screen flex flex-col`}
       >
