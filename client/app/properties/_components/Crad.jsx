@@ -171,7 +171,7 @@ const PropertyCard = () => {
           :
           property.length === 0 ? (
             <div className="col-span-full mt-20 text-center text-md xl:text-2xl md:text-xl 2xl:text-3xl font-body text-green-700 font-semibold">
-              Property not listed
+             🏡 Property not listed
             </div>
           ) : (
             currentproperty.map((property) => (
