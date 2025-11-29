@@ -100,7 +100,7 @@ const PropertyCard = () => {
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const cardperpage = 6;
+  const cardperpage = 8;
   const totalcard = property.length;
   const totalpage = Math.ceil(totalcard / cardperpage);
 
