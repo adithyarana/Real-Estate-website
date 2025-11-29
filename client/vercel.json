@@ -1,15 +1,10 @@
 {
-  "version": 2,
-  "builds": [
+  "headers": [
     {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://kirty-realty.vercel.app/api/$1"
+      "source": "/favicon.ico",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
     }
   ]
 }
