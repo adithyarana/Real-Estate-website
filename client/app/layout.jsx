@@ -21,8 +21,14 @@ const inter = Inter({
 
 export const metadata = {
   title: "KIRTY REALTY",
-  description: "Your Property. Our Priority.",    
+  description: "Your Property. Our Priority.",
+  icons: {
+    icon: "/favicon.ico",           // default favicon
+    shortcut: "/favicon.ico",       // shortcut icon
+    apple: "/apple-touch-icon.png", // optional apple icon
+  },
 };
+
 
 
 export default function RootLayout({ children }) {
@@ -30,7 +36,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
 
       <head>
-        <link rel="icon" type="image/png" href="favicon.ico?v=2" />
+       <link rel="icon" type="image/png" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
       </head>

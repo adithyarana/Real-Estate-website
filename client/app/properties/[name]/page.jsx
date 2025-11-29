@@ -26,95 +26,6 @@ import { getPropertyByCode } from "@/Services/operations/Property";
 import ReviewCard from "@/app/_components/Reviewsection";
 import ReviewForm from "./_components/reviewdetails";
 
-// details page
-
-// const property = {
-//   id: 1,
-//   pCode: "123456",
-//   title: "Modern Luxury Villa",
-//   description:
-//     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet exercitationem aperiam cumque molestiae voluptas sapiente. Accusamus, delectus maiores minus rerum at fugiat culpa doloribus excepturi eveniet eius necessitatibus beatae iste alias numquam aspernatur recusandae doloremque incidunt laborum sed accusantium fuga. Delectus illum adipisci esse magni molestiae, odio reiciendis labore provident?",
-//   price: 2500000,
-//   location: {
-//     lat: 323,
-//     long: 123,
-//   },
-//   address: "Beta-1, Greater Noida, U.P.",
-//   bedrooms: 4,
-//   bathrooms: 3,
-//   area: "5,200 sq ft",
-//   region: "Noida",
-//   status: "Available",
-//   thumbnail:
-//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//   images: [
-//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//     "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//   ],
-//   amenities: [
-//     "Outdoor Kitchen",
-//     "Electricity",
-//     "Garage",
-//     "Camera",
-//     "Swimming pool",
-//   ],
-//   tags: ["noida-property", "trending"],
-//   additionalData: [
-//     {
-//       key: "built",
-//       value: "Built in 2020",
-//     },
-//   ],
-//   propertyType: "Industrial",
-//   propertySubtype: "Factory",
-// };
-
-// const simillarProperty = [
-//   {
-//     id: 1,
-//     title: "Modern Luxury Villa",
-//     propertyType: "Industrial",
-//     propertySubtype: "Factory",
-//     pCode: "123456",
-//     price: 2500000,
-//     location: "Noida",
-//     area: "5,200 sq ft",
-//     type: "Buy",
-//     image:
-//       "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   {
-//     id: 2,
-//     title: "Oceanfront Residence",
-//     propertyType: "Residential",
-//     propertySubtype: "House",
-//     pCode: "241123",
-//     price: 3200000,
-//     location: "Delhi",
-//     area: "4,800 sq ft",
-//     type: "Buy",
-//     image:
-//       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   {
-//     id: 3,
-//     title: "Contemporary Downtown Penthouse",
-//     price: 1850000,
-//     location: "Gurgaon",
-//     propertyType: "Industrial",
-//     propertySubtype: "Warehouse",
-//     pCode: "121321",
-//     area: "3,600 sq ft",
-//     type: "Pre-Lease",
-//     image:
-//       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=500&h=400",
-//   },
-//   // Add more as needed
-// ];
-
-// const baseurl = "http://localhost:4000/api/";
-
 const amenitiesMap = {
   garage: <ParkingSquare className="w-6 h-6" />,
   water: <Droplet className="w-6 h-6" />,
@@ -155,7 +66,12 @@ function page() {
     fetchdata();
   }, [properyId]);
 
-  if (loading) return <p className="text-center text-2xl text-green-800 font-body">Loading...</p>;
+if (loading) return (
+  <div className="flex items-center justify-center py-10">
+    <div className="w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
   if (error) return <p className="text-center text-2xl text-red-800 font-body">{error}</p>;
   if (!property) return <p className="text-center text-2xl text-red-800 font-body">No property found.</p>;
 
@@ -189,18 +105,41 @@ function page() {
               />
             </div>
 
-            {/* Overview */}
-            <div className="flex-1 lg:flex-3/4 w-full mt-16">
-              <h3 className="text-3xl mb-8 font-heading text-green-800">Description</h3>
-              <p className="text-gray-600 text-lg text-justify lg:text-start font-body">
-                {property?.description}
-              </p>
-            </div>
+    {/* Overview */}
+<div className="flex-1 lg:flex-3/4 w-full mt-16">
+  <h3 className="text-3xl mb-8 font-heading text-green-800">✨ Property Description</h3>
+
+  <div className="text-gray-700 text-lg leading-relaxed space-y-4 font-body">
+
+    {/* Title Line */}
+    <p className="font-semibold text-xl">🏡 Overview</p>
+
+    {/* Main Description */}
+    <p className="whitespace-pre-line">
+      {property?.description}
+    </p>
+
+    {/* Highlights Section */}
+    <p className="font-semibold text-xl">🌟 Key Highlights</p>
+    <ul className="list-disc pl-6 space-y-2">
+      <li>💫 Prime location with easy accessibility</li>
+      <li>🏠 Modern design & vastu-approved layout</li>
+      <li>🌳 Peaceful surroundings with open views</li>
+      <li>🛡️ Secure locality with all facilities</li>
+    </ul>
+
+    {/* Extra Note */}
+    <p className="mt-4 italic text-gray-500">
+      📌 *For more details, feel free to contact us anytime!*
+    </p>
+  </div>
+</div>
+
 
             {/* Amenities */}
-            <div className="flex mt-16 flex-col">
+            <div className="flex mt-20 flex-col">
               <h3 className="text-3xl mb-6 font-heading text-green-800">Amenities</h3>
-              <div className="flex-1 gap-7 lg:flex-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+              <div className="grid gap-16 grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                 {property?.amenities?.map((item, index) => (
                   <div className="w-full text-start py-3 text-lg" key={index}>
                      <span className="text-green-600 text-xl">✅</span>
@@ -326,7 +265,7 @@ function page() {
           </div>
         </div>
 
-        {/* Simillar property */}
+         {/* Simillar property */}
         {/* <div className="w-full mt-16">
           <SimillarProperty data={SimillarProperty} />
         </div> */}
