@@ -8,7 +8,12 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "realestate_properties",
-    allowed_formats:["jpg", "png", "jpeg", "webp", "gif", "bmp", "tiff"],
+    allowed_formats: ["jpg", "png", "jpeg", "webp", "gif", "bmp", "tiff", "mp4",
+      "mov",
+      "avi",
+      "mkv",
+      "webm",
+      "flv"],
   },
 });
 // console.log("hello")
