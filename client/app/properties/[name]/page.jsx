@@ -25,6 +25,12 @@ import { useParams } from "next/navigation";
 import { getPropertyByCode } from "@/Services/operations/Property";
 import ReviewCard from "@/app/_components/Reviewsection";
 import ReviewForm from "./_components/reviewdetails";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 
 const amenitiesMap = {
   garage: <ParkingSquare className="w-6 h-6" />,
@@ -137,17 +143,56 @@ if (loading) return (
 
 
             {/* Amenities */}
-            <div className="flex mt-20 flex-col">
-              <h3 className="text-3xl mb-6 font-heading text-green-800">Amenities</h3>
-              <div className="grid gap-16 grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
-                {property?.amenities?.map((item, index) => (
-                  <div className="w-full text-start py-3 text-lg" key={index}>
-                     <span className="text-green-600 text-xl">✅</span>
-                     <span className="ml-2">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+         <div className="flex mt-20 flex-col">
+  <h3 className="text-3xl mb-10 font-heading text-green-800">
+    Amenities
+  </h3>
+
+  <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-3">
+    {property?.amenities?.map((item, index) => (
+      <div
+        key={index}
+        className="
+          group 
+          flex items-center gap-4 
+          p-5 
+          bg-white/70 
+          rounded-xl 
+          shadow-md 
+          border border-green-100 
+          transition-all duration-300 
+          hover:shadow-xl 
+          hover:-translate-y-1 
+          hover:bg-green-50
+        "
+      >
+        <div className="
+          flex items-center justify-center 
+          w-12 h-12 
+          rounded-full 
+          bg-green-100 
+          text-green-700 
+          text-2xl 
+          font-bold 
+          transition-all duration-300 
+          group-hover:bg-green-600 
+          group-hover:text-white
+        ">
+          ✓
+        </div>
+
+        <p className="
+          text-lg font-medium text-gray-700 
+          group-hover:text-green-800 
+          transition-all duration-300
+        ">
+          {item}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
+
           </div>
 
           <div className="w-full h-full flex flex-col flex-1 lg:flex-1/4 gap-8">
@@ -249,21 +294,43 @@ if (loading) return (
         <div className="flex flex-col lg:flex-row gap-16 mt-16"></div>
 
         {/* Property gallary */}
-        <div className="w-full mt-16">
-          <h5 className="mb-2 uppercase font-medium text-green-800 font-heading">Media</h5>
-          <h3 className="text-4xl mb-6 text-green-800 font-heading">Property Gallary</h3>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-16">
-            {property?.images?.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt="gallary-images"
-                loading="lazy"
-                className="rounded-xl object-cover w-full h-[30rem]"
-              />
-            ))}
-          </div>
-        </div>
+       
+<div className="w-full mt-16">
+  <h5 className="mb-2 uppercase font-medium text-green-800 font-heading">
+    Media
+  </h5>
+
+  <h3 className="text-4xl mb-6 text-green-800 font-heading">
+    Property Gallery
+  </h3>
+
+  <div className="w-full">
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay]}
+      spaceBetween={30}
+      slidesPerView={1}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      loop={true}
+      className="rounded-xl"
+    >
+      {property?.images?.map((image, index) => (
+        <SwiperSlide key={index}>
+          <img
+            src={image}
+            alt="property-image"
+            className="rounded-xl w-full h-[30rem] object-cover shadow-lg"
+            loading="lazy"
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </div>
+</div>
 
          {/* Simillar property */}
         {/* <div className="w-full mt-16">

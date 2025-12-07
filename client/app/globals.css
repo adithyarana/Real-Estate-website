@@ -78,3 +78,15 @@ html, body {
 .upload-label {
   @apply w-full h-full flex items-center justify-center;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #166534 !important; /* Tailwind green-800 */
+  font-weight: bold;
+  transition: 0.2s ease-in-out;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #15803d !important; /* green-700 */
+}
