@@ -25,15 +25,19 @@ const ProjectEnquiry = ({ project, compact = false }) => {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/enquiry`, {
-        name: formData.name,
-        email: formData.email,
-        number: formData.number,
-        message: formData.message,
-        configuration: formData.configuration || undefined,
-        projectId: project.id,
-        source: "PROJECT_MICROSITE",
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/enquiry`,
+        {
+          name: formData.name,
+          email: formData.email,
+          number: formData.number,
+          message: formData.message,
+          configuration: formData.configuration || undefined,
+          projectId: project.id,
+          source: "PROJECT_MICROSITE",
+        },
+        { timeout: 20000 }
+      );
       if (!response?.data?.success) {
         throw new Error(response?.data?.message || "Enquiry failed");
       }

@@ -44,7 +44,7 @@ export const CreateEnquiry = async(req,res) => {
             }
         });
 
-        await mailSender(
+        mailSender(
             email,
             "Thank you for contacting Kirty Realty!",
             `
@@ -60,7 +60,7 @@ export const CreateEnquiry = async(req,res) => {
           );
           
 
-        await mailSender(
+        mailSender(
             process.env.ADMIN_EMAIL,
             "We got an new enquiry!",
            ` <div>
