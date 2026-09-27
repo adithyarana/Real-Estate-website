@@ -15,14 +15,24 @@ import {
 
 const router = Router();
 
-const uploadFields = upload.fields([
-  { name: "heroImage", maxCount: 1 },
-  { name: "ogImage", maxCount: 1 },
-  { name: "brochure", maxCount: 1 },
-  { name: "galleryImages", maxCount: 20 },
-  { name: "amenityImages", maxCount: 12 },
-  { name: "floorPlanImages", maxCount: 12 },
-]);
+const uploadFields = (req, res, next) => {
+  upload.fields([
+    { name: "heroImage", maxCount: 1 },
+    { name: "ogImage", maxCount: 1 },
+    { name: "brochure", maxCount: 1 },
+    { name: "galleryImages", maxCount: 20 },
+    { name: "amenityImages", maxCount: 12 },
+    { name: "floorPlanImages", maxCount: 12 },
+  ])(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message || "File upload failed",
+      });
+    }
+    next();
+  });
+};
 
 router.get("/published", GetPublishedProjects);
 router.get("/slug/:slug", GetProjectBySlug);

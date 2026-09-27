@@ -74,12 +74,15 @@ export const saveProject = async (formData, id) => {
     method,
     url,
     data: formData,
-    headers: {
-      ...adminHeaders(),
-      "Content-Type": "multipart/form-data",
-    },
+    headers: adminHeaders(),
     withCredentials: true,
+    timeout: 120000,
   });
+  if (!response?.data?.success) {
+    const error = new Error(response?.data?.message || "Unable to save project");
+    error.response = response;
+    throw error;
+  }
   return response.data;
 };
 

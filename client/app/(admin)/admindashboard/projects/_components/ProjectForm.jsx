@@ -178,8 +178,7 @@ const ProjectForm = ({ initialProject = null }) => {
             }))
         )
       );
-      if (heroImage) payload.append("heroImage", heroImage);
-      else if (heroPreview) payload.append("heroImage", heroPreview);
+      if (heroImage instanceof File) payload.append("heroImage", heroImage);
       if (ogImage) payload.append("ogImage", ogImage);
       if (brochure) payload.append("brochure", brochure);
       galleryNew.forEach((item) => {
@@ -199,7 +198,10 @@ const ProjectForm = ({ initialProject = null }) => {
       router.push("/admindashboard/projects");
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || "Unable to save project");
+      const apiMessage = error.response?.data?.message;
+      const timeoutMessage =
+        error.code === "ECONNABORTED" ? "Save timed out. Please try again." : null;
+      toast.error(apiMessage || timeoutMessage || error.message || "Unable to save project");
     } finally {
       setLoading(false);
     }
