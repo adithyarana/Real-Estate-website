@@ -1,5 +1,5 @@
 import Footer from "./_components/Footer";
-import Navbar from "./_components/Navbar";
+import SiteNavbar from "./_components/SiteNavbar";
 import "./globals.css";
 import { Playfair_Display, Inter } from "next/font/google";
 import { ToastContainer } from 'react-toastify';
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${playfair.variable} bg-white text-gray-900 min-h-screen flex flex-col`}
       >
-        <Navbar />
+        <SiteNavbar />
         
         <main className="flex-grow">
           {children}

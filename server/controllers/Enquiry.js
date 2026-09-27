@@ -7,7 +7,7 @@ dotenv.config();
 export const CreateEnquiry = async(req,res) => {
     try {
         
-        const { name, email, message, number, propertyId } = req.body; 
+        const { name, email, message, number, propertyId, projectId, configuration, source } = req.body; 
 
         if (!name || !email || !number || !message) {
             return res.status(400).json({
@@ -16,6 +16,17 @@ export const CreateEnquiry = async(req,res) => {
             });
         }
 
+        let projectName = null;
+        if (projectId) {
+            const project = await prisma.project.findUnique({
+                where: { id: projectId },
+                select: { name: true },
+            });
+            projectName = project?.name || null;
+        }
+
+        const enquirySource = source || (projectId ? "PROJECT_MICROSITE" : "PROPERTY");
+
         const enquiry = await prisma.enquiry.create({
             data: {
                 name,
@@ -23,7 +34,10 @@ export const CreateEnquiry = async(req,res) => {
                 number,
                 message,
                 status: "PENDING",
-                propertyId: propertyId || null
+                propertyId: propertyId || null,
+                projectId: projectId || null,
+                configuration: configuration || null,
+                source: enquirySource,
             }
         });
 
@@ -50,7 +64,10 @@ export const CreateEnquiry = async(req,res) => {
                 <p>Name :${name}</p>
                 <p>Email : ${email}</p>
                 <p>Number : ${number}</p>
-                <p>Property ID : ${propertyId}</p>
+                <p>Property ID : ${propertyId || "-"}</p>
+                <p>Project : ${projectName || "-"}</p>
+                <p>Source : ${enquirySource}</p>
+                <p>Configuration : ${configuration || "-"}</p>
             </div>`
         );
 
@@ -72,7 +89,13 @@ export const CreateEnquiry = async(req,res) => {
 export const GetAllEnquiries = async(req,res) => {
     try {
         
-        const enquiries = await prisma.enquiry.findMany({});
+        const enquiries = await prisma.enquiry.findMany({
+            include: {
+                Property: { select: { title: true, pCode: true } },
+                Project: { select: { name: true, slug: true } },
+            },
+            orderBy: { createdAt: "desc" },
+        });
         return res.status(200).json({
             success: true,
             message: "Enquiry fetched!",

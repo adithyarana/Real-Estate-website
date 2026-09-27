@@ -38,12 +38,23 @@ const Navbar = () => {
             <Link
               href="/properties"
               className={`${
-                pathname === "/properties"
+                pathname === "/properties" || pathname?.startsWith("/properties/")
                   ? "text-green-600 font-semibold"
                   : "text-gray-700 hover:text-emerald-600"
               } transition duration-150 ease-in-out`}
             >
               Search Properties
+            </Link>
+
+            <Link
+              href="/projects"
+              className={`${
+                pathname === "/projects" || pathname?.startsWith("/projects/")
+                  ? "text-green-600 font-semibold"
+                  : "text-gray-700 hover:text-emerald-600"
+              } transition duration-150 ease-in-out`}
+            >
+              Projects
             </Link>
 
             <Link
@@ -114,12 +125,23 @@ const Navbar = () => {
           <Link
             href="/properties"
             className={`block py-2 ${
-              pathname === "/properties"
+              pathname === "/properties" || pathname?.startsWith("/properties/")
                 ? "text-green-600 font-semibold"
                 : "text-gray-700 hover:text-emerald-600"
             }`}
           >
             Search Properties
+          </Link>
+
+          <Link
+            href="/projects"
+            className={`block py-2 ${
+              pathname === "/projects" || pathname?.startsWith("/projects/")
+                ? "text-green-600 font-semibold"
+                : "text-gray-700 hover:text-emerald-600"
+            }`}
+          >
+            Projects
           </Link>
 
           

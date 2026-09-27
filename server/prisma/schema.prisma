@@ -16,6 +16,52 @@ model Admin {
   createdAt DateTime @default(now())
 }
 
+model Project {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  slug              String        @unique
+  location          String
+  developer         String?
+  shortDescription  String?
+  description       String?
+  startingPrice     String?
+  priceRange        String?
+  configurations    String?
+  projectType       String?
+  possession        String?
+  constructionStatus String?
+  highlights        Json?
+  amenities         Json?
+  heroImage         String?
+  gallery           Json?
+  amenityImages     Json?
+  floorPlans        Json?
+  brochureUrl       String?
+  videoUrl          String?
+  address           String?
+  latitude          String?
+  longitude         String?
+  mapsUrl           String?
+  nearby            Json?
+  reraNumber        String?
+  legalInfo         String?
+  seoTitle          String?
+  seoDescription    String?
+  ogImage           String?
+  status            ProjectPublishStatus @default(DRAFT)
+  featured          Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @default(now())
+  properties        Property[]
+  enquiries         Enquiry[]
+}
+
+enum ProjectPublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model Property { 
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   pCode           String          @unique    //6 digit code for property
@@ -45,6 +91,8 @@ model Property {
   ratingAndReview RatingAndReview[]
   enquiries       Enquiry[]
   isActive        Boolean        @default(true)
+  projectId       String?         @db.ObjectId
+  Project         Project?        @relation(fields: [projectId], references: [id])
 }
 
 model Consultation {
@@ -69,6 +117,9 @@ model RatingAndReview {
 model Enquiry {
   id     String    @id @default(auto()) @map("_id") @db.ObjectId
   propertyId String?  @db.ObjectId
+  projectId String?  @db.ObjectId
+  source  String?
+  configuration String?
   name    String
   email   String 
   number  String     
@@ -76,6 +127,7 @@ model Enquiry {
   status    EnquiryStatus
   createdAt  DateTime  @default(now())
   Property Property?    @relation(fields: [propertyId],references: [id])
+  Project  Project?     @relation(fields: [projectId], references: [id])
 }
 
 model GeneralEnquiry {

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import PropertyFilter from "./PropertyFilter.jsx";
 import RealEstateFAQ from "./Faqsection.jsx";
 import ReviewCardCarousel from "./Reviewsection.jsx";
+import FeaturedProjects from "./FeaturedProjects.jsx";
 
 
 
@@ -152,6 +153,8 @@ import ReviewCardCarousel from "./Reviewsection.jsx";
           </div>
         </div>
       </section>
+
+      <FeaturedProjects />
 
       {/* trending properties section */}
          <Tredingproperty/>

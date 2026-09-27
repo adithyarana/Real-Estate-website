@@ -9,6 +9,7 @@ import EnquiryRouter from './routes/Enquiry.js'
 import RatingAndReviewRouter from './routes/RatingAndReview.js'
 import ContactRouter from './routes/Contact.js'
 import consultationRouter from './routes/consultation.js'
+import ProjectRouter from './routes/Project.js'
 
 const app = express();
 dotenv.config();
@@ -41,6 +42,7 @@ app.use("/api/enquiry", EnquiryRouter);
 app.use("/api/review", RatingAndReviewRouter);
 app.use("/api/contact", ContactRouter);
 app.use("/api/consultation", consultationRouter );
+app.use("/api/project", ProjectRouter);
 
 
 
