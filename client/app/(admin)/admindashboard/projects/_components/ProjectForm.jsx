@@ -5,8 +5,17 @@ import { Plus, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { saveProject } from "@/Services/operations/Project";
+import {
+  compressImageFile,
+  fileExt,
+  formatBytes,
+  imageTypeError,
+  toVideoEmbedUrl,
+} from "./mediaHelpers";
 
 const emptyFloorPlan = { configuration: "", area: "", price: "", image: "" };
+const MAX_BROCHURE_BYTES = 40 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 
 const slugify = (value = "") =>
   value
@@ -15,7 +24,6 @@ const slugify = (value = "") =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const IMAGE_EXTS = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "tiff"];
 const FILE_FIELD_ALIASES = {
   heroImage: "heroImage",
   ogImage: "ogImage",
@@ -23,16 +31,6 @@ const FILE_FIELD_ALIASES = {
   galleryImages: "gallery",
   amenityImages: "amenityImages",
   floorPlanImages: "floorPlans",
-};
-
-const fileExt = (file) => (file?.name || "").split(".").pop()?.toLowerCase() || "";
-
-const imageTypeError = (file, label) => {
-  if (!file) return "";
-  if (!IMAGE_EXTS.includes(fileExt(file))) {
-    return `${label} must be a JPG, PNG, WEBP, GIF, BMP, or TIFF file`;
-  }
-  return "";
 };
 
 const readApiError = (error) => {
@@ -69,6 +67,7 @@ const mapMessageToField = (message = "") => {
   if (text.includes("amenity")) return "amenityImages";
   if (text.includes("floor plan")) return "floorPlans";
   if (text.includes("og image") || text.includes("ogimage")) return "ogImage";
+  if (text.includes("file size") || text.includes("too large")) return "brochure";
   return "";
 };
 
@@ -217,6 +216,19 @@ const ProjectForm = ({ initialProject = null }) => {
     if (brochure && fileExt(brochure) !== "pdf") {
       nextErrors.brochure = "Brochure must be a PDF file";
     }
+    if (brochure && brochure.size > MAX_BROCHURE_BYTES) {
+      nextErrors.brochure = `Brochure is ${formatBytes(brochure.size)}. Please use a PDF under 40 MB.`;
+    }
+    const oversizedImage = [
+      [heroImage, "Hero image", "heroImage"],
+      [ogImage, "OG image", "ogImage"],
+      ...galleryNew.map((item) => [item.file, "Gallery image", "gallery"]),
+      ...amenityNew.map((file) => [file, "Amenity image", "amenityImages"]),
+      ...floorPlans.map((plan) => [plan.file, "Floor plan image", "floorPlans"]),
+    ].find(([file]) => file && file.size > MAX_IMAGE_BYTES);
+    if (oversizedImage) {
+      nextErrors[oversizedImage[2]] = `${oversizedImage[1]} is ${formatBytes(oversizedImage[0].size)}. Please use an image under 25 MB.`;
+    }
     const invalidGallery = galleryNew.find((item) => imageTypeError(item.file, "Gallery image"));
     if (invalidGallery) {
       nextErrors.gallery = imageTypeError(invalidGallery.file, "Gallery image");
@@ -245,6 +257,17 @@ const ProjectForm = ({ initialProject = null }) => {
     try {
       setLoading(true);
       const status = nextStatus || form.status;
+      const [heroFile, ogFile, galleryFiles, amenityFiles] = await Promise.all([
+        heroImage instanceof File ? compressImageFile(heroImage) : Promise.resolve(null),
+        ogImage ? compressImageFile(ogImage) : Promise.resolve(null),
+        Promise.all(galleryNew.map(async (item) => ({ ...item, file: await compressImageFile(item.file) }))),
+        Promise.all(amenityNew.map((file) => compressImageFile(file))),
+      ]);
+      const compressedFloorPlans = await Promise.all(
+        floorPlans.map(async (plan) =>
+          plan.file ? { ...plan, file: await compressImageFile(plan.file) } : plan
+        )
+      );
       const payload = new FormData();
       Object.entries({
         ...form,
@@ -266,6 +289,7 @@ const ProjectForm = ({ initialProject = null }) => {
         }
         payload.append(key, value ?? "");
       });
+      payload.set("videoUrl", toVideoEmbedUrl(form.videoUrl));
       payload.append("highlights", JSON.stringify(splitList(form.highlights)));
       payload.append("amenities", JSON.stringify(splitList(form.amenities)));
       payload.append(
@@ -283,7 +307,7 @@ const ProjectForm = ({ initialProject = null }) => {
       payload.append(
         "floorPlans",
         JSON.stringify(
-          floorPlans
+          compressedFloorPlans
             .filter((plan) => plan.configuration || plan.area || plan.price || plan.image || plan.file)
             .map(({ file, ...rest }) => ({
               ...rest,
@@ -291,18 +315,18 @@ const ProjectForm = ({ initialProject = null }) => {
             }))
         )
       );
-      if (heroImage instanceof File) payload.append("heroImage", heroImage);
-      if (ogImage) payload.append("ogImage", ogImage);
+      if (heroFile instanceof File) payload.append("heroImage", heroFile);
+      if (ogFile) payload.append("ogImage", ogFile);
       if (brochure) payload.append("brochure", brochure);
-      galleryNew.forEach((item) => {
+      galleryFiles.forEach((item) => {
         payload.append("galleryImages", item.file);
       });
       payload.append(
         "newGalleryCategories",
-        JSON.stringify(galleryNew.map((item) => item.category))
+        JSON.stringify(galleryFiles.map((item) => item.category))
       );
-      amenityNew.forEach((file) => payload.append("amenityImages", file));
-      floorPlans.forEach((plan) => {
+      amenityFiles.forEach((file) => payload.append("amenityImages", file));
+      compressedFloorPlans.forEach((plan) => {
         if (plan.file) payload.append("floorPlanImages", plan.file);
       });
 
@@ -412,18 +436,41 @@ const ProjectForm = ({ initialProject = null }) => {
           }}
         />
         <FieldError name="ogImage" />
-        <label className="block text-sm font-medium text-gray-700">Video URL (not auto-loaded)</label>
-        <input className="input-field" placeholder="https://..." value={form.videoUrl} onChange={(e) => updateField("videoUrl", e.target.value)} />
+        <label className="block text-sm font-medium text-gray-700">Project video link</label>
+        <p className="text-xs text-gray-500 mb-1">Paste a YouTube or Vimeo URL. Do not upload a video file.</p>
+        <input
+          className="input-field"
+          placeholder="https://www.youtube.com/watch?v=..."
+          value={form.videoUrl}
+          onChange={(e) => updateField("videoUrl", e.target.value)}
+          onBlur={() => updateField("videoUrl", toVideoEmbedUrl(form.videoUrl) || form.videoUrl)}
+        />
         <label className="block text-sm font-medium text-gray-700">Brochure PDF</label>
+        <p className="text-xs text-gray-500">PDF up to 40 MB. Images are compressed automatically before upload.</p>
         {form.brochureUrl && (
           <a href={form.brochureUrl} target="_blank" rel="noreferrer" className="text-green-700 underline text-sm">Current brochure</a>
+        )}
+        {brochure && (
+          <p className="text-sm text-gray-600">Selected: {brochure.name} ({formatBytes(brochure.size)})</p>
         )}
         <input
           type="file"
           accept="application/pdf"
           className={errors.brochure ? "border border-red-500 rounded p-1" : ""}
           onChange={(e) => {
-            setBrochure(e.target.files?.[0] || null);
+            const file = e.target.files?.[0] || null;
+            setBrochure(file);
+            if (file && fileExt(file) !== "pdf") {
+              setErrors((prev) => ({ ...prev, brochure: "Brochure must be a PDF file" }));
+              return;
+            }
+            if (file && file.size > MAX_BROCHURE_BYTES) {
+              setErrors((prev) => ({
+                ...prev,
+                brochure: `Brochure is ${formatBytes(file.size)}. Please use a PDF under 40 MB.`,
+              }));
+              return;
+            }
             setErrors((prev) => {
               const next = { ...prev };
               delete next.brochure;
@@ -594,7 +641,7 @@ const ProjectForm = ({ initialProject = null }) => {
 
       <div className="flex flex-wrap gap-3">
         <button disabled={loading} type="submit" className="bg-gray-800 text-white px-5 py-2 rounded-lg">
-          {loading ? "Saving..." : "Save"}
+          {loading ? "Uploading..." : "Save"}
         </button>
         <button disabled={loading} type="button" onClick={(e) => handleSubmit(e, "DRAFT")} className="bg-amber-500 text-white px-5 py-2 rounded-lg">
           Save Draft

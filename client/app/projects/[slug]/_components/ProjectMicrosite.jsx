@@ -28,6 +28,19 @@ import StickyCta from "./StickyCta";
 import MicrositeNavbar from "./MicrositeNavbar";
 
 const PHONE = "918076913424";
+
+const toVideoEmbedUrl = (value = "") => {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  if (/youtube\.com\/embed\/|player\.vimeo\.com\/video\//i.test(url)) return url;
+  const yt = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/
+  );
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  return url;
+};
 const amenityIcons = {
   pool: Waves,
   swimming: Waves,
@@ -69,6 +82,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
   const [playVideo, setPlayVideo] = useState(false);
 
   const gallery = Array.isArray(project.gallery) ? project.gallery.filter((item) => item?.url) : [];
+  const videoEmbedUrl = toVideoEmbedUrl(project.videoUrl);
   const highlights = Array.isArray(project.highlights) ? project.highlights.filter(Boolean) : [];
   const amenities = Array.isArray(project.amenities) ? project.amenities.filter(Boolean) : [];
   const floorPlans = Array.isArray(project.floorPlans)
@@ -273,15 +287,15 @@ const ProjectMicrosite = ({ project, preview = false }) => {
         {project.priceRange && <p className="text-gray-600 mt-3 text-sm">Price range: {project.priceRange}</p>}
       </Section>
 
-      <Section id="gallery" title="Gallery" hidden={!gallery.length && !project.videoUrl}>
-        {project.videoUrl && (
+      <Section id="gallery" title="Gallery" hidden={!gallery.length && !videoEmbedUrl}>
+        {videoEmbedUrl && (
           <div className="mb-8 relative rounded-2xl overflow-hidden bg-black aspect-video">
             {playVideo ? (
               <iframe
-                src={project.videoUrl}
+                src={`${videoEmbedUrl}${videoEmbedUrl.includes("?") ? "&" : "?"}autoplay=1`}
                 title={`${project.name} video`}
                 className="w-full h-full"
-                allow="autoplay; encrypted-media"
+                allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
             ) : (

@@ -39,6 +39,19 @@ const slugify = (value = "") =>
 
 const fileUrl = (file) => file?.path || file?.secure_url || null;
 
+const toVideoEmbedUrl = (value = "") => {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  if (/youtube\.com\/embed\/|player\.vimeo\.com\/video\//i.test(url)) return url;
+  const yt = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/
+  );
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  return url;
+};
+
 const uniqueSlug = async (base, excludeId) => {
   let slug = slugify(base) || `project-${Date.now()}`;
   let suffix = 0;
@@ -148,7 +161,7 @@ const buildProjectPayload = async (req, existing = null) => {
     amenityImages,
     floorPlans,
     brochureUrl,
-    videoUrl: body.videoUrl || null,
+    videoUrl: toVideoEmbedUrl(body.videoUrl) || null,
     address: body.address || null,
     latitude: body.latitude || null,
     longitude: body.longitude || null,

@@ -25,10 +25,21 @@ const uploadFields = (req, res, next) => {
     { name: "floorPlanImages", maxCount: 12 },
   ])(req, res, (err) => {
     if (err) {
+      const raw = err.message || "File upload failed";
+      const tooLarge = /file size too large|file too large|limit/i.test(raw);
+      const field = err.field;
+      const fieldHint =
+        field === "brochure"
+          ? "brochure"
+          : ["heroImage", "ogImage", "galleryImages", "amenityImages", "floorPlanImages"].includes(field)
+            ? field
+            : undefined;
       return res.status(400).json({
         success: false,
-        message: err.message || "File upload failed",
-        field: err.field,
+        message: tooLarge
+          ? "A file is too large. Images are compressed automatically. Brochure PDFs can be up to 40 MB. For walkthrough video, paste a YouTube or Vimeo link instead of uploading a video file."
+          : raw,
+        field: fieldHint === "galleryImages" ? "galleryImages" : fieldHint,
       });
     }
     next();

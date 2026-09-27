@@ -76,7 +76,7 @@ export const saveProject = async (formData, id) => {
     data: formData,
     headers: adminHeaders(),
     withCredentials: true,
-    timeout: 120000,
+    timeout: 180000,
   });
   if (!response?.data?.success) {
     const error = new Error(response?.data?.message || "Unable to save project");
