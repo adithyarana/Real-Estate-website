@@ -48,10 +48,10 @@ const iconFor = (label = "") => {
 const Section = ({ id, title, children, hidden }) => {
   if (hidden) return null;
   return (
-    <section id={id} className="py-10 md:py-12">
+    <section id={id} className="py-8 md:py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {title && (
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-green-800 mb-6">
+          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-green-800 mb-4 md:mb-6">
             {title}
           </h2>
         )}
@@ -126,7 +126,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
   };
 
   return (
-    <div className="bg-white pb-16 md:pb-0">
+    <div className="bg-white pb-24 md:pb-0 overflow-x-hidden">
       <MicrositeNavbar
         navItems={navItems}
         onScrollTo={scrollTo}
@@ -134,24 +134,24 @@ const ProjectMicrosite = ({ project, preview = false }) => {
         onEnquire={() => setEnquiryOpen(true)}
       />
 
-      <section className="relative min-h-[420px] md:min-h-[480px] text-white">
+      <section className="relative min-h-[340px] sm:min-h-[400px] md:min-h-[480px] text-white">
         <img
           src={project.heroImage || "/banner.jpg"}
           alt={project.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-16 md:pt-32 md:pb-20">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-10 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20">
           {preview && (
             <span className="inline-block mb-3 bg-amber-400 text-amber-950 text-xs font-bold px-3 py-1 rounded-full">
               {project.status} PREVIEW
             </span>
           )}
           <p className="uppercase tracking-[0.2em] text-green-200 text-xs md:text-sm mb-2">Kirty Realty Project</p>
-          <h1 className="font-heading text-3xl md:text-5xl font-bold max-w-3xl leading-tight">{project.name}</h1>
+          <h1 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold max-w-3xl leading-tight break-words">{project.name}</h1>
           {project.location && (
-            <p className="mt-3 flex items-center gap-2 text-base md:text-lg">
+            <p className="mt-3 flex items-start gap-2 text-sm sm:text-base md:text-lg">
               <MapPin size={18} /> {project.location}
             </p>
           )}
@@ -160,12 +160,12 @@ const ProjectMicrosite = ({ project, preview = false }) => {
             {project.startingPrice && <span className="bg-green-600 px-3 py-1 rounded-full">{project.startingPrice}</span>}
           </div>
           {project.shortDescription && <p className="mt-4 max-w-2xl text-white/90 text-sm md:text-base leading-relaxed">{project.shortDescription}</p>}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={() => setEnquiryOpen(true)} className="bg-green-600 hover:bg-green-700 px-5 py-2.5 rounded-lg font-semibold text-sm md:text-base">
+          <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-3">
+            <button onClick={() => setEnquiryOpen(true)} className="bg-green-600 hover:bg-green-700 px-5 py-2.5 rounded-lg font-semibold text-sm md:text-base max-md:w-full">
               Enquire Now
             </button>
             {project.brochureUrl && (
-              <a href={project.brochureUrl} target="_blank" rel="noreferrer" className="bg-white text-green-800 px-5 py-2.5 rounded-lg font-semibold flex items-center gap-2 text-sm md:text-base">
+              <a href={project.brochureUrl} target="_blank" rel="noreferrer" className="bg-white text-green-800 px-5 py-2.5 rounded-lg font-semibold flex items-center justify-center gap-2 text-sm md:text-base max-md:w-full">
                 <Download size={18} /> Download Brochure
               </a>
             )}
@@ -229,7 +229,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
               className="text-left rounded-xl overflow-hidden border border-green-100 hover:shadow-md transition bg-white"
             >
               {plan.image && (
-                <img src={plan.image} alt={plan.configuration} className="h-44 w-full object-cover" loading="lazy" />
+                <img src={plan.image} alt={plan.configuration} className="h-40 sm:h-44 w-full object-cover object-center" loading="lazy" />
               )}
               <div className="p-4">
                 <p className="font-semibold text-green-800">{plan.configuration}</p>
@@ -301,7 +301,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
             {gallery.map((item, index) => (
               <SwiperSlide key={`${item.url}-${index}`}>
                 <button type="button" className="block w-full" onClick={() => setLightboxIndex(index)}>
-                  <img src={item.url} alt={item.category || project.name} className="h-56 w-full object-cover rounded-xl" loading="lazy" />
+                  <img src={item.url} alt={item.category || project.name} className="h-44 sm:h-56 w-full object-cover object-center rounded-xl" loading="lazy" />
                   {item.category && <p className="mt-2 text-xs uppercase tracking-wide text-gray-500">{item.category}</p>}
                 </button>
               </SwiperSlide>
@@ -316,7 +316,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
           <iframe
             src={mapSrc}
             title="Project location"
-            className="w-full h-80 rounded-2xl border"
+            className="w-full h-52 sm:h-80 rounded-2xl border"
             loading="lazy"
           />
         )}
@@ -353,10 +353,10 @@ const ProjectMicrosite = ({ project, preview = false }) => {
         <Section id="units" title="Available Units">
           <div className="grid md:grid-cols-2 gap-4">
             {project.properties.map((unit) => (
-              <Link key={unit.id} href={`/properties/${unit.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${unit.id}`} className="flex gap-3 rounded-xl border p-3 hover:shadow-md">
-                <img src={unit.thumbnail} alt="" className="h-20 w-24 object-cover rounded" loading="lazy" />
-                <div>
-                  <p className="font-semibold">{unit.title}</p>
+              <Link key={unit.id} href={`/properties/${unit.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${unit.id}`} className="flex gap-3 rounded-xl border p-3 hover:shadow-md min-w-0">
+                <img src={unit.thumbnail} alt="" className="h-20 w-24 object-cover object-center rounded shrink-0" loading="lazy" />
+                <div className="min-w-0">
+                  <p className="font-semibold break-words">{unit.title}</p>
                   <p className="text-sm text-gray-500">{unit.area} {unit.price ? `• ${unit.price}` : ""}</p>
                 </div>
               </Link>
@@ -366,7 +366,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
       )}
 
       <Section id="enquire">
-        <div className="grid md:grid-cols-2 gap-6 items-start rounded-2xl border border-green-100 bg-green-50/40 p-5 md:p-8">
+        <div className="grid md:grid-cols-2 gap-6 items-start rounded-2xl border border-green-100 bg-green-50/40 p-4 sm:p-5 md:p-8">
           <div>
             <h2 className="font-heading text-2xl md:text-3xl font-bold text-green-800 mb-2">Schedule a site visit</h2>
             <p className="text-gray-600 mb-4 text-sm md:text-base">Our advisors will share pricing, inventory and visit options for {project.name}.</p>
@@ -379,9 +379,9 @@ const ProjectMicrosite = ({ project, preview = false }) => {
       <StickyCta onEnquire={() => setEnquiryOpen(true)} />
 
       {enquiryOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-5 relative">
-            <button className="absolute right-3 top-3" onClick={() => setEnquiryOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center p-3 sm:p-4 pb-20 md:pb-4">
+          <div className="bg-white rounded-2xl w-full max-w-md p-4 sm:p-5 relative max-h-[85vh] overflow-y-auto">
+            <button className="absolute right-3 top-3 z-10" onClick={() => setEnquiryOpen(false)}>
               <X />
             </button>
             <ProjectEnquiry project={project} />
@@ -391,7 +391,7 @@ const ProjectMicrosite = ({ project, preview = false }) => {
 
       {floorPlanOpen?.image && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setFloorPlanOpen(null)}>
-          <img src={floorPlanOpen.image} alt={floorPlanOpen.configuration} className="max-h-[90vh] max-w-full rounded-lg" />
+          <img src={floorPlanOpen.image} alt={floorPlanOpen.configuration} className="max-h-[85vh] max-w-full rounded-lg object-contain" />
         </div>
       )}
 

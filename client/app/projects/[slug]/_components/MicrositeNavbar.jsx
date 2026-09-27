@@ -23,28 +23,37 @@ const MicrositeNavbar = ({ navItems, onScrollTo, onBack, onEnquire }) => {
           : "bg-white/10 backdrop-blur-[6px] border-b border-white/15"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 md:py-3.5">
-        <button
-          type="button"
-          onClick={onBack}
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium tracking-wide transition ${
-            scrolled
-              ? "text-green-800 hover:bg-green-50"
-              : "text-white hover:bg-white/15"
-          }`}
-        >
-          <ArrowLeft size={16} />
-          Back to Projects
-        </button>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2 md:py-3.5">
+        <div className="flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={onBack}
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs sm:text-sm font-medium tracking-wide transition md:px-3 ${
+              scrolled
+                ? "text-green-800 hover:bg-green-50"
+                : "text-white hover:bg-white/15"
+            }`}
+          >
+            <ArrowLeft size={16} />
+            <span className="truncate">Back to Projects</span>
+          </button>
+          <button
+            type="button"
+            onClick={onEnquire}
+            className="lg:hidden inline-flex items-center rounded-full bg-green-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-green-700 transition"
+          >
+            Enquire Now
+          </button>
+        </div>
 
-        <div className="mt-2.5 flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between">
-          <nav className="flex gap-0.5 overflow-x-auto text-[13px] md:text-sm font-medium">
+        <div className="mt-2 flex flex-col gap-2 lg:mt-2.5 lg:flex-row lg:items-center lg:justify-between">
+          <nav className="flex gap-0.5 overflow-x-auto max-w-full text-[12px] sm:text-[13px] md:text-sm font-medium">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => onScrollTo(item.id)}
-                className={`whitespace-nowrap rounded-full px-3 py-1.5 transition ${
+                className={`whitespace-nowrap rounded-full px-2.5 py-1 md:px-3 md:py-1.5 transition ${
                   scrolled
                     ? "text-gray-600 hover:bg-green-50 hover:text-green-800"
                     : "text-white/85 hover:bg-white/15 hover:text-white"
@@ -55,7 +64,7 @@ const MicrositeNavbar = ({ navItems, onScrollTo, onBack, onEnquire }) => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <a
               href={`tel:+${PHONE}`}
               className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium transition ${

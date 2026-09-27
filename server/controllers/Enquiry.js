@@ -16,16 +16,19 @@ export const CreateEnquiry = async(req,res) => {
             });
         }
 
+        const validProjectId =
+            projectId && /^[0-9a-fA-F]{24}$/.test(String(projectId)) ? projectId : null;
+
         let projectName = null;
-        if (projectId) {
+        if (validProjectId) {
             const project = await prisma.project.findUnique({
-                where: { id: projectId },
+                where: { id: validProjectId },
                 select: { name: true },
             });
             projectName = project?.name || null;
         }
 
-        const enquirySource = source || (projectId ? "PROJECT_MICROSITE" : "PROPERTY");
+        const enquirySource = source || (validProjectId ? "PROJECT_MICROSITE" : "PROPERTY");
 
         const enquiry = await prisma.enquiry.create({
             data: {
@@ -35,13 +38,13 @@ export const CreateEnquiry = async(req,res) => {
                 message,
                 status: "PENDING",
                 propertyId: propertyId || null,
-                projectId: projectId || null,
+                projectId: validProjectId,
                 configuration: configuration || null,
                 source: enquirySource,
             }
         });
 
-        mailSender(
+        await mailSender(
             email,
             "Thank you for contacting Kirty Realty!",
             `
@@ -57,13 +60,14 @@ export const CreateEnquiry = async(req,res) => {
           );
           
 
-        mailSender(
+        await mailSender(
             process.env.ADMIN_EMAIL,
             "We got an new enquiry!",
            ` <div>
                 <p>Name :${name}</p>
                 <p>Email : ${email}</p>
                 <p>Number : ${number}</p>
+                <p>Message : ${message}</p>
                 <p>Property ID : ${propertyId || "-"}</p>
                 <p>Project : ${projectName || "-"}</p>
                 <p>Source : ${enquirySource}</p>

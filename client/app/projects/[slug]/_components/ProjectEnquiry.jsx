@@ -25,25 +25,32 @@ const ProjectEnquiry = ({ project, compact = false }) => {
     e.preventDefault();
     try {
       setSubmitting(true);
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/enquiry`, {
-        ...formData,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/enquiry`, {
+        name: formData.name,
+        email: formData.email,
+        number: formData.number,
+        message: formData.message,
+        configuration: formData.configuration || undefined,
         projectId: project.id,
         source: "PROJECT_MICROSITE",
       });
-      toast.success("Enquiry submitted. We will contact you shortly.");
+      if (!response?.data?.success) {
+        throw new Error(response?.data?.message || "Enquiry failed");
+      }
+      toast.success("Form Submitted We Will Contact Soon!");
       setFormData({ name: "", email: "", number: "", configuration: "", message: "" });
-    } catch {
-      toast.error("Unable to submit enquiry");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error sending the Data!");
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-3 ${compact ? "" : "bg-white rounded-2xl p-6 shadow-lg"}`}>
+    <form onSubmit={handleSubmit} className={`space-y-3 ${compact ? "" : "bg-white rounded-2xl p-4 sm:p-6 shadow-lg"}`}>
       {!compact && (
-        <div>
-          <h3 className="font-heading text-2xl text-green-800">Interested in this project?</h3>
+        <div className="pr-8 md:pr-0">
+          <h3 className="font-heading text-xl md:text-2xl text-green-800">Interested in this project?</h3>
           <p className="text-sm text-gray-500 mt-1">Share your details for a site visit or callback.</p>
         </div>
       )}
