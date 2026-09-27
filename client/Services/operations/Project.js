@@ -81,6 +81,7 @@ export const saveProject = async (formData, id) => {
   if (!response?.data?.success) {
     const error = new Error(response?.data?.message || "Unable to save project");
     error.response = response;
+    error.field = response?.data?.field;
     throw error;
   }
   return response.data;

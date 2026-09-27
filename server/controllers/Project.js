@@ -72,6 +72,7 @@ const buildProjectPayload = async (req, existing = null) => {
   if (!name) {
     const error = new Error("Project name is required");
     error.status = 400;
+    error.field = "name";
     throw error;
   }
 
@@ -123,6 +124,7 @@ const buildProjectPayload = async (req, existing = null) => {
   if (!["DRAFT", "PUBLISHED", "ARCHIVED"].includes(status)) {
     const error = new Error("Invalid project status");
     error.status = 400;
+    error.field = "status";
     throw error;
   }
 
@@ -268,6 +270,18 @@ export const GetProjectById = async (req, res) => {
   }
 };
 
+const sendProjectWriteError = (res, error, logLabel) => {
+  console.log(logLabel, error);
+  const isUniqueSlug = error.code === "P2002";
+  return res.status(error.status || (isUniqueSlug ? 400 : 500)).json({
+    success: false,
+    message: isUniqueSlug
+      ? "A project with this slug already exists"
+      : error.message || "Something went wrong!",
+    field: error.field || (isUniqueSlug ? "slug" : undefined),
+  });
+};
+
 export const CreateProject = async (req, res) => {
   try {
     const data = await buildProjectPayload(req);
@@ -278,11 +292,7 @@ export const CreateProject = async (req, res) => {
       data: project,
     });
   } catch (error) {
-    console.log("Create project error", error);
-    return res.status(error.status || 500).json({
-      success: false,
-      message: error.message || "Something went wrong!",
-    });
+    return sendProjectWriteError(res, error, "Create project error");
   }
 };
 
@@ -307,11 +317,7 @@ export const UpdateProject = async (req, res) => {
       data: project,
     });
   } catch (error) {
-    console.log("Update project error", error);
-    return res.status(error.status || 500).json({
-      success: false,
-      message: error.message || "Something went wrong!",
-    });
+    return sendProjectWriteError(res, error, "Update project error");
   }
 };
 

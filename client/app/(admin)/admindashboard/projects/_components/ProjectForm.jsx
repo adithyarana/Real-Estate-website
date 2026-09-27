@@ -15,9 +15,68 @@ const slugify = (value = "") =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const IMAGE_EXTS = ["jpg", "jpeg", "png", "webp", "gif", "bmp", "tiff"];
+const FILE_FIELD_ALIASES = {
+  heroImage: "heroImage",
+  ogImage: "ogImage",
+  brochure: "brochure",
+  galleryImages: "gallery",
+  amenityImages: "amenityImages",
+  floorPlanImages: "floorPlans",
+};
+
+const fileExt = (file) => (file?.name || "").split(".").pop()?.toLowerCase() || "";
+
+const imageTypeError = (file, label) => {
+  if (!file) return "";
+  if (!IMAGE_EXTS.includes(fileExt(file))) {
+    return `${label} must be a JPG, PNG, WEBP, GIF, BMP, or TIFF file`;
+  }
+  return "";
+};
+
+const readApiError = (error) => {
+  const data = error.response?.data;
+  let message = "";
+  if (data && typeof data === "object") {
+    message = data.message || data.error || "";
+  } else if (typeof data === "string" && data.trim()) {
+    message = data.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 280);
+  }
+  if (!message && error.code === "ECONNABORTED") {
+    message = "Save timed out. Please try again.";
+  }
+  if (!message && !error.response) {
+    message = error.message || "Network error. Could not reach the server.";
+  }
+  if (!message) {
+    message = error.message || `Request failed${error.response?.status ? ` (${error.response.status})` : ""}`;
+  }
+  const field = data?.field || error.field;
+  const fieldErrors =
+    data?.errors && typeof data.errors === "object" && !Array.isArray(data.errors) ? data.errors : {};
+  return { message, field: FILE_FIELD_ALIASES[field] || field, fieldErrors };
+};
+
+const mapMessageToField = (message = "") => {
+  const text = message.toLowerCase();
+  if (text.includes("name is required")) return "name";
+  if (text.includes("slug already exists") || text.includes("invalid slug")) return "slug";
+  if (text.includes("invalid project status") || text === "invalid status") return "status";
+  if (text.includes("hero")) return "heroImage";
+  if (text.includes("brochure") || (text.includes("pdf") && text.includes("file"))) return "brochure";
+  if (text.includes("gallery")) return "gallery";
+  if (text.includes("amenity")) return "amenityImages";
+  if (text.includes("floor plan")) return "floorPlans";
+  if (text.includes("og image") || text.includes("ogimage")) return "ogImage";
+  return "";
+};
+
 const ProjectForm = ({ initialProject = null }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState("");
   const [slugTouched, setSlugTouched] = useState(Boolean(initialProject?.slug));
   const [form, setForm] = useState({
     name: "",
@@ -125,10 +184,64 @@ const ProjectForm = ({ initialProject = null }) => {
       .map((item) => item.trim())
       .filter(Boolean);
 
-  const updateField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+  const updateField = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+    setFormError("");
+  };
+
+  const inputClass = (key, extra = "") =>
+    `input-field ${extra} ${errors[key] ? "border-red-500 ring-1 ring-red-500" : ""}`.trim();
+
+  const FieldError = ({ name }) =>
+    errors[name] ? <p className="text-sm text-red-600 mt-1">{errors[name]}</p> : null;
+
+  const validateForm = (nextStatus) => {
+    const nextErrors = {};
+    if (!form.name.trim()) nextErrors.name = "Project name is required";
+    if (!form.slug.trim()) nextErrors.slug = "Slug is required";
+    if (!form.location.trim()) nextErrors.location = "Location is required";
+    const status = nextStatus || form.status;
+    if (!["DRAFT", "PUBLISHED", "ARCHIVED"].includes(status)) {
+      nextErrors.status = "Invalid project status";
+    }
+    const heroErr = imageTypeError(heroImage, "Hero image");
+    if (heroErr) nextErrors.heroImage = heroErr;
+    const ogErr = imageTypeError(ogImage, "OG image");
+    if (ogErr) nextErrors.ogImage = ogErr;
+    if (brochure && fileExt(brochure) !== "pdf") {
+      nextErrors.brochure = "Brochure must be a PDF file";
+    }
+    const invalidGallery = galleryNew.find((item) => imageTypeError(item.file, "Gallery image"));
+    if (invalidGallery) {
+      nextErrors.gallery = imageTypeError(invalidGallery.file, "Gallery image");
+    }
+    const invalidAmenity = amenityNew.find((file) => imageTypeError(file, "Amenity image"));
+    if (invalidAmenity) {
+      nextErrors.amenityImages = imageTypeError(invalidAmenity, "Amenity image");
+    }
+    const invalidFloor = floorPlans.find((plan) => imageTypeError(plan.file, "Floor plan image"));
+    if (invalidFloor) {
+      nextErrors.floorPlans = imageTypeError(invalidFloor.file, "Floor plan image");
+    }
+    return nextErrors;
+  };
 
   const handleSubmit = async (e, nextStatus) => {
     e.preventDefault();
+    setFormError("");
+    const nextErrors = validateForm(nextStatus);
+    if (Object.keys(nextErrors).length) {
+      setErrors(nextErrors);
+      setLoading(false);
+      return;
+    }
+    setErrors({});
     try {
       setLoading(true);
       const status = nextStatus || form.status;
@@ -198,10 +311,13 @@ const ProjectForm = ({ initialProject = null }) => {
       router.push("/admindashboard/projects");
     } catch (error) {
       console.error(error);
-      const apiMessage = error.response?.data?.message;
-      const timeoutMessage =
-        error.code === "ECONNABORTED" ? "Save timed out. Please try again." : null;
-      toast.error(apiMessage || timeoutMessage || error.message || "Unable to save project");
+      const { message, field, fieldErrors } = readApiError(error);
+      const mapped = { ...fieldErrors };
+      const mappedField = field || mapMessageToField(message);
+      if (mappedField) mapped[mappedField] = message;
+      setErrors(mapped);
+      setFormError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -215,22 +331,30 @@ const ProjectForm = ({ initialProject = null }) => {
   }, [form.name, form.location]);
 
   return (
-    <form className="space-y-8 max-w-5xl mx-auto pb-16" onSubmit={(e) => handleSubmit(e)}>
+    <form className="space-y-8 max-w-5xl mx-auto pb-16" noValidate onSubmit={(e) => handleSubmit(e)}>
       <section className={sectionClass}>
         <h2 className="text-xl font-bold text-green-800">Basic Information</h2>
-        <input className="input-field" placeholder="Project Name*" required value={form.name} onChange={(e) => updateField("name", e.target.value)} />
-        <input
-          className="input-field"
-          placeholder="Slug*"
-          required
-          value={form.slug}
-          onChange={(e) => {
-            setSlugTouched(true);
-            updateField("slug", slugify(e.target.value));
-          }}
-        />
+        <div>
+          <input className={inputClass("name")} placeholder="Project Name*" value={form.name} onChange={(e) => updateField("name", e.target.value)} />
+          <FieldError name="name" />
+        </div>
+        <div>
+          <input
+            className={inputClass("slug")}
+            placeholder="Slug*"
+            value={form.slug}
+            onChange={(e) => {
+              setSlugTouched(true);
+              updateField("slug", slugify(e.target.value));
+            }}
+          />
+          <FieldError name="slug" />
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
-          <input className="input-field" placeholder="Location*" required value={form.location} onChange={(e) => updateField("location", e.target.value)} />
+          <div>
+            <input className={inputClass("location")} placeholder="Location*" value={form.location} onChange={(e) => updateField("location", e.target.value)} />
+            <FieldError name="location" />
+          </div>
           <input className="input-field" placeholder="Developer" value={form.developer} onChange={(e) => updateField("developer", e.target.value)} />
         </div>
         <input className="input-field" placeholder="Short description / highlight" value={form.shortDescription} onChange={(e) => updateField("shortDescription", e.target.value)} />
@@ -255,20 +379,60 @@ const ProjectForm = ({ initialProject = null }) => {
         <h2 className="text-xl font-bold text-green-800">Images & Brochure</h2>
         <label className="block text-sm font-medium text-gray-700">Hero image</label>
         {heroPreview && <img src={heroPreview} alt="Hero preview" className="h-40 w-full object-cover rounded-lg" />}
-        <input type="file" accept="image/*" onChange={(e) => {
-          const file = e.target.files?.[0];
-          setHeroImage(file || null);
-          if (file) setHeroPreview(URL.createObjectURL(file));
-        }} />
+        <input
+          type="file"
+          accept="image/*"
+          className={errors.heroImage ? "border border-red-500 rounded p-1" : ""}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            setHeroImage(file || null);
+            if (file) setHeroPreview(URL.createObjectURL(file));
+            setErrors((prev) => {
+              const next = { ...prev };
+              delete next.heroImage;
+              return next;
+            });
+            setFormError("");
+          }}
+        />
+        <FieldError name="heroImage" />
         <label className="block text-sm font-medium text-gray-700">OG image (optional)</label>
-        <input type="file" accept="image/*" onChange={(e) => setOgImage(e.target.files?.[0] || null)} />
+        <input
+          type="file"
+          accept="image/*"
+          className={errors.ogImage ? "border border-red-500 rounded p-1" : ""}
+          onChange={(e) => {
+            setOgImage(e.target.files?.[0] || null);
+            setErrors((prev) => {
+              const next = { ...prev };
+              delete next.ogImage;
+              return next;
+            });
+            setFormError("");
+          }}
+        />
+        <FieldError name="ogImage" />
         <label className="block text-sm font-medium text-gray-700">Video URL (not auto-loaded)</label>
         <input className="input-field" placeholder="https://..." value={form.videoUrl} onChange={(e) => updateField("videoUrl", e.target.value)} />
         <label className="block text-sm font-medium text-gray-700">Brochure PDF</label>
         {form.brochureUrl && (
           <a href={form.brochureUrl} target="_blank" rel="noreferrer" className="text-green-700 underline text-sm">Current brochure</a>
         )}
-        <input type="file" accept="application/pdf" onChange={(e) => setBrochure(e.target.files?.[0] || null)} />
+        <input
+          type="file"
+          accept="application/pdf"
+          className={errors.brochure ? "border border-red-500 rounded p-1" : ""}
+          onChange={(e) => {
+            setBrochure(e.target.files?.[0] || null);
+            setErrors((prev) => {
+              const next = { ...prev };
+              delete next.brochure;
+              return next;
+            });
+            setFormError("");
+          }}
+        />
+        <FieldError name="brochure" />
 
         <div>
           <p className="font-medium mb-2">Gallery</p>
@@ -287,11 +451,19 @@ const ProjectForm = ({ initialProject = null }) => {
             type="file"
             accept="image/*"
             multiple
+            className={errors.gallery ? "border border-red-500 rounded p-1" : ""}
             onChange={(e) => {
               const files = Array.from(e.target.files || []).map((file) => ({ file, category: "project" }));
               setGalleryNew((prev) => [...prev, ...files]);
+              setErrors((prev) => {
+                const next = { ...prev };
+                delete next.gallery;
+                return next;
+              });
+              setFormError("");
             }}
           />
+          <FieldError name="gallery" />
           {galleryNew.map((item, index) => (
             <div key={index} className="flex items-center gap-3 mt-2">
               <span className="text-sm truncate">{item.file.name}</span>
@@ -316,7 +488,22 @@ const ProjectForm = ({ initialProject = null }) => {
 
         <div>
           <p className="font-medium mb-2">Amenity images</p>
-          <input type="file" accept="image/*" multiple onChange={(e) => setAmenityNew((prev) => [...prev, ...Array.from(e.target.files || [])])} />
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            className={errors.amenityImages ? "border border-red-500 rounded p-1" : ""}
+            onChange={(e) => {
+              setAmenityNew((prev) => [...prev, ...Array.from(e.target.files || [])]);
+              setErrors((prev) => {
+                const next = { ...prev };
+                delete next.amenityImages;
+                return next;
+              });
+              setFormError("");
+            }}
+          />
+          <FieldError name="amenityImages" />
         </div>
       </section>
 
@@ -339,13 +526,27 @@ const ProjectForm = ({ initialProject = null }) => {
             <input className="input-field" placeholder="Area" value={plan.area} onChange={(e) => setFloorPlans((prev) => prev.map((row, i) => i === index ? { ...row, area: e.target.value } : row))} />
             <input className="input-field" placeholder="Price" value={plan.price} onChange={(e) => setFloorPlans((prev) => prev.map((row, i) => i === index ? { ...row, price: e.target.value } : row))} />
             <div className="flex items-center gap-2">
-              <input type="file" accept="image/*" onChange={(e) => setFloorPlans((prev) => prev.map((row, i) => i === index ? { ...row, file: e.target.files?.[0], image: row.image } : row))} />
+              <input
+                type="file"
+                accept="image/*"
+                className={errors.floorPlans ? "border border-red-500 rounded p-1" : ""}
+                onChange={(e) => {
+                  setFloorPlans((prev) => prev.map((row, i) => i === index ? { ...row, file: e.target.files?.[0], image: row.image } : row));
+                  setErrors((prev) => {
+                    const next = { ...prev };
+                    delete next.floorPlans;
+                    return next;
+                  });
+                  setFormError("");
+                }}
+              />
               <button type="button" onClick={() => setFloorPlans((prev) => prev.filter((_, i) => i !== index))}>
                 <Trash2 size={16} />
               </button>
             </div>
           </div>
         ))}
+        <FieldError name="floorPlans" />
       </section>
 
       <section className={sectionClass}>
@@ -370,17 +571,26 @@ const ProjectForm = ({ initialProject = null }) => {
         <input className="input-field" placeholder={seoPlaceholder || "SEO title"} value={form.seoTitle} onChange={(e) => updateField("seoTitle", e.target.value)} />
         <textarea className="input-field h-20" placeholder="SEO description" value={form.seoDescription} onChange={(e) => updateField("seoDescription", e.target.value)} />
         <div className="grid md:grid-cols-2 gap-4">
-          <select className="input-field" value={form.status} onChange={(e) => updateField("status", e.target.value)}>
-            <option value="DRAFT">Draft</option>
-            <option value="PUBLISHED">Published</option>
-            <option value="ARCHIVED">Archived</option>
-          </select>
+          <div>
+            <select className={inputClass("status")} value={form.status} onChange={(e) => updateField("status", e.target.value)}>
+              <option value="DRAFT">Draft</option>
+              <option value="PUBLISHED">Published</option>
+              <option value="ARCHIVED">Archived</option>
+            </select>
+            <FieldError name="status" />
+          </div>
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={form.featured} onChange={(e) => updateField("featured", e.target.checked)} />
             Feature on homepage
           </label>
         </div>
       </section>
+
+      {formError && (
+        <div className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {formError}
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-3">
         <button disabled={loading} type="submit" className="bg-gray-800 text-white px-5 py-2 rounded-lg">

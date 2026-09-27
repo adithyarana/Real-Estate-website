@@ -28,6 +28,7 @@ const uploadFields = (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: err.message || "File upload failed",
+        field: err.field,
       });
     }
     next();
